@@ -40,7 +40,7 @@ module Rails8Blog
     config.generators.system_tests = nil
 
     # I18n Configuration
-    config.i18n.available_locales = [:en, :vi, :ru, :ja, :ko, :th, :de]
+    config.i18n.available_locales = [ :en, :vi, :ru, :ja, :ko, :th, :de ]
     config.i18n.default_locale = :en
     config.i18n.fallbacks = true
 
@@ -49,8 +49,8 @@ module Rails8Blog
 
     # Cache Store Configuration
     config.cache_store = :redis_cache_store, {
-      url: ENV.fetch('REDIS_URL', 'redis://localhost:6379/1'),
-      namespace: 'blog_cache'
+      url: ENV.fetch("REDIS_URL", "redis://localhost:6379/1"),
+      namespace: "blog_cache"
     }
   end
 end

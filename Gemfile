@@ -41,51 +41,51 @@ gem "thruster", require: false
 gem "image_processing", "~> 1.2"
 
 # === AUTH ===
-gem 'devise'
-gem 'devise-jwt'
+gem "devise"
+gem "devise-jwt"
 
 # === AUTHORIZATION ===
-gem 'pundit'
+gem "pundit"
 
 # === I18N / MULTILINGUAL DATA ===
-gem 'mobility'
-gem 'mobility-actiontext'
+gem "mobility"
+gem "mobility-actiontext"
 
 # === MEDIA ===
-gem 'cloudinary'
-gem 'activestorage'
+gem "cloudinary"
+gem "activestorage"
 
 # === RICH TEXT ===
 # ActionText is built into Rails 8
 
 # === BACKGROUND JOBS ===
-gem 'sidekiq'
-gem 'sidekiq-scheduler'
+gem "sidekiq"
+gem "sidekiq-scheduler"
 
 # === CACHING / RATE LIMIT ===
-gem 'redis'
-gem 'rack-attack'
+gem "redis"
+gem "rack-attack"
 
 # === SLUG ===
-gem 'friendly_id'
+gem "friendly_id"
 
 # === SOFT DELETE ===
-gem 'discard'
+gem "discard"
 
 # === AUDIT ===
-gem 'paper_trail'
+gem "paper_trail"
 
 # === PAGINATION ===
-gem 'pagy'
+gem "pagy"
 
 # === SERIALIZER (API) ===
-gem 'blueprinter'
+gem "blueprinter"
 
 # === VIEW COMPONENTS ===
-gem 'view_component'
+gem "view_component"
 
 # === COUNTER CACHE / UNIQUE VIEWS ===
-gem 'impressionist'
+gem "impressionist"
 
 group :development, :test do
   # See https://guides.rubyonrails.org/debugging_rails_applications.html#debugging-with-the-debug-gem
@@ -100,18 +100,18 @@ group :development, :test do
   # Omakase Ruby styling [https://github.com/rails/rubocop-rails-omakase/]
   gem "rubocop-rails-omakase", require: false
 
-  gem 'rspec-rails'
-  gem 'factory_bot_rails'
-  gem 'faker'
-  gem 'webmock'
-  gem 'simplecov'
-  gem 'shoulda-matchers'
+  gem "rspec-rails"
+  gem "factory_bot_rails"
+  gem "faker"
+  gem "webmock"
+  gem "simplecov"
+  gem "shoulda-matchers"
 end
 
 group :development do
   # Use console on exceptions pages [https://github.com/rails/web-console]
   gem "web-console"
-  gem 'letter_opener'
-  gem 'annotate'
-  gem 'dotenv-rails'
+  gem "letter_opener"
+  gem "annotate"
+  gem "dotenv-rails"
 end
