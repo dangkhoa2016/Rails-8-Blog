@@ -12,7 +12,7 @@
 | Giai Đoạn | Trạng Thái | Mô Tả |
 |-----------|------------|-------|
 | Giai Đoạn 0 | ✅ Hoàn Thành | Khởi Tạo Dự Án & Cấu Hình Môi Trường |
-| Giai Đoạn 1 | 🔄 Đang Chờ | Xác Thực & Phân Quyền (Devise + JWT) |
+| Giai Đoạn 1 | ✅ Hoàn Thành | Xác Thực & Phân Quyền (Devise + JWT) |
 | Giai Đoạn 2 | ⏳ Đang Chờ | Quản Lý Bài Viết Đa Ngôn Ngữ |
 | Giai Đoạn 3 | ⏳ Đang Chờ | Tích Hợp Cloudinary |
 | Giai Đoạn 4 | ⏳ Đang Chờ | Bảo Mật Nhiều Lớp & Giới Hạn Tốc Độ |
@@ -553,13 +553,13 @@ end
 
 ### ✅ Checklist Giai Đoạn 1
 
-- [ ] `rails db:migrate` thành công
-- [ ] Đăng ký / đăng nhập / logout hoạt động (web form)
-- [ ] Email xác nhận tài khoản gửi được (dùng letter_opener local)
-- [ ] Tài khoản bị khóa sau 5 lần sai mật khẩu
-- [ ] JWT token trả về khi POST `/api/v1/auth/sign_in`
-- [ ] JWT token bị đưa vào denylist khi DELETE `/api/v1/auth/sign_out`
-- [ ] Pundit raise `NotAuthorizedError` khi reader cố truy cập admin action
+- [x] `rails db:migrate` thành công
+- [x] Đăng ký / đăng nhập / logout hoạt động (web form)
+- [x] Email xác nhận tài khoản gửi được (dùng letter_opener local)
+- [x] Tài khoản bị khóa sau 5 lần sai mật khẩu
+- [x] JWT token trả về khi POST `/api/v1/auth/sign_in`
+- [x] JWT token bị đưa vào denylist khi DELETE `/api/v1/auth/sign_out`
+- [x] Pundit raise `NotAuthorizedError` khi reader cố truy cập admin action
 
 ---
 

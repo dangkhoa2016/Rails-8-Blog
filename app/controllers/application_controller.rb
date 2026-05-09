@@ -1,7 +1,27 @@
 class ApplicationController < ActionController::Base
-  # Only allow modern browsers supporting webp images, web push, badges, import maps, CSS nesting, and CSS :has.
-  allow_browser versions: :modern
+  include Pundit::Authorization
 
-  # Changes to the importmap will invalidate the etag for HTML responses
+  allow_browser versions: :modern
   stale_when_importmap_changes
+
+  before_action :set_locale
+  before_action :authenticate_user!, unless: :devise_or_static_controller?
+
+  rescue_from Pundit::NotAuthorizedError, with: :user_not_authorized
+
+  private
+
+  def devise_or_static_controller?
+    is_a?(DeviseController) || is_a?(StaticController)
+  end
+
+  def set_locale
+    locale = params[:locale] || session[:locale] || I18n.default_locale
+    I18n.locale = I18n.available_locales.include?(locale.to_sym) ? locale : I18n.default_locale
+  end
+
+  def user_not_authorized
+    flash[:alert] = t("errors.not_authorized")
+    redirect_back(fallback_location: root_path)
+  end
 end

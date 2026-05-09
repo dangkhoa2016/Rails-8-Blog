@@ -12,7 +12,7 @@
 | Phase | Status | Description |
 |-------|--------|-------------|
 | Phase 0 | ✅ Completed | Project Bootstrap & Environment Configuration |
-| Phase 1 | 🔄 Pending | Authentication & Authorization (Devise + JWT) |
+| Phase 1 | ✅ Completed | Authentication & Authorization (Devise + JWT) |
 | Phase 2 | ⏳ Pending | Multilingual Post Management |
 | Phase 3 | ⏳ Pending | Cloudinary Integration |
 | Phase 4 | ⏳ Pending | Multi-layer Security & Rate Limiting |
@@ -553,13 +553,13 @@ end
 
 ### ✅ Checklist Phase 1
 
-- [ ] `rails db:migrate` successful
-- [ ] Registration / login / logout work (web form)
-- [ ] Account confirmation email sends successfully (using local letter_opener)
-- [ ] Account is locked after 5 wrong password attempts
-- [ ] JWT token is returned when POST `/api/v1/auth/sign_in`
-- [ ] JWT token is added to the denylist when DELETE `/api/v1/auth/sign_out`
-- [ ] Pundit raises `NotAuthorizedError` when a reader tries to access an admin action
+- [x] `rails db:migrate` successful
+- [x] Registration / login / logout work (web form)
+- [x] Account confirmation email sends successfully (using local letter_opener)
+- [x] Account is locked after 5 wrong password attempts
+- [x] JWT token is returned when POST `/api/v1/auth/sign_in`
+- [x] JWT token is added to the denylist when DELETE `/api/v1/auth/sign_out`
+- [x] Pundit raises `NotAuthorizedError` when a reader tries to access an admin action
 
 ---
 
