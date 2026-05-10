@@ -7,3 +7,26 @@
 #   ["Action", "Comedy", "Drama", "Horror"].each do |genre_name|
 #     MovieGenre.find_or_create_by!(name: genre_name)
 #   end
+
+# Create test users
+users = [
+  { email: 'admin@example.com', full_name: 'Admin User', role: 'admin', password: 'Password123!' },
+  { email: 'author@example.com', full_name: 'Author User', role: 'author', password: 'Password123!' },
+  { email: 'reader@example.com', full_name: 'Reader User', role: 'reader', password: 'Password123!' }
+]
+
+users.each do |user_attrs|
+  User.find_or_create_by!(email: user_attrs[:email]) do |user|
+    user.full_name = user_attrs[:full_name]
+    user.role = user_attrs[:role]
+    user.password = user_attrs[:password]
+    user.password_confirmation = user_attrs[:password]
+    user.confirmed_at = Time.current
+  end
+end
+
+puts "Created test users:"
+puts "- admin@example.com (admin)"
+puts "- author@example.com (author)"
+puts "- reader@example.com (reader)"
+puts "Password for all: Password123!"
