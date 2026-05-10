@@ -43,6 +43,7 @@ gem "image_processing", "~> 1.2"
 # === AUTH ===
 gem "devise"
 gem "devise-jwt"
+gem "omniauth"
 
 # === AUTHORIZATION ===
 gem "pundit"
