@@ -4,7 +4,8 @@ Rails.application.routes.draw do
     sessions: "users/sessions",
     registrations: "users/registrations",
     confirmations: "users/confirmations",
-    passwords: "users/passwords"
+    passwords: "users/passwords",
+    unlocks: "users/unlocks"
   }
 
   # API v1

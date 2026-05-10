@@ -1,0 +1,9 @@
+<%# locals: { links: [{ condition:, label:, path: }], margin_top: "mt-4" } %>
+<% mt = local_assigns.fetch(:margin_top, "mt-4") %>
+<div class="flex flex-wrap gap-x-5 gap-y-3 justify-center <%= mt %>">
+  <% links.each do |link| %>
+    <% if link[:condition] %>
+      <%= link_to link[:label], link[:path], class: "text-sm text-indigo-600 no-underline font-medium hover:text-indigo-700 hover:underline" %>
+    <% end %>
+  <% end %>
+</div>

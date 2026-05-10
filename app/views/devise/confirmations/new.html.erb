@@ -1,16 +1,23 @@
-<h2>Resend confirmation instructions</h2>
-
-<%= form_for(resource, as: resource_name, url: confirmation_path(resource_name), html: { method: :post }) do |f| %>
-  <%= render "devise/shared/error_messages", resource: resource %>
-
-  <div class="field">
-    <p><%= f.label :email %></p>
-    <p><%= f.email_field :email, autofocus: true, autocomplete: "email", value: (resource.pending_reconfirmation? ? resource.unconfirmed_email : resource.email) %></p>
-  </div>
-
-  <div class="actions">
-    <%= f.submit "Resend confirmation instructions" %>
-  </div>
+<%= render "devise/shared/heading", icon_gradient: "from-amber-50 to-yellow-50", title: "Resend confirmation", subtitle: "Didn't receive confirmation instructions?" do %>
+  <%= render "devise/shared/icons", icon: :envelope %>
 <% end %>
 
-<%= render "devise/shared/links" %>
+<%= render layout: "devise/shared/form_card" do %>
+  <%= form_for(resource, as: resource_name, url: confirmation_path(resource_name), html: { method: :post }) do |f| %>
+    <%= render "devise/shared/error_messages", resource: resource %>
+
+    <%= render "devise/shared/field", f: f, attribute: :email, type: :email_field, autocomplete: "email", placeholder: "you@example.com", autofocus: true %>
+
+    <%= render "devise/shared/submit_button", f: f, label: "Resend instructions" %>
+  <% end %>
+<% end %>
+
+<%= render "devise/shared/green_banner",
+  title: "Already have an account?",
+  subtitle: "Sign in to pick up where you left off" %>
+
+<%= render "devise/shared/action_links", links: [
+  { condition: devise_mapping.registerable?, label: "Create account", path: new_registration_path(resource_name) },
+  { condition: devise_mapping.recoverable?, label: "Forgot password?", path: new_password_path(resource_name) },
+  { condition: devise_mapping.lockable?, label: "Account locked?", path: new_unlock_path(resource_name) },
+] %>

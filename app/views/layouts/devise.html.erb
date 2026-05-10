@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title><%= content_for(:title) || "Rails 8 Blog" %></title>
+    <meta name="viewport" content="width=device-width,initial-scale=1">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="application-name" content="Rails 8 Blog">
+    <meta name="mobile-web-app-capable" content="yes">
+    <%= csrf_meta_tags %>
+    <%= csp_meta_tag %>
+
+    <link rel="icon" href="/favicon.ico" type="image/x-icon">
+    <link rel="icon" href="/favicon.png" type="image/png">
+    <link rel="icon" href="/favicon.svg" type="image/svg+xml">
+    <link rel="apple-touch-icon" href="/favicon.png">
+
+    <%= yield :head %>
+
+    <%= stylesheet_link_tag :app, "data-turbo-track": "reload" %>
+    <%= javascript_importmap_tags %>
+  </head>
+
+  <body class="m-0 p-0 min-h-screen font-sans bg-slate-50">
+    <div class="flex flex-col min-h-screen lg:flex-row">
+      <!-- Left panel: illustration -->
+      <div class="relative hidden lg:flex lg:flex-none lg:w-1/2 overflow-hidden bg-slate-800 max-lg:h-56 max-lg:flex">
+        <div class="absolute inset-0 bg-gradient-to-br from-slate-800/65 to-slate-900/50 z-10"></div>
+        <%= image_tag @background_image || 'login.png', class: 'w-full h-full object-cover opacity-85' %>
+        <div class="absolute bottom-12 left-12 z-20 flex flex-col items-center max-sm:bottom-6 max-sm:left-6">
+          <%= image_tag "/favicon.png", class: "size-16 rounded-full bg-white/15 p-2 backdrop-blur-sm", alt: "Rails 8 Blog" %>
+          <h1 class="text-2xl font-bold text-white tracking-wide mt-3 max-sm:text-lg">Rails 8 Blog</h1>
+          <p class="text-sm text-white/70 mt-1"><%= I18n.t("devise.shared.brand_tagline", default: "Write. Publish. Inspire.")%></p>
+        </div>
+      </div>
+
+      <!-- Right panel: form -->
+      <div class="flex-1 overflow-y-auto px-12 py-10 max-sm:px-4 max-sm:py-5">
+        <div class="max-w-md w-full mx-auto">
+          <% if notice %>
+            <div class="px-5 py-3 rounded-lg text-sm mb-5 leading-relaxed bg-green-50 text-green-800 border border-green-200">
+              <%= notice %>
+            </div>
+          <% end %>
+          <% if alert %>
+            <div class="px-5 py-3 rounded-lg text-sm mb-5 leading-relaxed bg-red-50 text-red-800 border border-red-200">
+              <%= alert %>
+            </div>
+          <% end %>
+
+          <%= yield %>
+        </div>
+      </div>
+    </div>
+  </body>
+</html>

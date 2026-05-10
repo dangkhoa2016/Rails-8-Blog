@@ -1,36 +1,17 @@
-# frozen_string_literal: true
-
 class Users::PasswordsController < Devise::PasswordsController
-  skip_before_action :authenticate_user!, only: [ :new, :create, :edit, :update ]
+  layout "devise"
+  before_action :set_background_image
 
-  # GET /resource/password/new
-  # def new
-  #   super
-  # end
+  private
 
-  # POST /resource/password
-  # def create
-  #   super
-  # end
-
-  # GET /resource/password/edit?reset_password_token=abcdef
-  # def edit
-  #   super
-  # end
-
-  # PUT /resource/password
-  # def update
-  #   super
-  # end
-
-  # protected
-
-  # def after_resetting_password_path_for(resource)
-  #   super(resource)
-  # end
-
-  # The path used after sending reset password instructions
-  # def after_sending_reset_password_instructions_path_for(resource_name)
-  #   super(resource_name)
-  # end
+  def set_background_image
+    case action_name
+    when "new"
+      @background_image = "forgot-password.png"
+    when "edit"
+      @background_image = "forgot-password.png"
+    else
+      @background_image = "login.png"
+    end
+  end
 end

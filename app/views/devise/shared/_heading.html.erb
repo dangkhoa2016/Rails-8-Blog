@@ -1,0 +1,8 @@
+<%# locals: { icon_gradient:, title:, subtitle: } %>
+<div class="text-center mb-6">
+  <div class="inline-flex items-center justify-center size-16 rounded-xl bg-gradient-to-br <%= icon_gradient %> mb-4">
+    <%= yield %>
+  </div>
+  <h1 class="text-2xl font-bold text-slate-800 mb-1.5"><%= title %></h1>
+  <p class="text-sm text-slate-400"><%= subtitle %></p>
+</div>

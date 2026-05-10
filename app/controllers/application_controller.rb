@@ -9,10 +9,16 @@ class ApplicationController < ActionController::Base
 
   rescue_from Pundit::NotAuthorizedError, with: :user_not_authorized
 
+  layout :resolve_layout
+
   private
 
   def devise_or_static_controller?
     is_a?(DeviseController) || is_a?(StaticController)
+  end
+
+  def resolve_layout
+    is_a?(DeviseController) ? "devise" : "application"
   end
 
   def set_locale

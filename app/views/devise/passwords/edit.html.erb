@@ -1,25 +1,27 @@
-<h2>Change your password</h2>
+<% pw_hint = t("devise.shared.minimum_password_length", count: @minimum_password_length) if @minimum_password_length %>
 
-<%= form_for(resource, as: resource_name, url: password_path(resource_name), html: { method: :put }) do |f| %>
-  <%= render "devise/shared/error_messages", resource: resource %>
-  <%= f.hidden_field :reset_password_token %>
-
-  <div class="field">
-    <p><%= f.label :password, "New password" %></p>
-    <% if @minimum_password_length %>
-      <p><em>(<%= @minimum_password_length %> characters minimum)</em></p>
-    <% end %>
-    <p><%= f.password_field :password, autofocus: true, autocomplete: "new-password" %></p>
-  </div>
-
-  <div class="field">
-    <p><%= f.label :password_confirmation, "Confirm new password" %></p>
-    <p><%= f.password_field :password_confirmation, autocomplete: "new-password" %></p>
-  </div>
-
-  <div class="actions">
-    <%= f.submit "Change my password" %>
-  </div>
+<%= render "devise/shared/heading", icon_gradient: "from-emerald-50 to-teal-50", title: "Reset password", subtitle: "Choose a new password for your account" do %>
+  <%= render "devise/shared/icons", icon: :shield_check %>
 <% end %>
 
-<%= render "devise/shared/links" %>
+<%= render layout: "devise/shared/form_card" do %>
+  <%= form_for(resource, as: resource_name, url: password_path(resource_name), html: { method: :put }) do |f| %>
+    <%= render "devise/shared/error_messages", resource: resource %>
+
+    <div class="grid grid-cols-2 gap-5 max-sm:grid-cols-1">
+      <%= render "devise/shared/field", f: f, attribute: :password, type: :password_field, autocomplete: "new-password", placeholder: "••••••••", autofocus: true, hint: pw_hint %>
+      <%= render "devise/shared/field", f: f, attribute: :password_confirmation, type: :password_field, autocomplete: "new-password", placeholder: "••••••••" %>
+    </div>
+
+    <%= render "devise/shared/submit_button", f: f, label: "Change my password" %>
+  <% end %>
+<% end %>
+
+<%= render "devise/shared/green_banner",
+  title: "Password updated?",
+  subtitle: "Sign in with your new password" %>
+
+<%= render "devise/shared/action_links", links: [
+  { condition: devise_mapping.registerable?, label: "Create account", path: new_registration_path(resource_name) },
+  { condition: true, label: "Back to sign in", path: new_session_path(resource_name) },
+] %>
