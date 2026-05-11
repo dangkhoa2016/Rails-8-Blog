@@ -1,0 +1,29 @@
+<%# locals: { f:, attribute:, type: :text_field, placeholder:, autocomplete:, autofocus: false, hint: nil, note: nil, wrapper_class: nil, leading_icon: nil } %>
+<%
+  input_type    = local_assigns.fetch(:type, :text_field)
+  is_autofocus  = local_assigns.fetch(:autofocus, false)
+  hint_text     = local_assigns[:hint]
+  note_text     = local_assigns[:note]
+  wclass        = local_assigns[:wrapper_class]
+  leading_svg   = local_assigns[:leading_icon]
+  input_classes = "w-full px-3.5 py-2.5 border-2 border-slate-200 rounded-lg text-sm text-slate-800 bg-white outline-none transition placeholder:text-slate-300 focus:border-indigo-500 focus:shadow-[0_0_0_3px_rgba(79,70,229,0.12)]"
+  html_options  = { autocomplete: autocomplete, placeholder: placeholder, class: input_classes }
+  html_options[:autofocus] = true if is_autofocus
+%>
+<div class="flex flex-col<%= " #{wclass}" if wclass %>">
+  <%= f.label attribute, class: "text-sm font-semibold text-slate-600 mb-1.5" %>
+  <% if note_text %>
+    <span class="text-xs text-slate-300 mb-2"><%= note_text %></span>
+  <% end %>
+  <% if leading_svg %>
+    <div class="relative">
+      <div class="absolute left-3.5 top-1/2 -translate-y-1/2 pointer-events-none"><%= leading_svg.html_safe %></div>
+      <%= f.send(input_type, attribute, html_options.merge(class: "w-full pl-10 pr-3.5 py-2.5 border-2 border-slate-200 rounded-lg text-sm text-slate-800 bg-white outline-none transition placeholder:text-slate-300 focus:border-indigo-500 focus:shadow-[0_0_0_3px_rgba(79,70,229,0.12)]")) %>
+    </div>
+  <% else %>
+    <%= f.send(input_type, attribute, html_options) %>
+  <% end %>
+  <% if hint_text %>
+    <span class="text-xs text-slate-300 mt-1"><%= hint_text %></span>
+  <% end %>
+</div>
