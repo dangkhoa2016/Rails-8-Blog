@@ -1,0 +1,157 @@
+de:
+  brand:
+    name: "Rails 8 Blog"
+    tagline: "Schreiben. Veröffentlichen. Inspirieren."
+
+  nav:
+    home: "Startseite"
+    admin: "Admin"
+    posts: "Beiträge"
+    categories: "Kategorien"
+    tags: "Tags"
+    comments: "Kommentare"
+    settings: "Einstellungen"
+
+  static:
+    welcome_title: "Willkommen bei Rails Blog"
+    admin_dashboard: "Admin-Dashboard"
+    under_development: "System wird entwickelt."
+
+  errors:
+    not_authorized: "Sie sind nicht berechtigt, diese Aktion auszuführen."
+    access_denied: "Zugriff verweigert"
+    not_found: "Seite nicht gefunden"
+    server_error: "Etwas ist schiefgelaufen"
+
+  common:
+    save: "Speichern"
+    cancel: "Abbrechen"
+    delete: "Löschen"
+    edit: "Bearbeiten"
+    create: "Erstellen"
+    update: "Aktualisieren"
+    submit: "Absenden"
+    back: "Zurück"
+    search: "Suchen"
+    loading: "Wird geladen..."
+    confirm_delete: "Sind Sie sicher, dass Sie dies löschen möchten?"
+
+  shared:
+    sign_in: "Anmelden"
+    sign_up: "Registrieren"
+    sign_out: "Abmelden"
+    sign_in_with: "Mit %{provider} anmelden"
+    edit_profile: "Profil bearbeiten"
+    create_account: "Konto erstellen"
+    join_community: "Werden Sie Teil der Community und beginnen Sie zu schreiben"
+    already_have_account: "Haben Sie bereits ein Konto?"
+    dont_have_account: "Haben Sie noch kein Konto?"
+    create_free_account: "Kostenloses Konto erstellen"
+    join_our_community: "Werden Sie Teil unserer Community von Autoren und Lesern"
+
+  devise:
+    shared:
+      minimum_password_length: "Mindestens %{count} Zeichen"
+      brand_tagline: "Schreiben. Veröffentlichen. Inspirieren."
+
+    registrations:
+      new:
+        title: "Konto erstellen"
+        subtitle: "Werden Sie Teil der Community und beginnen Sie zu schreiben"
+        placeholder_name: "Max Mustermann"
+        placeholder_email: "you@example.com"
+        placeholder_password: "Passwort erstellen"
+        placeholder_password_confirm: "Passwort bestätigen"
+      edit:
+        title: "Profil bearbeiten"
+        subtitle: "Aktualisieren Sie Ihre Kontoeinstellungen"
+        current_password_note: "Wir benötigen Ihr aktuelles Passwort zur Bestätigung"
+        leave_blank_note: "Leer lassen, wenn Sie es nicht ändern möchten"
+        waiting_confirmation: "Warten auf Bestätigung für:"
+        update: "Aktualisieren"
+        cancel_account: "Mein Konto kündigen"
+        or: "Oder"
+    sessions:
+      new:
+        title: "Willkommen zurück"
+        subtitle: "Melden Sie sich an, um fortzufahren"
+        placeholder_email: "you@example.com"
+        placeholder_password: "••••••••"
+        remember_me: "Angemeldet bleiben"
+        sign_in: "Anmelden"
+    passwords:
+      new:
+        title: "Passwort vergessen?"
+        subtitle: "Geben Sie Ihre E-Mail ein und wir senden Ihnen Anweisungen"
+        placeholder_email: "you@example.com"
+        send_instructions: "Anweisungen senden"
+        remembered_password: "Passwort erinnert?"
+        sign_in_continue: "Anmelden und fortfahren"
+      edit:
+        title: "Passwort zurücksetzen"
+        subtitle: "Wählen Sie ein neues Passwort für Ihr Konto"
+        placeholder_password: "••••••••"
+        change_password: "Passwort ändern"
+        password_updated: "Passwort aktualisiert?"
+        sign_in_new: "Mit neuem Passwort anmelden"
+    confirmations:
+      new:
+        title: "Bestätigung erneut senden"
+        subtitle: "Keine Bestätigungsanweisungen erhalten?"
+        placeholder_email: "you@example.com"
+        resend_instructions: "Anweisungen erneut senden"
+    unlocks:
+      new:
+        title: "Konto gesperrt"
+        subtitle: "Keine Entsperranweisungen erhalten?"
+        placeholder_email: "you@example.com"
+        resend_instructions: "Entsperranweisungen erneut senden"
+    links:
+      edit_registration: "Registrierung bearbeiten"
+      resend_confirmation: "Bestätigung erneut senden"
+      forgot_password: "Passwort vergessen?"
+      unlock_instructions: "Entsperranweisungen"
+      sign_in_with: "Mit %{provider} anmelden"
+
+  mailer:
+    confirmation_instructions:
+      welcome: "Willkommen %{email}!"
+      confirm_account: "Sie können Ihre E-Mail-Adresse über den untenstehenden Link bestätigen:"
+      confirm_button: "Konto bestätigen"
+    reset_password_instructions:
+      hello: "Hallo %{email}!"
+      request_link: "Jemand hat einen Link zum Ändern Ihres Passworts angefordert. Sie können dies über den untenstehenden Link tun."
+      change_button: "Passwort ändern"
+      ignore_email: "Wenn Sie dies nicht angefordert haben, ignorieren Sie diese E-Mail bitte."
+      no_change_until: "Ihr Passwort wird nicht geändert, bis Sie den Link oben aufrufen und ein neues erstellen."
+    unlock_instructions:
+      hello: "Hallo %{email}!"
+      account_locked: "Ihr Konto wurde gesperrt wegen zu vieler fehlgeschlagener Anmeldeversuche."
+      unlock_button: "Konto entsperren"
+    password_change:
+      hello: "Hallo %{email}!"
+      changed: "Wir kontaktieren Sie, um Sie zu benachrichtigen, dass Ihr Passwort geändert wurde."
+    email_changed:
+      hello: "Hallo %{email}!"
+      updated: "Wir kontaktieren Sie, um Sie zu benachrichtigen, dass Ihre E-Mail zu %{email} geändert wurde."
+      pending: "Wir kontaktieren Sie, um Sie zu benachrichtigen, dass Ihre E-Mail von %{old_email} zu %{new_email} geändert wird."
+
+  locale:
+    switch: "Sprache wechseln"
+    current: "Aktuelle Sprache"
+    languages:
+      en: "English"
+      vi: "Tiếng Việt"
+      ru: "Русский"
+      ja: "日本語"
+      ko: "한국어"
+      th: "ไทย"
+      de: "Deutsch"
+
+  form_labels:
+    email: "E-Mail-Adresse"
+    password: "Passwort"
+    password_confirmation: "Passwort bestätigen"
+    current_password: "Aktuelles Passwort"
+    full_name: "Vollständiger Name"
+    remember_me: "Angemeldet bleiben"

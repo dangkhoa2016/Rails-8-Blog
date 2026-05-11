@@ -1,0 +1,156 @@
+ja:
+  brand:
+    name: "Rails 8 Blog"
+    tagline: "書く。公開する。インスピレーションを得る。"
+
+  nav:
+    home: "ホーム"
+    admin: "管理"
+    posts: "記事"
+    categories: "カテゴリ"
+    tags: "タグ"
+    comments: "コメント"
+    settings: "設定"
+
+  static:
+    welcome_title: "Rails Blogへようこそ"
+    admin_dashboard: "管理ダッシュボード"
+    under_development: "システムは開発中です。"
+
+  errors:
+    not_authorized: "このアクションを実行する権限がありません。"
+    access_denied: "アクセスが拒否されました"
+    not_found: "ページが見つかりません"
+    server_error: "エラーが発生しました"
+
+  common:
+    save: "保存"
+    cancel: "キャンセル"
+    delete: "削除"
+    edit: "編集"
+    create: "作成"
+    update: "更新"
+    submit: "送信"
+    back: "戻る"
+    search: "検索"
+    loading: "読み込み中..."
+    confirm_delete: "本当に削除しますか？"
+
+  shared:
+    sign_in: "ログイン"
+    sign_up: "新規登録"
+    sign_out: "ログアウト"
+    sign_in_with: "%{provider}でログイン"
+    edit_profile: "プロフィールを編集"
+    create_account: "アカウント作成"
+    join_community: "コミュニティに参加して書き始めましょう"
+    already_have_account: "アカウントをお持ちですか？"
+    dont_have_account: "アカウントをお持ちでないですか？"
+    create_free_account: "無料アカウントを作成"
+    join_our_community: "作家と読者のコミュニティに参加"
+
+  devise:
+    shared:
+      minimum_password_length: "最低%{count}文字"
+      brand_tagline: "書く。公開する。インスピレーションを得る。"
+
+    registrations:
+      new:
+        title: "アカウント作成"
+        subtitle: "コミュニティに参加して書き始めましょう"
+        placeholder_name: "山田太郎"
+        placeholder_email: "you@example.com"
+        placeholder_password: "パスワードを作成"
+        placeholder_password_confirm: "パスワードを確認"
+      edit:
+        title: "プロフィールを編集"
+        subtitle: "アカウント設定を更新"
+        current_password_note: "変更を確認するために現在のパスワードが必要です"
+        leave_blank_note: "変更したくない場合は空白のままにしてください"
+        waiting_confirmation: "現在確認待ち："
+        update: "更新"
+        cancel_account: "アカウントを削除"
+        or: "または"
+    sessions:
+      new:
+        title: "おかえりなさい"
+        subtitle: "サインインして続きをどうぞ"
+        placeholder_email: "you@example.com"
+        placeholder_password: "••••••••"
+        sign_in: "ログイン"
+    passwords:
+      new:
+        title: "パスワードをお忘れですか？"
+        subtitle: "メールアドレスを入力するとリセット手順を送ります"
+        placeholder_email: "you@example.com"
+        send_instructions: "リセット手順を送信"
+        remembered_password: "パスワードを覚えましたか？"
+        sign_in_continue: "サインインして続きをどうぞ"
+      edit:
+        title: "パスワードをリセット"
+        subtitle: "アカウントの新しいパスワードを選択してください"
+        placeholder_password: "••••••••"
+        change_password: "パスワードを変更"
+        password_updated: "パスワードを更新しましたか？"
+        sign_in_new: "新しいパスワードでサインイン"
+    confirmations:
+      new:
+        title: "確認を再送信"
+        subtitle: "確認instructionsが届きませんでしたか？"
+        placeholder_email: "you@example.com"
+        resend_instructions: "手順を再送信"
+    unlocks:
+      new:
+        title: "アカウントがロックされました"
+        subtitle: "ロック解除手順が届きませんでしたか？"
+        placeholder_email: "you@example.com"
+        resend_instructions: "ロック解除手順を再送信"
+    links:
+      edit_registration: "登録を編集"
+      resend_confirmation: "確認を再送信"
+      forgot_password: "パスワードをお忘れですか？"
+      unlock_instructions: "ロック解除手順"
+      sign_in_with: "%{provider}でログイン"
+
+  mailer:
+    confirmation_instructions:
+      welcome: "ようこそ、%{email}さん！"
+      confirm_account: "以下のリンクからアカウントのメールを確認できます："
+      confirm_button: "アカウントを確認"
+    reset_password_instructions:
+      hello: "こんにちは、%{email}さん！"
+      request_link: "誰かがパスワード変更のリンクをリクエストしました。以下のリンクから変更できます。"
+      change_button: "パスワードを変更"
+      ignore_email: "このリクエストをしていない場合は、このメールを無視してください。"
+      no_change_until: "上記のリンクにアクセスして新しいパスワードを作成するまでは、パスワードは変更されません。"
+    unlock_instructions:
+      hello: "こんにちは、%{email}さん！"
+      account_locked: "サインインの試みが多すぎたため、アカウントがロックされました。"
+      unlock_button: "アカウントのロックを解除"
+    password_change:
+      hello: "こんにちは、%{email}さん！"
+      changed: "パスワードが変更されたことをお知らせします。"
+    email_changed:
+      hello: "こんにちは、%{email}さん！"
+      updated: "メールアドレスが%{email}に変更されたことをお知らせします。"
+      pending: "メールアドレスが%{old_email}から%{new_email}に変更正在であることをお知らせします。"
+
+  locale:
+    switch: "言語を切り替える"
+    current: "現在の言語"
+    languages:
+      en: "English"
+      vi: "Tiếng Việt"
+      ru: "Русский"
+      ja: "日本語"
+      ko: "한국어"
+      th: "ไทย"
+      de: "Deutsch"
+
+  form_labels:
+    email: "メールアドレス"
+    password: "パスワード"
+    password_confirmation: "パスワード確認"
+    current_password: "現在のパスワード"
+    full_name: "氏名"
+    remember_me: "ログイン状態を保持"

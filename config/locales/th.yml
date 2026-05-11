@@ -1,0 +1,157 @@
+th:
+  brand:
+    name: "Rails 8 Blog"
+    tagline: "เขียน. เผยแพร่. สร้างแรงบันดาลใจ."
+
+  nav:
+    home: "หน้าแรก"
+    admin: "ผู้ดูแล"
+    posts: "บทความ"
+    categories: "หมวดหมู่"
+    tags: "แท็ก"
+    comments: "ความคิดเห็น"
+    settings: "การตั้งค่า"
+
+  static:
+    welcome_title: "ยินดีต้อนรับสู่ Rails Blog"
+    admin_dashboard: "แดชบอร์ดผู้ดูแล"
+    under_development: "ระบบอยู่ระหว่างการพัฒนา."
+
+  errors:
+    not_authorized: "คุณไม่ได้รับอนุญาตให้ดำเนินการนี้"
+    access_denied: "ปฏิเสธการเข้าถึง"
+    not_found: "ไม่พบหน้า"
+    server_error: "เกิดข้อผิดพลาด"
+
+  common:
+    save: "บันทึก"
+    cancel: "ยกเลิก"
+    delete: "ลบ"
+    edit: "แก้ไข"
+    create: "สร้าง"
+    update: "อัปเดต"
+    submit: "ส่ง"
+    back: "กลับ"
+    search: "ค้นหา"
+    loading: "กำลังโหลด..."
+    confirm_delete: "คุณแน่ใจหรือว่าต้องการลบสิ่งนี้?"
+
+  shared:
+    sign_in: "เข้าสู่ระบบ"
+    sign_up: "สมัครสมาชิก"
+    sign_out: "ออกจากระบบ"
+    sign_in_with: "เข้าสู่ระบบด้วย %{provider}"
+    edit_profile: "แก้ไขโปรไฟล์"
+    create_account: "สร้างบัญชี"
+    join_community: "เข้าร่วมชุมชนและเริ่มเขียน"
+    already_have_account: "มีบัญชีอยู่แล้ว?"
+    dont_have_account: "ไม่มีบัญชี?"
+    create_free_account: "สร้างบัญชีฟรี"
+    join_our_community: "เข้าร่วมชุมชนนักเขียนและผู้อ่าน"
+
+  devise:
+    shared:
+      minimum_password_length: "อย่างน้อย %{count} ตัวอักษร"
+      brand_tagline: "เขียน. เผยแพร่. สร้างแรงบันดาลใจ."
+
+    registrations:
+      new:
+        title: "สร้างบัญชี"
+        subtitle: "เข้าร่วมชุมชนและเริ่มเขียน"
+        placeholder_name: "สมชาย สมบูรณ์"
+        placeholder_email: "you@example.com"
+        placeholder_password: "สร้างรหัสผ่าน"
+        placeholder_password_confirm: "ยืนยันรหัสผ่าน"
+      edit:
+        title: "แก้ไขโปรไฟล์"
+        subtitle: "อัปเดตการตั้งค่าบัญชีของคุณ"
+        current_password_note: "เราต้องการรหัสผ่านปัจจุบันเพื่อยืนยันการเปลี่ยนแปลง"
+        leave_blank_note: "เว้นว่างไว้หากคุณไม่ต้องการเปลี่ยน"
+        waiting_confirmation: "กำลังรอการยืนยันสำหรับ:"
+        update: "อัปเดต"
+        cancel_account: "ยกเลิกบัญชีของฉัน"
+        or: "หรือ"
+    sessions:
+      new:
+        title: "ยินดีต้อนรับกลับ"
+        subtitle: "เข้าสู่ระบบเพื่อเลือกต่อ"
+        placeholder_email: "you@example.com"
+        placeholder_password: "••••••••"
+        remember_me: "จดจำการเข้าสู่ระบบ"
+        sign_in: "เข้าสู่ระบบ"
+    passwords:
+      new:
+        title: "ลืมรหัสผ่าน?"
+        subtitle: "ป้อนอีเมลและเราจะส่งคำแนะนำการตั้งค่าใหม่"
+        placeholder_email: "you@example.com"
+        send_instructions: "ส่งคำแนะนำ"
+        remembered_password: "จำรหัสผ่านได้แล้ว?"
+        sign_in_continue: "เข้าสู่ระบบและเลือกต่อ"
+      edit:
+        title: "ตั้งค่ารหัสผ่านใหม่"
+        subtitle: "เลือกรหัสผ่านใหม่สำหรับบัญชีของคุณ"
+        placeholder_password: "••••••••"
+        change_password: "เปลี่ยนรหัสผ่าน"
+        password_updated: "เปลี่ยนรหัสผ่านแล้ว?"
+        sign_in_new: "เข้าสู่ระบบด้วยรหัสผ่านใหม่"
+    confirmations:
+      new:
+        title: "ส่งการยืนยันอีกครั้ง"
+        subtitle: "ไม่ได้รับคำแนะนำการยืนยัน?"
+        placeholder_email: "you@example.com"
+        resend_instructions: "ส่งคำแนะนำอีกครั้ง"
+    unlocks:
+      new:
+        title: "บัญชีถูกล็อก"
+        subtitle: "ไม่ได้รับคำแนะนำการปลดล็อก?"
+        placeholder_email: "you@example.com"
+        resend_instructions: "ส่งคำแนะนำการปลดล็อกอีกครั้ง"
+    links:
+      edit_registration: "แก้ไขการลงทะเบียน"
+      resend_confirmation: "ส่งการยืนยันอีกครั้ง"
+      forgot_password: "ลืมรหัสผ่าน?"
+      unlock_instructions: "คำแนะนำการปลดล็อก"
+      sign_in_with: "เข้าสู่ระบบด้วย %{provider}"
+
+  mailer:
+    confirmation_instructions:
+      welcome: "ยินดีต้อนรับ %{email}!"
+      confirm_account: "คุณสามารถยืนยันอีเมลบัญชีของคุณผ่านลิงก์ด้านล่าง:"
+      confirm_button: "ยืนยันบัญชี"
+    reset_password_instructions:
+      hello: "สวัสดี %{email}!"
+      request_link: "มีคนขอลิงก์เปลี่ยนรหัสผ่าน คุณสามารถทำได้ผ่านลิงก์ด้านล่าง"
+      change_button: "เปลี่ยนรหัสผ่าน"
+      ignore_email: "หากคุณไม่ได้ร้องขอสิ่งนี้ โปรดเพิกเฉยต่ออีเมลนี้"
+      no_change_until: "รหัสผ่านของคุณจะไม่เปลี่ยนจนกว่าคุณจะเข้าลิงก์ด้านบนและสร้างรหัสผ่านใหม่"
+    unlock_instructions:
+      hello: "สวัสดี %{email}!"
+      account_locked: "บัญชีของคุณถูกล็อกเนื่องจากพยายามเข้าสู่ระบบไม่สำเร็จหลายครั้ง"
+      unlock_button: "ปลดล็อกบัญชี"
+    password_change:
+      hello: "สวัสดี %{email}!"
+      changed: "เราติดต่อเพื่อแจ้งว่ารหัสผ่านของคุณถูกเปลี่ยนแล้ว"
+    email_changed:
+      hello: "สวัสดี %{email}!"
+      updated: "เราติดต่อเพื่อแจ้งว่าอีเมลของคุณถูกเปลี่ยนเป็น %{email} แล้ว"
+      pending: "เราติดต่อเพื่อแจ้งว่าอีเมลของคุณกำลังถูกเปลี่ยนจาก %{old_email} เป็น %{new_email}"
+
+  locale:
+    switch: "เปลี่ยนภาษา"
+    current: "ภาษาปัจจุบัน"
+    languages:
+      en: "English"
+      vi: "Tiếng Việt"
+      ru: "Русский"
+      ja: "日本語"
+      ko: "한국어"
+      th: "ไทย"
+      de: "Deutsch"
+
+  form_labels:
+    email: "ที่อยู่อีเมล"
+    password: "รหัสผ่าน"
+    password_confirmation: "ยืนยันรหัสผ่าน"
+    current_password: "รหัสผ่านปัจจุบัน"
+    full_name: "ชื่อ-นามสกุล"
+    remember_me: "จดจำการเข้าสู่ระบบ"
