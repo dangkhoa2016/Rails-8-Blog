@@ -1,16 +1,23 @@
-<h2>Resend unlock instructions</h2>
-
-<%= form_for(resource, as: resource_name, url: unlock_path(resource_name), html: { method: :post }) do |f| %>
-  <%= render "devise/shared/error_messages", resource: resource %>
-
-  <div class="field">
-    <p><%= f.label :email %></p>
-    <p><%= f.email_field :email, autofocus: true, autocomplete: "email" %></p>
-  </div>
-
-  <div class="actions">
-    <%= f.submit "Resend unlock instructions" %>
-  </div>
+<%= render "devise/shared/heading", icon_gradient: "from-rose-50 to-pink-50", title: "Account locked", subtitle: "Didn't receive unlock instructions?" do %>
+  <%= render "devise/shared/icons", icon: :unlock %>
 <% end %>
 
-<%= render "devise/shared/links" %>
+<%= render layout: "devise/shared/form_card" do %>
+  <%= form_for(resource, as: resource_name, url: unlock_path(resource_name), html: { method: :post }) do |f| %>
+    <%= render "devise/shared/error_messages", resource: resource %>
+
+    <%= render "devise/shared/field", f: f, attribute: :email, type: :email_field, autocomplete: "email", placeholder: "you@example.com", autofocus: true %>
+
+    <%= render "devise/shared/submit_button", f: f, label: "Resend unlock instructions" %>
+  <% end %>
+<% end %>
+
+<%= render "devise/shared/green_banner",
+  title: "Already have an account?",
+  subtitle: "Sign in to pick up where you left off" %>
+
+<%= render "devise/shared/action_links", links: [
+  { condition: devise_mapping.recoverable?, label: "Forgot password?", path: new_password_path(resource_name) },
+  { condition: devise_mapping.confirmable?, label: "Resend confirmation", path: new_confirmation_path(resource_name) },
+  { condition: devise_mapping.registerable?, label: "Create account", path: new_registration_path(resource_name) },
+] %>
