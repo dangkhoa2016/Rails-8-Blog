@@ -116,3 +116,5 @@ group :development do
   gem "annotate"
   gem "dotenv-rails"
 end
+
+gem "tailwindcss-rails", "~> 4.4"

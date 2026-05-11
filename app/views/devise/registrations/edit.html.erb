@@ -1,42 +1,39 @@
-<h2>Edit <%= resource_name.to_s.humanize %></h2>
-
-<%= form_for(resource, as: resource_name, url: registration_path(resource_name), html: { method: :put }) do |f| %>
-  <%= render "devise/shared/error_messages", resource: resource %>
-
-  <div class="field">
-    <p><%= f.label :email %></p>
-    <p><%= f.email_field :email, autofocus: true, autocomplete: "email" %></p>
-  </div>
-
-  <% if devise_mapping.confirmable? && resource.pending_reconfirmation? %>
-    <div>Currently waiting confirmation for: <%= resource.unconfirmed_email %></div>
-  <% end %>
-
-  <div class="field">
-    <p><%= f.label :password %> <i>(leave blank if you don't want to change it)</i></p>
-    <p><%= f.password_field :password, autocomplete: "new-password" %></p>
-    <% if @minimum_password_length %>
-      <p><em><%= @minimum_password_length %> characters minimum</em></p>
-    <% end %>
-  </div>
-
-  <div class="field">
-    <p><%= f.label :password_confirmation %></p>
-    <p><%= f.password_field :password_confirmation, autocomplete: "new-password" %></p>
-  </div>
-
-  <div class="field">
-    <p><%= f.label :current_password %> <i>(we need your current password to confirm your changes)</i></p>
-    <p><%= f.password_field :current_password, autocomplete: "current-password" %></p>
-  </div>
-
-  <div class="actions">
-    <%= f.submit "Update" %>
-  </div>
+<%= render "devise/shared/heading", icon_gradient: "from-violet-50 to-purple-50", title: "Edit profile", subtitle: "Update your account settings" do %>
+  <%= render "devise/shared/icons", icon: :gear %>
 <% end %>
 
-<h3>Cancel my account</h3>
+<%= render layout: "devise/shared/form_card" do %>
+  <%= form_for(resource, as: resource_name, url: registration_path(resource_name), html: { method: :put }) do |f| %>
+    <%= render "devise/shared/error_messages", resource: resource %>
 
-<div>Unhappy? <%= button_to "Cancel my account", registration_path(resource_name), data: { confirm: "Are you sure?", turbo_confirm: "Are you sure?" }, method: :delete %></div>
+    <div class="grid grid-cols-2 gap-5 max-sm:grid-cols-1">
+      <%= render "devise/shared/field", f: f, attribute: :email, type: :email_field, autocomplete: "email", autofocus: true %>
 
-<%= link_to "Back", :back %>
+      <% if devise_mapping.confirmable? && resource.pending_reconfirmation? %>
+        <div class="flex flex-col col-span-1">
+          <p class="text-xs text-slate-300 mt-5">Currently waiting confirmation for: <%= resource.unconfirmed_email %></p>
+        </div>
+      <% end %>
+
+      <% if devise_mapping.password_required? %>
+        <%= render "devise/shared/field", f: f, attribute: :password, type: :password_field, autocomplete: "new-password", placeholder: "••••••••", note: "Leave blank if you don't want to change it" %>
+        <%= render "devise/shared/field", f: f, attribute: :password_confirmation, type: :password_field, autocomplete: "new-password", placeholder: "••••••••" %>
+      <% end %>
+
+      <%= render "devise/shared/field", f: f, attribute: :current_password, type: :password_field, autocomplete: "current-password", placeholder: "••••••••", note: "We need your current password to confirm changes", wrapper_class: "col-span-2" %>
+    </div>
+
+    <%= render "devise/shared/submit_button", f: f, label: "Update" %>
+  <% end %>
+<% end %>
+
+<div class="flex items-center gap-4 my-5">
+  <span class="flex-1 h-px bg-slate-200"></span>
+  <span class="text-xs text-slate-300">Or</span>
+  <span class="flex-1 h-px bg-slate-200"></span>
+</div>
+
+<div class="flex flex-col gap-4">
+  <%= button_to "Cancel my account", registration_path(resource_name), data: { confirm: "Are you sure?" }, method: :delete, class: "inline-flex items-center justify-center gap-2 px-8 py-3 rounded-lg text-sm font-semibold cursor-pointer transition border bg-red-50 text-red-700 border-red-200 hover:bg-red-100" %>
+  <%= link_to "← Back", :back, class: "text-sm text-indigo-600 no-underline font-medium hover:text-indigo-700 hover:underline" %>
+</div>
