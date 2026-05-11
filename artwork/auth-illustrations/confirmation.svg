@@ -1,0 +1,33 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1000" height="1000" viewBox="0 0 1000 1000"><defs>
+  <linearGradient id="purp" x1="0" y1="0" x2="1" y2="1"><stop stop-color="#C6ACFF"/><stop offset=".45" stop-color="#8C64ED"/><stop offset="1" stop-color="#6438D8"/></linearGradient>
+  <linearGradient id="purpleFront" x1="0" y1="0" x2="1" y2="1"><stop stop-color="#FFFFFF"/><stop offset=".55" stop-color="#E7DBFF"/><stop offset="1" stop-color="#CAB5FF"/></linearGradient>
+  <linearGradient id="blue" x1="0" y1="0" x2="1" y2="1"><stop stop-color="#89CBFF"/><stop offset=".45" stop-color="#3D87E8"/><stop offset="1" stop-color="#2156C5"/></linearGradient>
+  <linearGradient id="blueInner" x1="0" y1="0" x2="1" y2="1"><stop stop-color="#D5F3FF"/><stop offset="1" stop-color="#A6CFFF"/></linearGradient>
+  <linearGradient id="green" x1="0" y1="0" x2="1" y2="1"><stop stop-color="#BDFF88"/><stop offset=".48" stop-color="#54DC81"/><stop offset="1" stop-color="#1FAE73"/></linearGradient>
+  <linearGradient id="lime" x1="0" y1="0" x2="1" y2="1"><stop stop-color="#EAFF87"/><stop offset=".48" stop-color="#A8E74B"/><stop offset="1" stop-color="#52BC48"/></linearGradient>
+  <linearGradient id="peach" x1="0" y1="0" x2="1" y2="1"><stop stop-color="#FFF2C3"/><stop offset=".50" stop-color="#FFBA85"/><stop offset="1" stop-color="#F1846D"/></linearGradient>
+  <linearGradient id="red" x1="0" y1="0" x2="1" y2="1"><stop stop-color="#FFB2AF"/><stop offset=".4" stop-color="#F65A79"/><stop offset="1" stop-color="#CB315C"/></linearGradient>
+  <linearGradient id="metal" x1="0" y1="0" x2="1" y2="1"><stop stop-color="#FFFFFF"/><stop offset=".32" stop-color="#E9E9FF"/><stop offset=".75" stop-color="#C5BEED"/><stop offset="1" stop-color="#9188BF"/></linearGradient>
+  <linearGradient id="white" x1="0" y1="0" x2="1" y2="1"><stop stop-color="#FFFFFF"/><stop offset="1" stop-color="#ECF4FF"/></linearGradient>
+  <filter id="shadow" x="-45%" y="-50%" width="200%" height="215%"><feDropShadow dx="0" dy="25" stdDeviation="21" flood-color="#283166" flood-opacity=".28"/></filter>
+  <filter id="tinyshadow" x="-30%" y="-35%" width="175%" height="190%"><feDropShadow dx="0" dy="10" stdDeviation="11" flood-color="#283166" flood-opacity=".2"/></filter>
+</defs>
+<g transform="translate(8,-8) rotate(-10 500 500)" filter="url(#shadow)">
+ <rect x="260" y="176" width="475" height="646" rx="72" fill="#6236CB"/>
+ <rect x="248" y="160" width="475" height="646" rx="72" fill="url(#purp)" stroke="#E4D6FF" stroke-width="15"/>
+ <rect x="298" y="222" width="376" height="506" rx="43" fill="url(#purpleFront)"/>
+ <rect x="400" y="190" width="160" height="23" rx="12" fill="#6236C4"/>
+ <rect x="344" y="609" width="235" height="20" rx="10" fill="#BAACEA"/>
+ <rect x="373" y="649" width="178" height="17" rx="8" fill="#CEC0F6"/>
+ <rect x="365" y="364" width="235" height="188" rx="28" fill="url(#white)" stroke="#D2CBEE" stroke-width="9"/>
+ <path d="M365 391 L477 482 L600 391" stroke="#9F8ADE" stroke-width="13" fill="none" stroke-linecap="round"/>
+ <circle cx="578" cy="362" r="66" fill="url(#green)" stroke="#D7FFC5" stroke-width="9"/>
+ <path d="M544 362 L566 385 L612 338" stroke="white" stroke-width="20" fill="none" stroke-linecap="round" stroke-linejoin="round"/>
+</g><g transform="rotate(13 744 512)" filter="url(#tinyshadow)">
+ <rect x="697" y="320" width="175" height="322" rx="34" fill="#C3F8E9" stroke="#F6FFFF" stroke-width="12"/>
+ <rect x="727" y="430" width="111" height="15" rx="8" fill="#5BCFBB"/>
+ <rect x="727" y="469" width="111" height="15" rx="8" fill="#5BCFBB"/>
+ <rect x="727" y="508" width="88" height="15" rx="8" fill="#5BCFBB"/>
+</g><circle cx="176" cy="347" r="11" fill="#BDB7FF"/><circle cx="833" cy="203" r="10" fill="#D7A7E4"/>
+<path d="M176 278 V315 M157 296 H195" stroke="#D6CAFF" stroke-width="12" stroke-linecap="round"/>
+<path d="M857 688 V727 M838 707 H876" stroke="#EAD5FF" stroke-width="12" stroke-linecap="round"/></svg>

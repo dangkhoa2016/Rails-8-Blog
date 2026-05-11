@@ -1,16 +1,23 @@
-<h2>Forgot your password?</h2>
-
-<%= form_for(resource, as: resource_name, url: password_path(resource_name), html: { method: :post }) do |f| %>
-  <%= render "devise/shared/error_messages", resource: resource %>
-
-  <div class="field">
-    <p><%= f.label :email %></p>
-    <p><%= f.email_field :email, autofocus: true, autocomplete: "email" %></p>
-  </div>
-
-  <div class="actions">
-    <%= f.submit "Send me password reset instructions" %>
-  </div>
+<%= render "devise/shared/heading", icon_gradient: "from-blue-50 to-cyan-50", title: "Forgot password?", subtitle: "Enter your email and we'll send reset instructions" do %>
+  <%= render "devise/shared/icons", icon: :lock %>
 <% end %>
 
-<%= render "devise/shared/links" %>
+<%= render layout: "devise/shared/form_card" do %>
+  <%= form_for(resource, as: resource_name, url: password_path(resource_name), html: { method: :post }) do |f| %>
+    <%= render "devise/shared/error_messages", resource: resource %>
+
+    <%= render "devise/shared/field", f: f, attribute: :email, type: :email_field, autocomplete: "email", placeholder: "you@example.com", autofocus: true %>
+
+    <%= render "devise/shared/submit_button", f: f, label: "Send reset instructions" %>
+  <% end %>
+<% end %>
+
+<%= render "devise/shared/green_banner",
+  title: "Remembered your password?",
+  subtitle: "Sign in and continue where you left off" %>
+
+<%= render "devise/shared/action_links", links: [
+  { condition: devise_mapping.registerable?, label: "Create account", path: new_registration_path(resource_name) },
+  { condition: devise_mapping.confirmable?, label: "Resend confirmation", path: new_confirmation_path(resource_name) },
+  { condition: devise_mapping.lockable?, label: "Account locked?", path: new_unlock_path(resource_name) },
+] %>
