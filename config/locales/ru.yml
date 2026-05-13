@@ -1,0 +1,157 @@
+ru:
+  brand:
+    name: "Rails 8 Blog"
+    tagline: "Пишите. Публикуйте. Вдохновляйте."
+
+  nav:
+    home: "Главная"
+    admin: "Админ"
+    posts: "Статьи"
+    categories: "Категории"
+    tags: "Теги"
+    comments: "Комментарии"
+    settings: "Настройки"
+
+  static:
+    welcome_title: "Добро пожаловать в Rails Blog"
+    admin_dashboard: "Панель администратора"
+    under_development: "Система находится в разработке."
+
+  errors:
+    not_authorized: "Вы не авторизованы для выполнения этого действия."
+    access_denied: "Доступ запрещён"
+    not_found: "Страница не найдена"
+    server_error: "Что-то пошло не так"
+
+  common:
+    save: "Сохранить"
+    cancel: "Отмена"
+    delete: "Удалить"
+    edit: "Редактировать"
+    create: "Создать"
+    update: "Обновить"
+    submit: "Отправить"
+    back: "Назад"
+    search: "Поиск"
+    loading: "Загрузка..."
+    confirm_delete: "Вы уверены, что хотите удалить это?"
+
+  shared:
+    sign_in: "Войти"
+    sign_up: "Зарегистрироваться"
+    sign_out: "Выйти"
+    sign_in_with: "Войти через %{provider}"
+    edit_profile: "Редактировать профиль"
+    create_account: "Создать аккаунт"
+    join_community: "Присоединяйтесь к сообществу и начните писать"
+    already_have_account: "Уже есть аккаунт?"
+    dont_have_account: "Нет аккаунта?"
+    create_free_account: "Создать бесплатный аккаунт"
+    join_our_community: "Присоединяйтесь к сообществу писателей и читателей"
+
+  devise:
+    shared:
+      minimum_password_length: "Минимум %{count} символов"
+      brand_tagline: "Пишите. Публикуйте. Вдохновляйте."
+
+    registrations:
+      new:
+        title: "Создать аккаунт"
+        subtitle: "Присоединяйтесь к сообществу и начните писать"
+        placeholder_name: "Иван Иванов"
+        placeholder_email: "you@example.com"
+        placeholder_password: "Создайте пароль"
+        placeholder_password_confirm: "Подтвердите пароль"
+      edit:
+        title: "Редактировать профиль"
+        subtitle: "Обновите настройки аккаунта"
+        current_password_note: "Нам нужен ваш текущий пароль для подтверждения"
+        leave_blank_note: "Оставьте пустым, если не хотите менять"
+        waiting_confirmation: "Ожидание подтверждения для:"
+        update: "Обновить"
+        cancel_account: "Отменить мой аккаунт"
+        or: "Или"
+    sessions:
+      new:
+        title: "С возвращением"
+        subtitle: "Войдите, чтобы продолжить"
+        placeholder_email: "you@example.com"
+        placeholder_password: "••••••••"
+        remember_me: "Запомнить меня"
+        sign_in: "Войти"
+    passwords:
+      new:
+        title: "Забыли пароль?"
+        subtitle: "Введите email, и мы отправим инструкции"
+        placeholder_email: "you@example.com"
+        send_instructions: "Отправить инструкции"
+        remembered_password: "Вспомнили пароль?"
+        sign_in_continue: "Войдите и продолжите"
+      edit:
+        title: "Сброс пароля"
+        subtitle: "Выберите новый пароль для аккаунта"
+        placeholder_password: "••••••••"
+        change_password: "Изменить пароль"
+        password_updated: "Пароль обновлён?"
+        sign_in_new: "Войдите с новым паролем"
+    confirmations:
+      new:
+        title: "Повторная отправка подтверждения"
+        subtitle: "Не получили инструкции по подтверждению?"
+        placeholder_email: "you@example.com"
+        resend_instructions: "Повторно отправить инструкции"
+    unlocks:
+      new:
+        title: "Аккаунт заблокирован"
+        subtitle: "Не получили инструкции по разблокировке?"
+        placeholder_email: "you@example.com"
+        resend_instructions: "Повторно отправить инструкции"
+    links:
+      edit_registration: "Редактировать регистрацию"
+      resend_confirmation: "Повторно отправить подтверждение"
+      forgot_password: "Забыли пароль?"
+      unlock_instructions: "Инструкции по разблокировке"
+      sign_in_with: "Войти через %{provider}"
+
+  mailer:
+    confirmation_instructions:
+      welcome: "Добро пожаловать, %{email}!"
+      confirm_account: "Вы можете подтвердить email аккаунта по ссылке ниже:"
+      confirm_button: "Подтвердить аккаунт"
+    reset_password_instructions:
+      hello: "Привет, %{email}!"
+      request_link: "Кто-то запросил ссылку для смены пароля. Вы можете сделать это по ссылке ниже."
+      change_button: "Изменить пароль"
+      ignore_email: "Если вы не запрашивали это, просто проигнорируйте письмо."
+      no_change_until: "Ваш пароль не изменится, пока вы не перейдёте по ссылке и не создадите новый."
+    unlock_instructions:
+      hello: "Привет, %{email}!"
+      account_locked: "Ваш аккаунт заблокирован из-за слишком большого количества неудачных попыток входа."
+      unlock_button: "Разблокировать аккаунт"
+    password_change:
+      hello: "Привет, %{email}!"
+      changed: "Мы сообщаем вам, что ваш пароль был изменён."
+    email_changed:
+      hello: "Привет, %{email}!"
+      updated: "Мы сообщаем вам, что ваш email был изменён на %{email}."
+      pending: "Мы сообщаем вам, что ваш email изменяется с %{old_email} на %{new_email}."
+
+  locale:
+    switch: "Сменить язык"
+    current: "Текущий язык"
+    languages:
+      en: "English"
+      vi: "Tiếng Việt"
+      ru: "Русский"
+      ja: "日本語"
+      ko: "한국어"
+      th: "ไทย"
+      de: "Deutsch"
+
+  form_labels:
+    email: "Адрес электронной почты"
+    password: "Пароль"
+    password_confirmation: "Подтверждение пароля"
+    current_password: "Текущий пароль"
+    full_name: "Полное имя"
+    remember_me: "Запомнить меня"
