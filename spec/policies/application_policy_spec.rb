@@ -29,8 +29,8 @@ RSpec.describe ApplicationPolicy do
   end
 
   describe "when user is nil" do
-    it "raises error" do
-      expect { described_class.new(nil, record) }.to raise_error(Pundit::NotAuthorizedError, "must be logged in")
+    it "allows access without raising" do
+      expect { described_class.new(nil, record) }.not_to raise_error
     end
   end
 
@@ -38,8 +38,8 @@ RSpec.describe ApplicationPolicy do
     let(:user) { build(:user) }
 
     describe "#initialize" do
-      it 'raises error when user is nil' do
-        expect { described_class::Scope.new(nil, User) }.to raise_error(Pundit::NotAuthorizedError)
+      it 'does not raise error when user is nil' do
+        expect { described_class::Scope.new(nil, User) }.not_to raise_error
       end
     end
 

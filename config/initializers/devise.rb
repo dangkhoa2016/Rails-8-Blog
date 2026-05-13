@@ -1,5 +1,15 @@
 # frozen_string_literal: true
 
+# Custom Devise Failure App - passes locale to route helpers since Devise is inside locale scope
+class CustomFailureApp < Devise::FailureApp
+  def redirect_url
+    locale = request.params[:locale] || I18n.locale || I18n.default_locale
+    locale = locale.to_sym if locale.is_a?(String)
+    locale = I18n.available_locales.include?(locale) ? locale : I18n.default_locale
+    send(:"new_#{scope}_session_path", locale: locale)
+  end
+end
+
 # Assuming you have not yet modified this file, each configuration option below
 # is set to its default value. Note that some are commented out while others
 # are not: uncommented lines are intended to protect your configuration from
@@ -8,9 +18,15 @@
 #
 # Use this hook to configure devise mailer, warden hooks and so forth.
 # Many of these configuration options can be set straight in your model.
+jwt_secret = ENV["DEVISE_JWT_SECRET_KEY"].to_s
+
+if Rails.env.production? && (jwt_secret.strip.empty? || jwt_secret.bytesize < 32)
+  raise ArgumentError, "DEVISE_JWT_SECRET_KEY must contain at least 32 bytes in production"
+end
+
 Devise.setup do |config|
   config.mailer_sender = ENV.fetch("MAILER_SENDER", "noreply@example.com")
-  config.secret_key = ENV.fetch("DEVISE_JWT_SECRET_KEY") if ENV.fetch("DEVISE_JWT_SECRET_KEY", "").present?
+  config.secret_key = jwt_secret if jwt_secret.present?
 
   # Confirmable
   config.allow_unconfirmed_access_for = 24.hours
@@ -26,7 +42,7 @@ Devise.setup do |config|
 
   # JWT
   config.jwt do |jwt|
-    jwt.secret = ENV.fetch("DEVISE_JWT_SECRET_KEY", "default_secret_for_development")
+    jwt.secret = jwt_secret.presence || Rails.application.secret_key_base
     jwt.dispatch_requests = [
       [ "POST", %r{^/api/v1/auth/sign_in$} ]
     ]
@@ -44,8 +60,6 @@ Devise.setup do |config|
   # Configure the e-mail address which will be shown in Devise::Mailer,
   # note that it will be overwritten if you use your own mailer class
   # with default "from" parameter.
-  config.mailer_sender = "please-change-me-at-config-initializers-devise@example.com"
-
   # Configure the class responsible to send e-mails.
   # config.mailer = 'Devise::Mailer'
 
@@ -300,10 +314,9 @@ Devise.setup do |config|
   # If you want to use other strategies, that are not supported by Devise, or
   # change the failure app, you can configure them inside the config.warden block.
   #
-  # config.warden do |warden_config|
-  #   warden_config.intercept_401 = false
-  #   warden_config.default_strategies(scope: :user).unshift :some_external_strategy
-  # end
+  config.warden do |warden_config|
+    warden_config.failure_app = CustomFailureApp
+  end
 
   # ==> Mountable engine configurations
   # When using Devise inside an engine, let's call it `MyEngine`, and this engine
