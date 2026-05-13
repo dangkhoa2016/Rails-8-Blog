@@ -43,7 +43,8 @@ RSpec.describe Setting, type: :model do
     end
 
     it "invalidates cache after setting" do
-      expect(Rails.cache).to receive(:delete).with("setting:test_key")
+      expect(Rails.cache).to receive(:delete).with("setting:test_key").at_least(:once)
+      expect(Rails.cache).to receive(:delete).with("test_key").at_least(:once)
       Setting.set("test_key", "test_value")
     end
 

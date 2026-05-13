@@ -12,6 +12,10 @@ en:
     comments: "Comments"
     users: "Users"
     settings: "Settings"
+    settings:
+      title: "System Settings"
+      subtitle: "Configure system parameters without redeployment"
+      updated: "Settings updated successfully"
 
   admin:
     back: "Back to list"

@@ -12,6 +12,10 @@ vi:
     comments: "Bình luận"
     users: "Người dùng"
     settings: "Cài đặt"
+    settings:
+      title: "Cài Đặt Hệ Thống"
+      subtitle: "Cấu hình tham số hệ thống mà không cần deploy lại"
+      updated: "Cập nhật cài đặt thành công"
 
   admin:
     back: "Quay lại danh sách"
