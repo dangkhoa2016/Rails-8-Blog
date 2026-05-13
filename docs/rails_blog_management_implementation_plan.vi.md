@@ -13,7 +13,7 @@
 |-----------|------------|-------|
 | Giai Đoạn 0 | ✅ Hoàn Thành | Khởi Tạo Dự Án & Cấu Hình Môi Trường |
 | Giai Đoạn 1 | ✅ Hoàn Thành | Xác Thực & Phân Quyền (Devise + JWT) |
-| Giai Đoạn 2 | ⏳ Đang Chờ | Quản Lý Bài Viết Đa Ngôn Ngữ |
+| Giai Đoạn 2 | ✅ Hoàn Thành | Quản Lý Bài Viết Đa Ngôn Ngữ |
 | Giai Đoạn 3 | ⏳ Đang Chờ | Tích Hợp Cloudinary |
 | Giai Đoạn 4 | ⏳ Đang Chờ | Bảo Mật Nhiều Lớp & Giới Hạn Tốc Độ |
 | Giai Đoạn 5 | ⏳ Đang Chờ | API v1 |
@@ -904,17 +904,17 @@ export default class extends Controller {
 
 ### ✅ Checklist Giai Đoạn 2
 
-- [ ] Tạo bài viết với tiêu đề bằng 7 ngôn ngữ (qua Language Tabs)
-- [ ] Slug tự động generate từ tiêu đề, unique theo locale
-- [ ] URL `/en/posts/hello-world` và `/vi/posts/xin-chao` đều hoạt động
-- [ ] Workflow đầy đủ 4 bước: **Draft → Pending → Scheduled → Published**
+- [x] Tạo bài viết với tiêu đề bằng 7 ngôn ngữ (qua Language Tabs)
+- [x] Slug tự động generate từ tiêu đề, unique theo locale
+- [x] URL `/en/posts/hello-world` và `/vi/posts/xin-chao` đều hoạt động
+- [x] Workflow đầy đủ 4 bước: **Draft → Pending → Scheduled → Published**
   - `draft`: Tác giả đang soạn, chưa submit
   - `pending`: Đã submit, chờ Admin duyệt
   - `scheduled`: Admin duyệt, set thời gian đăng
   - `published`: Đã đăng công khai
-- [ ] `PublishPostJob` chạy đúng giờ đã schedule
-- [ ] Bài viết hiển thị đúng ngôn ngữ theo URL locale
-- [ ] Author chỉ thấy bài của mình, Admin thấy tất cả
+- [x] `PublishPostJob` chạy đúng giờ đã schedule
+- [x] Bài viết hiển thị đúng ngôn ngữ theo URL locale
+- [x] Author chỉ thấy bài của mình, Admin thấy tất cả
 
 ---
 

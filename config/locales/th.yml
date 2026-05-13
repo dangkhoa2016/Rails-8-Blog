@@ -155,3 +155,11 @@ th:
     current_password: "รหัสผ่านปัจจุบัน"
     full_name: "ชื่อ-นามสกุล"
     remember_me: "จดจำการเข้าสู่ระบบ"
+
+  posts:
+    title: "บทความในบล็อก"
+    by: "โดย"
+    published_at: "เผยแพร่เมื่อ"
+    back: "กลับไปที่บทความ"
+    read_more: "อ่านเพิ่มเติม"
+    no_posts: "ไม่มีบทความ"

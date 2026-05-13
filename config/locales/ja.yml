@@ -154,3 +154,11 @@ ja:
     current_password: "現在のパスワード"
     full_name: "氏名"
     remember_me: "ログイン状態を保持"
+
+  posts:
+    title: "ブログ記事"
+    by: "著者"
+    published_at: "公開日"
+    back: "記事一覧に戻る"
+    read_more: "続きを読む"
+    no_posts: "記事がありません"

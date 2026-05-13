@@ -1,0 +1,13 @@
+<h1><%= t("posts.title") %></h1>
+
+<% @posts.each do |post| %>
+  <article>
+    <h2><%= link_to post.title, post_path(I18n.locale, post.slug) %></h2>
+    <p><%= t("posts.by") %> <%= post.user.full_name %></p>
+    <p><%= post.category.name if post.category %></p>
+    <% if post.tags.any? %>
+      <p><%= post.tags.map(&:name).join(", ") %></p>
+    <% end %>
+    <p><%= t("posts.published_at") %>: <%= l(post.published_at, format: :long) if post.published_at %></p>
+  </article>
+<% end %>

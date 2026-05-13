@@ -13,7 +13,7 @@
 |-------|--------|-------------|
 | Phase 0 | ✅ Completed | Project Bootstrap & Environment Configuration |
 | Phase 1 | ✅ Completed | Authentication & Authorization (Devise + JWT) |
-| Phase 2 | ⏳ Pending | Multilingual Post Management |
+| Phase 2 | ✅ Completed | Multilingual Post Management |
 | Phase 3 | ⏳ Pending | Cloudinary Integration |
 | Phase 4 | ⏳ Pending | Multi-layer Security & Rate Limiting |
 | Phase 5 | ⏳ Pending | API v1 |
@@ -904,17 +904,17 @@ export default class extends Controller {
 
 ### ✅ Checklist Phase 2
 
-- [ ] Create posts with titles in 7 languages (via Language Tabs)
-- [ ] Slug is generated automatically from the title, unique per locale
-- [ ] URLs `/en/posts/hello-world` and `/vi/posts/xin-chao` both work
-- [ ] Full 4-step workflow: **Draft → Pending → Scheduled → Published**
+- [x] Create posts with titles in 7 languages (via Language Tabs)
+- [x] Slug is generated automatically from the title, unique per locale
+- [x] URLs `/en/posts/hello-world` and `/vi/posts/xin-chao` both work
+- [x] Full 4-step workflow: **Draft → Pending → Scheduled → Published**
   - `draft`: Author is drafting, not submitted yet
   - `pending`: Submitted, awaiting Admin approval
   - `scheduled`: Approved by Admin, scheduled for publishing
   - `published`: Publicly published
-- [ ] `PublishPostJob` runs at the scheduled time
-- [ ] Posts display in the correct language based on the URL locale
-- [ ] Author sees only their own posts, Admin sees everything
+- [x] `PublishPostJob` runs at the scheduled time
+- [x] Posts display in the correct language based on the URL locale
+- [x] Author sees only their own posts, Admin sees everything
 
 ---
 

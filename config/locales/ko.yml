@@ -155,3 +155,11 @@ ko:
     current_password: "현재 비밀번호"
     full_name: "이름"
     remember_me: "로그인 상태 유지"
+
+  posts:
+    title: "블로그 게시물"
+    by: "작성자"
+    published_at: "게시일"
+    back: "게시물 목록으로"
+    read_more: "더 읽기"
+    no_posts: "게시물이 없습니다"
