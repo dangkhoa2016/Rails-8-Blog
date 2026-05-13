@@ -10,7 +10,18 @@ en:
     categories: "Categories"
     tags: "Tags"
     comments: "Comments"
+    users: "Users"
     settings: "Settings"
+
+  admin:
+    dashboard:
+      post_count: "Total Posts"
+      user_count: "Total Users"
+      comment_count: "Total Comments"
+    users:
+      created: "User was successfully created."
+      updated: "User was successfully updated."
+      destroyed: "User was successfully deleted."
 
   static:
     welcome_title: "Welcome to Rails Blog"

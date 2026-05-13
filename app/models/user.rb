@@ -1,6 +1,10 @@
 class User < ApplicationRecord
   include Devise::JWT::RevocationStrategies::JTIMatcher
 
+  has_many :posts,    dependent: :destroy
+  has_many :comments, dependent: :destroy
+  has_many :reactions, dependent: :destroy
+
   devise :database_authenticatable,
          :registerable,
          :recoverable,

@@ -9,8 +9,6 @@ RSpec.describe Api::V1::BaseController, type: :controller do
     end
   end
 
-  let(:user) { create(:user) }
-
   before do
     routes.draw { get :test_action, to: 'api/v1/base#test_action' }
     @request.env['devise.mapping'] = Devise.mappings[:user]
@@ -19,6 +17,7 @@ RSpec.describe Api::V1::BaseController, type: :controller do
   describe "#authenticate_user_from_token!" do
     context "with valid JWT token in header" do
       it "signs in the user" do
+        user = create(:user)
         token = JwtEncoder.encode(user_id: user.id, role: user.role)
         request.headers['Authorization'] = "Bearer #{token}"
 
