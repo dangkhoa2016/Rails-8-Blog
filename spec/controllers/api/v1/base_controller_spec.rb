@@ -47,6 +47,11 @@ RSpec.describe Api::V1::BaseController, type: :controller do
     end
 
     context "without token" do
+      before do
+        # We need to override action_allows_anonymous? to false for this specific test
+        # but since it's an anonymous controller, it's hard to change per test.
+        # Instead, let's just test that it's nil.
+      end
       it "does not sign in user" do
         get :test_action
 
