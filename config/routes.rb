@@ -1,12 +1,21 @@
 Rails.application.routes.draw do
-  # Devise routes (web)
-  devise_for :users, path: "auth", controllers: {
-    sessions: "users/sessions",
-    registrations: "users/registrations",
-    confirmations: "users/confirmations",
-    passwords: "users/passwords",
-    unlocks: "users/unlocks"
-  }
+  scope "/:locale", locale: /en|vi|ru|ja|ko|th|de/ do
+    root to: "static#home", as: :localized_root
+
+    # Devise routes (web)
+    devise_for :users, path: "auth", controllers: {
+      sessions: "users/sessions",
+      registrations: "users/registrations",
+      confirmations: "users/confirmations",
+      passwords: "users/passwords",
+      unlocks: "users/unlocks"
+    }
+
+    get "/admin" => "static#admin", as: :admin_dashboard
+  end
+
+  get "/:locale" => "static#home", as: :localized_root_alt, constraints: { locale: /en|vi|ru|ja|ko|th|de/ }
+  get "/admin" => "static#admin", as: :admin_dashboard_root
 
   # API v1
   namespace :api do

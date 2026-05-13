@@ -1,0 +1,157 @@
+vi:
+  brand:
+    name: "Rails 8 Blog"
+    tagline: "Viết. Xuất bản. Truyền cảm hứng."
+
+  nav:
+    home: "Trang chủ"
+    admin: "Quản trị"
+    posts: "Bài viết"
+    categories: "Danh mục"
+    tags: "Nhãn"
+    comments: "Bình luận"
+    settings: "Cài đặt"
+
+  static:
+    welcome_title: "Chào mừng đến với Rails Blog"
+    admin_dashboard: "Bảng điều khiển quản trị"
+    under_development: "Hệ thống đang trong quá trình phát triển."
+
+  errors:
+    not_authorized: "Bạn không được phép thực hiện hành động này."
+    access_denied: "Truy cập bị từ chối"
+    not_found: "Không tìm thấy trang"
+    server_error: "Đã xảy ra lỗi"
+
+  common:
+    save: "Lưu"
+    cancel: "Hủy"
+    delete: "Xóa"
+    edit: "Sửa"
+    create: "Tạo"
+    update: "Cập nhật"
+    submit: "Gửi"
+    back: "Quay lại"
+    search: "Tìm kiếm"
+    loading: "Đang tải..."
+    confirm_delete: "Bạn có chắc chắn muốn xóa không?"
+
+  shared:
+    sign_in: "Đăng nhập"
+    sign_up: "Đăng ký"
+    sign_out: "Đăng xuất"
+    sign_in_with: "Đăng nhập với %{provider}"
+    edit_profile: "Chỉnh sửa hồ sơ"
+    create_account: "Tạo tài khoản"
+    join_community: "Tham gia cộng đồng và bắt đầu viết"
+    already_have_account: "Đã có tài khoản?"
+    dont_have_account: "Chưa có tài khoản?"
+    create_free_account: "Tạo tài khoản miễn phí"
+    join_our_community: "Tham gia cộng đồng những nhà văn và độc giả"
+
+  devise:
+    shared:
+      minimum_password_length: "Tối thiểu %{count} ký tự"
+      brand_tagline: "Viết. Xuất bản. Truyền cảm hứng."
+
+    registrations:
+      new:
+        title: "Tạo tài khoản"
+        subtitle: "Tham gia cộng đồng và bắt đầu viết"
+        placeholder_name: "Nguyễn Văn A"
+        placeholder_email: "ban@example.com"
+        placeholder_password: "Tạo mật khẩu"
+        placeholder_password_confirm: "Xác nhận mật khẩu"
+      edit:
+        title: "Chỉnh sửa hồ sơ"
+        subtitle: "Cập nhật cài đặt tài khoản của bạn"
+        current_password_note: "Chúng tôi cần mật khẩu hiện tại của bạn để xác nhận thay đổi"
+        leave_blank_note: "Để trống nếu bạn không muốn thay đổi"
+        waiting_confirmation: "Đang chờ xác nhận cho:"
+        update: "Cập nhật"
+        cancel_account: "Hủy tài khoản của tôi"
+        or: "Hoặc"
+    sessions:
+      new:
+        title: "Chào mừng trở lại"
+        subtitle: "Đăng nhập để tiếp tục"
+        placeholder_email: "ban@example.com"
+        placeholder_password: "••••••••"
+        remember_me: "Ghi nhớ đăng nhập"
+        sign_in: "Đăng nhập"
+    passwords:
+      new:
+        title: "Quên mật khẩu?"
+        subtitle: "Nhập email và chúng tôi sẽ gửi hướng dẫn đặt lại"
+        placeholder_email: "ban@example.com"
+        send_instructions: "Gửi hướng dẫn đặt lại"
+        remembered_password: "Nhớ mật khẩu?"
+        sign_in_continue: "Đăng nhập và tiếp tục nơi bạn đã dừng"
+      edit:
+        title: "Đặt lại mật khẩu"
+        subtitle: "Chọn mật khẩu mới cho tài khoản của bạn"
+        placeholder_password: "••••••••"
+        change_password: "Đổi mật khẩu"
+        password_updated: "Đã đổi mật khẩu?"
+        sign_in_new: "Đăng nhập bằng mật khẩu mới"
+    confirmations:
+      new:
+        title: "Gửi lại xác nhận"
+        subtitle: "Không nhận được hướng dẫn xác nhận?"
+        placeholder_email: "ban@example.com"
+        resend_instructions: "Gửi lại hướng dẫn"
+    unlocks:
+      new:
+        title: "Tài khoản bị khóa"
+        subtitle: "Không nhận được hướng dẫn mở khóa?"
+        placeholder_email: "ban@example.com"
+        resend_instructions: "Gửi lại hướng dẫn mở khóa"
+    links:
+      edit_registration: "Chỉnh sửa đăng ký"
+      resend_confirmation: "Gửi lại xác nhận"
+      forgot_password: "Quên mật khẩu?"
+      unlock_instructions: "Hướng dẫn mở khóa"
+      sign_in_with: "Đăng nhập với %{provider}"
+
+  mailer:
+    confirmation_instructions:
+      welcome: "Chào mừng %{email}!"
+      confirm_account: "Bạn có thể xác nhận email tài khoản thông qua liên kết bên dưới:"
+      confirm_button: "Xác nhận tài khoản"
+    reset_password_instructions:
+      hello: "Xin chào %{email}!"
+      request_link: "Ai đó đã yêu cầu liên kết để thay đổi mật khẩu của bạn. Bạn có thể làm điều này thông qua liên kết bên dưới."
+      change_button: "Đổi mật khẩu"
+      ignore_email: "Nếu bạn không yêu cầu điều này, vui lòng bỏ qua email này."
+      no_change_until: "Mật khẩu của bạn sẽ không thay đổi cho đến khi bạn truy cập liên kết trên và tạo mật khẩu mới."
+    unlock_instructions:
+      hello: "Xin chào %{email}!"
+      account_locked: "Tài khoản của bạn đã bị khóa do số lần đăng nhập không thành công quá nhiều."
+      unlock_button: "Mở khóa tài khoản"
+    password_change:
+      hello: "Xin chào %{email}!"
+      changed: "Chúng tôi liên hệ để thông báo rằng mật khẩu của bạn đã được thay đổi."
+    email_changed:
+      hello: "Xin chào %{email}!"
+      updated: "Chúng tôi liên hệ để thông báo rằng email của bạn đã được thay đổi thành %{email}."
+      pending: "Chúng tôi liên hệ để thông báo rằng email của bạn đang được thay đổi từ %{old_email} thành %{new_email}."
+
+  locale:
+    switch: "Chuyển ngôn ngữ"
+    current: "Ngôn ngữ hiện tại"
+    languages:
+      en: "English"
+      vi: "Tiếng Việt"
+      ru: "Русский"
+      ja: "日本語"
+      ko: "한국어"
+      th: "ไทย"
+      de: "Deutsch"
+
+  form_labels:
+    email: "Địa chỉ Email"
+    password: "Mật khẩu"
+    password_confirmation: "Xác nhận mật khẩu"
+    current_password: "Mật khẩu hiện tại"
+    full_name: "Họ và tên"
+    remember_me: "Ghi nhớ đăng nhập"
