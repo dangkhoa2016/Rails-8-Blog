@@ -18,6 +18,9 @@ require "action_cable/engine"
 # you've limited to :test, :development, or :production.
 Bundler.require(*Rails.groups)
 
+# Require custom middleware
+require_relative "../app/middleware/maintenance_mode"
+
 module Rails8Blog
   class Application < Rails::Application
     # Initialize configuration defaults for originally generated Rails version.
@@ -31,6 +34,9 @@ module Rails8Blog
     # not contain `.rb` files, or that should not be reloaded or eager loaded.
     # Common ones are `templates`, `generators`, or `middleware`, for example.
     config.autoload_lib(ignore: %w[assets tasks])
+    
+    # Autoload middleware
+    config.autoload_paths << Rails.root.join("app/middleware")
 
     # Configuration for the application, engines, and railties goes here.
     #
@@ -56,5 +62,11 @@ module Rails8Blog
       url: ENV.fetch("REDIS_URL", "redis://localhost:6379/1"),
       namespace: "blog_cache"
     }
+
+    # Rack::Attack middleware
+    config.middleware.use Rack::Attack
+    
+    # Maintenance Mode middleware (before ActionDispatch::Static)
+    config.middleware.insert_before ActionDispatch::Static, MaintenanceMode
   end
 end

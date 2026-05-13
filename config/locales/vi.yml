@@ -120,6 +120,10 @@ vi:
     access_denied: "Truy cập bị từ chối"
     not_found: "Không tìm thấy trang"
     server_error: "Đã xảy ra lỗi"
+    rate_limited: "Quá nhiều yêu cầu. Vui lòng thử lại sau."
+
+  maintenance:
+    message: "Hệ thống đang bảo trì. Vui lòng thử lại sau."
 
   common:
     save: "Lưu"
