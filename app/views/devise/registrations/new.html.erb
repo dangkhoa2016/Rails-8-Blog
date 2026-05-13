@@ -4,7 +4,7 @@
 <% lock_check_icon = %(<svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#94a3b8" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="11" width="18" height="11" rx="2" ry="2"/><path d="M7 11V7a5 5 0 0 1 10 0v4"/><polyline points="9 12 11 14 15 10"/></svg>).freeze %>
 <% pw_hint = t("devise.shared.minimum_password_length", count: Devise.password_length.min) if Devise.password_length.min > 0 %>
 
-<%= render "devise/shared/heading", icon_gradient: "from-indigo-50 to-blue-50", title: "Create account", subtitle: "Join the community and start writing" do %>
+<%= render "devise/shared/heading", icon_gradient: "from-indigo-50 to-blue-50", title: t("devise.registrations.new.title"), subtitle: t("devise.registrations.new.subtitle") do %>
   <%= render "devise/shared/icons", icon: :user_plus %>
 <% end %>
 
@@ -13,27 +13,28 @@
     <%= render "devise/shared/error_messages", resource: resource %>
 
     <div class="space-y-5">
-      <%= render "devise/shared/field", f: f, attribute: :full_name, type: :text_field, autocomplete: "name", placeholder: "John Doe", autofocus: true, leading_icon: person_icon %>
-      <%= render "devise/shared/field", f: f, attribute: :email, type: :email_field, autocomplete: "email", placeholder: "you@example.com", leading_icon: mail_icon %>
+      <%= render "devise/shared/field", f: f, attribute: :full_name, type: :text_field, autocomplete: "name", placeholder: t("devise.registrations.new.placeholder_name"), autofocus: true, leading_icon: person_icon %>
+      <%= render "devise/shared/field", f: f, attribute: :email, type: :email_field, autocomplete: "email", placeholder: t("devise.registrations.new.placeholder_email"), leading_icon: mail_icon %>
 
       <div>
         <div class="space-y-4">
-          <%= render "devise/shared/field", f: f, attribute: :password, type: :password_field, autocomplete: "new-password", placeholder: "Create a password", leading_icon: lock_icon, hint: pw_hint %>
-          <%= render "devise/shared/field", f: f, attribute: :password_confirmation, type: :password_field, autocomplete: "new-password", placeholder: "Confirm your password", leading_icon: lock_check_icon %>
+          <%= render "devise/shared/field", f: f, attribute: :password, type: :password_field, autocomplete: "new-password", placeholder: t("devise.registrations.new.placeholder_password"), leading_icon: lock_icon, hint: pw_hint %>
+          <%= render "devise/shared/field", f: f, attribute: :password_confirmation, type: :password_field, autocomplete: "new-password", placeholder: t("devise.registrations.new.placeholder_password_confirm"), leading_icon: lock_check_icon %>
         </div>
       </div>
     </div>
 
-    <%= render "devise/shared/submit_button", f: f, label: "Sign up" %>
+    <%= render "devise/shared/submit_button", f: f, label: t("shared.sign_up") %>
   <% end %>
 <% end %>
 
 <%= render "devise/shared/green_banner",
-  title: "Already have an account?",
-  subtitle: "Sign in to pick up where you left off" %>
+  title: t("shared.already_have_account"),
+  subtitle: t("shared.sign_in_with", provider: ""),
+  button_label: t("shared.sign_in") %>
 
 <%= render "devise/shared/action_links", links: [
-  { condition: devise_mapping.recoverable?, label: "Forgot password?", path: new_password_path(resource_name) },
-  { condition: devise_mapping.confirmable?, label: "Resend confirmation", path: new_confirmation_path(resource_name) },
-  { condition: devise_mapping.lockable?, label: "Unlock instructions", path: new_unlock_path(resource_name) },
+  { condition: devise_mapping.recoverable?, label: t("devise.links.forgot_password"), path: new_password_path(resource_name) },
+  { condition: devise_mapping.confirmable?, label: t("devise.links.resend_confirmation"), path: new_confirmation_path(resource_name) },
+  { condition: devise_mapping.lockable?, label: t("devise.links.unlock_instructions"), path: new_unlock_path(resource_name) },
 ] %>

@@ -1,9 +1,9 @@
-<%# locals: { icon_svg: nil, title:, subtitle:, button_label: "Sign in", button_path: nil, wrapper_class: nil, text_wrapper_class: nil, button_wrapper_class: nil, button_arrow_class: nil } %>
+<%# locals: { icon_svg: nil, title:, subtitle:, button_label: nil, button_path: nil, wrapper_class: nil, text_wrapper_class: nil, button_wrapper_class: nil, button_arrow_class: nil } %>
 <%
   default_icon = %(<svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="#059669" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M15 3h4a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2h-4"/><polyline points="10 17 15 12 10 7"/><line x1="15" y1="12" x2="3" y2="12"/></svg>).freeze
   resolved_icon        = local_assigns[:icon_svg]
   resolved_path        = local_assigns[:button_path] || new_session_path(resource_name)
-  resolved_label       = local_assigns.fetch(:button_label, "Sign in")
+  resolved_label       = local_assigns[:button_label] || t("shared.sign_in")
   extra_wrapper        = local_assigns[:wrapper_class]
   extra_text_wrapper   = local_assigns[:text_wrapper_class]
   extra_button_wrapper = local_assigns[:button_wrapper_class]

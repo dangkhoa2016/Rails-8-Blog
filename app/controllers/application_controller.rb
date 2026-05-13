@@ -11,6 +11,10 @@ class ApplicationController < ActionController::Base
 
   layout :resolve_layout
 
+  def default_url_options
+    { locale: I18n.locale }
+  end
+
   private
 
   def devise_or_static_controller?
@@ -23,7 +27,9 @@ class ApplicationController < ActionController::Base
 
   def set_locale
     locale = params[:locale] || session[:locale] || I18n.default_locale
-    I18n.locale = I18n.available_locales.include?(locale.to_sym) ? locale : I18n.default_locale
+    locale = locale.to_sym if locale.is_a?(String)
+    I18n.locale = I18n.available_locales.include?(locale) ? locale : I18n.default_locale
+    session[:locale] = I18n.locale if params[:locale].present?
   end
 
   def user_not_authorized
