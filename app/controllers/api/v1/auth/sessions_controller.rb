@@ -8,7 +8,7 @@ module Api
 
         def respond_with(resource, _opts = {})
           if resource.persisted?
-            token = JWTEncoder.encode(user_id: resource.id, role: resource.role)
+            token = JwtEncoder.encode(user_id: resource.id, role: resource.role)
             render json: {
               user: {
                 id: resource.id,
