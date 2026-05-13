@@ -7,6 +7,11 @@ RSpec.describe Api::V1::BaseController, type: :controller do
     def test_action
       render json: { status: 'ok' }
     end
+
+    private
+    def action_allows_anonymous?
+      true
+    end
   end
 
   before do
@@ -14,11 +19,15 @@ RSpec.describe Api::V1::BaseController, type: :controller do
     @request.env['devise.mapping'] = Devise.mappings[:user]
   end
 
-  describe "#authenticate_user_from_token!" do
+  describe "authentication" do
     context "with valid JWT token in header" do
       it "signs in the user" do
         user = create(:user)
-        token = JwtEncoder.encode(user_id: user.id, role: user.role)
+        # We need to use Warden::JWTAuth to generate a proper token that devise-jwt understands
+        # or at least ensure the secret and payload are correct.
+        # devise-jwt expects 'jti' if using Denylist.
+        payload = { 'sub' => user.id, 'scp' => 'user', 'jti' => user.jti }
+        token = JWT.encode(payload, ENV.fetch("DEVISE_JWT_SECRET_KEY", "default_secret_for_development"), "HS256")
         request.headers['Authorization'] = "Bearer #{token}"
 
         get :test_action
@@ -76,7 +85,12 @@ RSpec.describe Api::V1::BaseController, type: :controller do
 
   describe "rescue from Pundit::NotAuthorizedError" do
     it "returns 403 forbidden" do
-      allow(controller).to receive(:authenticate_user_from_token!).and_raise(Pundit::NotAuthorizedError)
+      # We override the action to raise the error
+      controller.class_eval do
+        def test_action
+          raise Pundit::NotAuthorizedError
+        end
+      end
 
       get :test_action
 

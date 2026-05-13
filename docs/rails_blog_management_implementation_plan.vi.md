@@ -16,7 +16,7 @@
 | Giai Đoạn 2 | ✅ Hoàn Thành | Quản Lý Bài Viết Đa Ngôn Ngữ |
 | Giai Đoạn 3 | ⏳ Đang Chờ | Tích Hợp Cloudinary |
 | Giai Đoạn 4 | ✅ Hoàn Thành | Bảo Mật Nhiều Lớp & Giới Hạn Tốc Độ |
-| Giai Đoạn 5 | ⏳ Đang Chờ | API v1 |
+| Giai Đoạn 5 | ✅ Hoàn Thành | API v1 |
 | Giai Đoạn 6 | ⏳ Đang Chờ | Dashboard Admin & Cài Đặt Hệ Thống |
 | Giai Đoạn 7 | ⏳ Đang Chờ | Audit Log & Xóa Mềm |
 | Giai Đoạn 8 | ⏳ Đang Chờ | Slideshow Engine |

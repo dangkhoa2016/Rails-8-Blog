@@ -1,15 +1,19 @@
-require 'rails_helper'
+require "rails_helper"
 
 RSpec.describe "Api::V1::Health", type: :request do
   describe "GET /api/v1/health" do
-    it "returns health status" do
+    it "returns health status without authentication" do
       get "/api/v1/health"
 
       expect(response).to have_http_status(:ok)
       json = JSON.parse(response.body)
-      expect(json['status']).to eq('ok')
-      expect(json['timestamp']).to be_present
-      expect(json['services']).to be_present
+      
+      expect(json["status"]).to eq("ok")
+      expect(json["timestamp"]).to be_present
+      expect(json["services"]).to be_a(Hash)
+      expect(json["services"]["database"]).to be_in([true, false])
+      expect(json["services"]["redis"]).to be_in([true, false])
+      expect(json["services"]["sidekiq"]).to be_in([true, false])
     end
   end
 end
