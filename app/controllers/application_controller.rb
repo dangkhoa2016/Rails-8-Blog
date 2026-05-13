@@ -1,5 +1,6 @@
 class ApplicationController < ActionController::Base
   include Pundit::Authorization
+  include Pagy::Method
 
   allow_browser versions: :modern
   stale_when_importmap_changes
@@ -34,6 +35,10 @@ class ApplicationController < ActionController::Base
 
   def user_not_authorized
     flash[:alert] = t("errors.not_authorized")
-    redirect_back(fallback_location: root_path)
+    redirect_back(fallback_location: root_path_with_locale)
+  end
+
+  def root_path_with_locale
+    localized_root_path(I18n.locale)
   end
 end
