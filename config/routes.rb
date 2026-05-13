@@ -27,7 +27,10 @@ Rails.application.routes.draw do
       resources :audit_logs, only: [ :index, :show ]
     end
 
-    resources :posts, param: :slug, only: [ :index, :show ]
+    resources :posts, param: :slug, only: [ :index, :show ] do
+      resources :comments, only: [ :create, :destroy ]
+      resources :reactions, only: [ :create, :destroy ]
+    end
     resources :categories, param: :slug, only: [ :index, :show ]
     resources :tags, param: :slug, only: [ :index, :show ]
   end
