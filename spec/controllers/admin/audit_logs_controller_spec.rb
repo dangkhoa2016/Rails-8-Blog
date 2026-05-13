@@ -48,7 +48,7 @@ RSpec.describe Admin::AuditLogsController, type: :controller do
 
       it "redirects to root path" do
         get :index, params: { locale: "en" }
-        expect(response).to redirect_to(root_path)
+        expect(response).to redirect_to("/en")
       end
     end
 

@@ -1,5 +1,5 @@
 class MaintenanceMode
-  BYPASS_PATHS = ["/admin", "/auth"].freeze
+  BYPASS_PATHS = ["/admin", "/auth", "/api/v1/auth", "/api/v1/health", "/up"].freeze
 
   def initialize(app)
     @app = app
@@ -8,7 +8,7 @@ class MaintenanceMode
   def call(env)
     request = Rack::Request.new(env)
 
-    # Always bypass admin and auth paths
+    # Always bypass admin, auth, and health paths
     return @app.call(env) if bypass_path?(request.path)
 
     # Check maintenance mode from cache (1-minute TTL for quick enable/disable)
@@ -29,7 +29,10 @@ class MaintenanceMode
   private
 
   def bypass_path?(path)
-    BYPASS_PATHS.any? { |bp| path.start_with?(bp) }
+    # Check if path starts with any bypass path directly or with a locale prefix
+    BYPASS_PATHS.any? do |bp|
+      path.start_with?(bp) || path =~ %r{^/[a-z]{2}#{bp}(/|$)}
+    end
   end
 
   def extract_locale(path)

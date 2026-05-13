@@ -1,6 +1,11 @@
 require "rails_helper"
 
 RSpec.describe "Api::V1::Posts", type: :request do
+  before do
+    # Ensure clean state
+    Rails.cache.clear
+  end
+
   let(:user) { User.find_or_create_by!(email: "api_posts_test@example.com") { |u| u.full_name = "Test User"; u.role = "author"; u.password = "Password123!"; u.confirmed_at = Time.current } }
   let(:category) { Category.find_or_create_by!(name: "Tech") { |c| c.slug = "tech" } }
 
