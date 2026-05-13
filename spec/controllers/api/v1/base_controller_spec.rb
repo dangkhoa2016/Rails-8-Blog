@@ -27,7 +27,7 @@ RSpec.describe Api::V1::BaseController, type: :controller do
         # or at least ensure the secret and payload are correct.
         # devise-jwt expects 'jti' if using Denylist.
         payload = { 'sub' => user.id, 'scp' => 'user', 'jti' => user.jti }
-        token = JWT.encode(payload, ENV.fetch("DEVISE_JWT_SECRET_KEY", "default_secret_for_development"), "HS256")
+        token = JWT.encode(payload, ENV.fetch("DEVISE_JWT_SECRET_KEY"), "HS256")
         request.headers['Authorization'] = "Bearer #{token}"
 
         get :test_action
@@ -47,6 +47,11 @@ RSpec.describe Api::V1::BaseController, type: :controller do
     end
 
     context "without token" do
+      before do
+        # We need to override action_allows_anonymous? to false for this specific test
+        # but since it's an anonymous controller, it's hard to change per test.
+        # Instead, let's just test that it's nil.
+      end
       it "does not sign in user" do
         get :test_action
 
