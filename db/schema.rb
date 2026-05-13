@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[8.1].define(version: 2026_05_13_101635) do
+ActiveRecord::Schema[8.1].define(version: 2026_05_09_131455) do
   create_table "action_text_rich_texts", force: :cascade do |t|
     t.text "body"
     t.datetime "created_at", null: false
@@ -47,17 +47,6 @@ ActiveRecord::Schema[8.1].define(version: 2026_05_13_101635) do
     t.bigint "blob_id", null: false
     t.string "variation_digest", null: false
     t.index ["blob_id", "variation_digest"], name: "index_active_storage_variant_records_uniqueness", unique: true
-  end
-
-  create_table "blocked_request_logs", force: :cascade do |t|
-    t.datetime "created_at", null: false
-    t.string "ip", null: false
-    t.string "path"
-    t.string "reason", null: false
-    t.datetime "updated_at", null: false
-    t.string "user_agent"
-    t.index ["created_at"], name: "index_blocked_request_logs_on_created_at"
-    t.index ["ip"], name: "index_blocked_request_logs_on_ip"
   end
 
   create_table "categories", force: :cascade do |t|
@@ -158,18 +147,6 @@ ActiveRecord::Schema[8.1].define(version: 2026_05_13_101635) do
     t.index ["user_id"], name: "index_reactions_on_user_id"
   end
 
-  create_table "settings", force: :cascade do |t|
-    t.string "category", default: "general"
-    t.datetime "created_at", null: false
-    t.text "description"
-    t.string "key", null: false
-    t.datetime "updated_at", null: false
-    t.text "value"
-    t.string "value_type", default: "string"
-    t.index ["category"], name: "index_settings_on_category"
-    t.index ["key"], name: "index_settings_on_key", unique: true
-  end
-
   create_table "tags", force: :cascade do |t|
     t.datetime "created_at", null: false
     t.string "name", null: false
@@ -208,17 +185,6 @@ ActiveRecord::Schema[8.1].define(version: 2026_05_13_101635) do
     t.index ["jti"], name: "index_users_on_jti", unique: true
     t.index ["reset_password_token"], name: "index_users_on_reset_password_token", unique: true
     t.index ["unlock_token"], name: "index_users_on_unlock_token", unique: true
-  end
-
-  create_table "versions", force: :cascade do |t|
-    t.datetime "created_at"
-    t.string "event", null: false
-    t.bigint "item_id", null: false
-    t.string "item_type", null: false
-    t.text "object", limit: 1073741823
-    t.text "object_changes", limit: 1073741823
-    t.string "whodunnit"
-    t.index ["item_type", "item_id"], name: "index_versions_on_item_type_and_item_id"
   end
 
   add_foreign_key "active_storage_attachments", "active_storage_blobs", column: "blob_id"
