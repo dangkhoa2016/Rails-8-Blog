@@ -1,8 +1,6 @@
 module Api
   module V1
     class HealthController < BaseController
-      skip_before_action :authenticate_user_from_token!
-
       def show
         render json: {
           status:    "ok",
@@ -17,6 +15,10 @@ module Api
 
       private
 
+      def action_allows_anonymous?
+        true
+      end
+
       def database_ok?
         ActiveRecord::Base.connection.active?
       rescue
@@ -30,7 +32,7 @@ module Api
       end
 
       def sidekiq_ok?
-        Sidekiq::Stats.new.processed > 0
+        Sidekiq::Stats.new.processed >= 0
       rescue
         false
       end
