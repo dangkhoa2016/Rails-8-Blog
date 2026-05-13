@@ -1,9 +1,9 @@
 require "rails_helper"
 
 RSpec.describe "Api::V1::Posts", type: :request do
-  let(:user) { User.create!(email: "test@example.com", full_name: "Test User", role: "author", password: "Password123!", confirmed_at: Time.current) }
-  let(:category) { Category.create!(name: "Tech", slug: "tech") }
-  
+  let(:user) { User.find_or_create_by!(email: "api_posts_test@example.com") { |u| u.full_name = "Test User"; u.role = "author"; u.password = "Password123!"; u.confirmed_at = Time.current } }
+  let(:category) { Category.find_or_create_by!(name: "Tech") { |c| c.slug = "tech" } }
+
   let!(:post1) do
     Post.create!(
       user: user,

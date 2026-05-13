@@ -7,10 +7,15 @@ RSpec.describe "Rack::Attack", type: :request do
     Setting.create!(key: "rack_login_period", value: "60", value_type: "integer")
     Setting.create!(key: "blocked_ips", value: "[]", value_type: "array")
     Setting.create!(key: "whitelist_ips", value: "[]", value_type: "array")
-    
+
     # Clear cache
     Rails.cache.clear
     Rack::Attack.cache.store.clear
+    
+    # Stub Devise mailers to avoid locale routing issues
+    allow_any_instance_of(Devise::Mailer).to receive(:unlock_instructions).and_return(double(deliver_later: true))
+    allow_any_instance_of(Devise::Mailer).to receive(:confirmation_instructions).and_return(double(deliver_later: true))
+    allow_any_instance_of(Devise::Mailer).to receive(:reset_password_instructions).and_return(double(deliver_later: true))
   end
 
   describe "login throttling by IP" do
