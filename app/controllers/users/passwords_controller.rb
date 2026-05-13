@@ -1,8 +1,14 @@
 class Users::PasswordsController < Devise::PasswordsController
   layout "devise"
   before_action :set_background_image
+  skip_before_action :authenticate_user!, only: [ :new, :create, :edit, :update ]
+  before_action :set_locale
 
   private
+
+  def set_locale
+    I18n.locale = params[:locale] || session[:locale] || I18n.default_locale
+  end
 
   def set_background_image
     case action_name
