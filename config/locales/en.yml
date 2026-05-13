@@ -120,6 +120,10 @@ en:
     access_denied: "Access denied"
     not_found: "Page not found"
     server_error: "Something went wrong"
+    rate_limited: "Too many requests. Please slow down and try again later."
+
+  maintenance:
+    message: "System is under maintenance. Please try again later."
 
   common:
     save: "Save"

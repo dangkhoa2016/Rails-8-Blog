@@ -30,3 +30,23 @@ puts "- admin@example.com (admin)"
 puts "- author@example.com (author)"
 puts "- reader@example.com (reader)"
 puts "Password for all: Password123!"
+
+# Create default security settings
+security_settings = [
+  { key: "rack_login_limit", value: "5", value_type: "integer", category: "security", description: "Max login attempts per period" },
+  { key: "rack_login_period", value: "60", value_type: "integer", category: "security", description: "Login throttle period in seconds" },
+  { key: "blocked_ips", value: "[]", value_type: "array", category: "security", description: "List of blocked IP addresses" },
+  { key: "whitelist_ips", value: "[]", value_type: "array", category: "security", description: "List of whitelisted IP addresses" },
+  { key: "maintenance_mode", value: "false", value_type: "boolean", category: "general", description: "Enable maintenance mode" }
+]
+
+security_settings.each do |setting_attrs|
+  Setting.find_or_create_by!(key: setting_attrs[:key]) do |setting|
+    setting.value = setting_attrs[:value]
+    setting.value_type = setting_attrs[:value_type]
+    setting.category = setting_attrs[:category]
+    setting.description = setting_attrs[:description]
+  end
+end
+
+puts "\nCreated default security settings"

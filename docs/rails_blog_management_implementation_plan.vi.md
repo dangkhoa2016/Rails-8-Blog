@@ -15,7 +15,7 @@
 | Giai Đoạn 1 | ✅ Hoàn Thành | Xác Thực & Phân Quyền (Devise + JWT) |
 | Giai Đoạn 2 | ✅ Hoàn Thành | Quản Lý Bài Viết Đa Ngôn Ngữ |
 | Giai Đoạn 3 | ⏳ Đang Chờ | Tích Hợp Cloudinary |
-| Giai Đoạn 4 | ⏳ Đang Chờ | Bảo Mật Nhiều Lớp & Giới Hạn Tốc Độ |
+| Giai Đoạn 4 | ✅ Hoàn Thành | Bảo Mật Nhiều Lớp & Giới Hạn Tốc Độ |
 | Giai Đoạn 5 | ⏳ Đang Chờ | API v1 |
 | Giai Đoạn 6 | ⏳ Đang Chờ | Dashboard Admin & Cài Đặt Hệ Thống |
 | Giai Đoạn 7 | ⏳ Đang Chờ | Audit Log & Xóa Mềm |
@@ -23,7 +23,7 @@
 | Giai Đoạn 9 | ⏳ Đang Chờ | Multi-layer Caching |
 | Giai Đoạn 10 | ⏳ Đang Chờ | Testing & Health Checks |
 
-**Cập nhật lần cuối:** 9 tháng 5, 2026
+**Cập nhật lần cuối:** 13 tháng 5, 2026
 
 ---
 
@@ -1348,13 +1348,13 @@ config.middleware.insert_before ActionDispatch::Static, MaintenanceMode
 
 ### ✅ Checklist Giai Đoạn 4
 
-- [ ] Đăng nhập sai 5 lần → HTTP 429 trả về
-- [ ] IP trong `blocked_ips` setting → bị block ngay lập tức
-- [ ] IP trong `whitelist_ips` setting → không bị throttle dù request nhiều
-- [ ] Comment quá 10 lần/phút → flash message, redirect
-- [ ] Bật `maintenance_mode = true` → user thấy 503, admin vẫn vào được
-- [ ] `BlockedRequestLog` ghi nhận đúng các IP bị block (kiểm tra trong `/admin/audit_logs` hoặc Rails console)
-- [ ] `AdminNotificationJob` enqueue khi có IP bị throttle
+- [x] Đăng nhập sai 5 lần → HTTP 429 trả về
+- [x] IP trong `blocked_ips` setting → bị block ngay lập tức
+- [x] IP trong `whitelist_ips` setting → không bị throttle dù request nhiều
+- [x] Comment quá 10 lần/phút → flash message, redirect
+- [x] Bật `maintenance_mode = true` → user thấy 503, admin vẫn vào được
+- [x] `BlockedRequestLog` ghi nhận đúng các IP bị block (kiểm tra trong `/admin/audit_logs` hoặc Rails console)
+- [x] `AdminNotificationJob` enqueue khi có IP bị throttle
 
 ---
 

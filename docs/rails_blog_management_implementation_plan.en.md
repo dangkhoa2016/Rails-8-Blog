@@ -15,7 +15,7 @@
 | Phase 1 | ✅ Completed | Authentication & Authorization (Devise + JWT) |
 | Phase 2 | ✅ Completed | Multilingual Post Management |
 | Phase 3 | ⏳ Pending | Cloudinary Integration |
-| Phase 4 | ⏳ Pending | Multi-layer Security & Rate Limiting |
+| Phase 4 | ✅ Completed | Multi-layer Security & Rate Limiting |
 | Phase 5 | ⏳ Pending | API v1 |
 | Phase 6 | ⏳ Pending | Admin Dashboard & System Settings |
 | Phase 7 | ⏳ Pending | Audit Log & Soft Delete |
@@ -23,7 +23,7 @@
 | Phase 9 | ⏳ Pending | Multi-layer Caching |
 | Phase 10 | ⏳ Pending | Testing & Health Checks |
 
-**Last Updated:** May 9, 2026
+**Last Updated:** May 13, 2026
 
 ---
 
@@ -1348,13 +1348,13 @@ config.middleware.insert_before ActionDispatch::Static, MaintenanceMode
 
 ### ✅ Checklist Phase 4
 
-- [ ] Wrong password 5 times → HTTP 429 returned
-- [ ] IP in the `blocked_ips` setting → blocked immediately
-- [ ] IP in the `whitelist_ips` setting → not throttled even with many requests
-- [ ] More than 10 comments per minute → flash message, redirect
-- [ ] Set `maintenance_mode = true` → users see 503, admins can still enter
-- [ ] `BlockedRequestLog` records the blocked IPs correctly (check in `/admin/audit_logs` or Rails console)
-- [ ] `AdminNotificationJob` is enqueued when an IP is throttled
+- [x] Wrong password 5 times → HTTP 429 returned
+- [x] IP in the `blocked_ips` setting → blocked immediately
+- [x] IP in the `whitelist_ips` setting → not throttled even with many requests
+- [x] More than 10 comments per minute → flash message, redirect
+- [x] Set `maintenance_mode = true` → users see 503, admins can still enter
+- [x] `BlockedRequestLog` records the blocked IPs correctly (check in `/admin/audit_logs` or Rails console)
+- [x] `AdminNotificationJob` is enqueued when an IP is throttled
 
 ---
 

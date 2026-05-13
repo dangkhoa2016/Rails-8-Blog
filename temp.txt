@@ -1,0 +1,36 @@
+
+
+Started GET "/en/admin/posts/new" for 2402:800:629d:3f7b:4153:3578:7d48:c04b at 2026-05-13 03:50:52 +0000
+Cannot render console from 2402:800:629d:3f7b:4153:3578:7d48:c04b! Allowed networks: 127.0.0.0/127.255.255.255, ::1, ::ffff:127.0.0.0/::ffff:127.255.255.255
+Processing by Admin::PostsController#new as HTML
+  Parameters: {"locale"=>"en"}
+  User Load (0.3ms)  SELECT "users".* FROM "users" WHERE "users"."id" = 1 ORDER BY "users"."id" ASC LIMIT 1 /*action='new',application='Rails8Blog',controller='posts'*/
+  Rendering layout layouts/admin.html.erb
+  Rendering admin/posts/new.html.erb within layouts/admin
+  Rendered admin/posts/_form.html.erb (Duration: 2.3ms | GC: 0.0ms)
+  Rendered admin/posts/new.html.erb within layouts/admin (Duration: 4.3ms | GC: 0.3ms)
+  Rendered layout layouts/admin.html.erb (Duration: 4.6ms | GC: 0.3ms)
+Completed 500 Internal Server Error in 12ms (ActiveRecord: 0.3ms (1 query, 0 cached) | GC: 0.3ms)
+
+
+  
+ActionView::Template::Error (:EN is not a valid locale)
+Caused by: I18n::InvalidLocale (:EN is not a valid locale)
+
+Information for: ActionView::Template::Error (:EN is not a valid locale):
+    23:     <div data-language-tabs-target="panel" data-locale="<%= locale %>" class="<%= "hidden" unless locale == I18n.locale %> space-y-5">
+    24:       <div class="space-y-1">
+    25:         <%= f.label :title, t("admin.posts.title_for", locale: locale.upcase), class: "block text-sm font-semibold text-gray-700" %>
+    26:         <%= f.text_field :title,
+    27:               name: "post[title_translations][#{locale}]",
+    28:               value: post.title_for(locale),
+    29:               placeholder: t("admin.posts.title_placeholder", locale: locale.upcase),
+  
+app/views/admin/posts/_form.html.erb:26
+app/views/admin/posts/_form.html.erb:23:in `each'
+app/views/admin/posts/_form.html.erb:23
+app/views/admin/posts/new.html.erb:17
+app/views/admin/posts/new.html.erb:16
+
+Information for cause: I18n::InvalidLocale (:EN is not a valid locale):
+  
