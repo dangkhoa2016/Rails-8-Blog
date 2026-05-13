@@ -10,7 +10,18 @@ vi:
     categories: "Danh mục"
     tags: "Nhãn"
     comments: "Bình luận"
+    users: "Người dùng"
     settings: "Cài đặt"
+
+  admin:
+    dashboard:
+      post_count: "Tổng số bài viết"
+      user_count: "Tổng số người dùng"
+      comment_count: "Tổng số bình luận"
+    users:
+      created: "Người dùng đã được tạo thành công."
+      updated: "Người dùng đã được cập nhật thành công."
+      destroyed: "Người dùng đã được xóa thành công."
 
   static:
     welcome_title: "Chào mừng đến với Rails Blog"
