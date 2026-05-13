@@ -8,7 +8,7 @@
           <%= link_to t("nav.home"), root_path(locale: I18n.locale), class: "text-sm text-slate-600 hover:text-indigo-600 transition" %>
 
           <% if user_signed_in? && current_user.admin? %>
-            <%= link_to t("nav.admin"), admin_dashboard_path(locale: I18n.locale), class: "text-sm text-slate-600 hover:text-indigo-600 transition" %>
+            <%= link_to t("nav.admin"), admin_root_path(locale: I18n.locale), class: "text-sm text-slate-600 hover:text-indigo-600 transition" %>
           <% end %>
         </div>
       </div>

@@ -155,3 +155,11 @@ de:
     current_password: "Aktuelles Passwort"
     full_name: "Vollständiger Name"
     remember_me: "Angemeldet bleiben"
+
+  posts:
+    title: "Blog-Beiträge"
+    by: "Von"
+    published_at: "Veröffentlicht am"
+    back: "Zurück zu Beiträgen"
+    read_more: "Weiterlesen"
+    no_posts: "Keine Beiträge verfügbar"
