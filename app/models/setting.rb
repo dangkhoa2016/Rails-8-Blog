@@ -1,9 +1,13 @@
 class Setting < ApplicationRecord
+  include Auditable
+  
   CACHE_TTL = 5.minutes
 
   validates :key, presence: true, uniqueness: true
   validates :value_type, inclusion: { in: %w[string integer boolean array json] }
   validates :category, inclusion: { in: %w[general security media email rate_limit] }
+
+  after_save :clear_cache
 
   def self.get(key, default = nil)
     Rails.cache.fetch("setting:#{key}", expires_in: CACHE_TTL) do
@@ -17,7 +21,6 @@ class Setting < ApplicationRecord
     setting.value = serialize_value(value)
     setting.value_type = infer_type(value)
     setting.save!
-    Rails.cache.delete("setting:#{key}")
     setting.typed_value
   end
 
@@ -57,5 +60,10 @@ class Setting < ApplicationRecord
     when Hash then "json"
     else "string"
     end
+  end
+
+  def clear_cache
+    Rails.cache.delete("setting:#{key}")
+    Rails.cache.delete(key) # For Rack::Attack bare key lookups
   end
 end

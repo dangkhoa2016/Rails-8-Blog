@@ -35,9 +35,21 @@ puts "Password for all: Password123!"
 security_settings = [
   { key: "rack_login_limit", value: "5", value_type: "integer", category: "security", description: "Max login attempts per period" },
   { key: "rack_login_period", value: "60", value_type: "integer", category: "security", description: "Login throttle period in seconds" },
+  { key: "devise_lock_attempts", value: "5", value_type: "integer", category: "security", description: "Max failed attempts before account lock" },
   { key: "blocked_ips", value: "[]", value_type: "array", category: "security", description: "List of blocked IP addresses" },
   { key: "whitelist_ips", value: "[]", value_type: "array", category: "security", description: "List of whitelisted IP addresses" },
-  { key: "maintenance_mode", value: "false", value_type: "boolean", category: "general", description: "Enable maintenance mode" }
+  { key: "maintenance_mode", value: "false", value_type: "boolean", category: "general", description: "Enable maintenance mode" },
+  
+  # Media settings
+  { key: "thumbnail_width", value: "800", value_type: "integer", category: "media", description: "Post thumbnail width (px)" },
+  { key: "thumbnail_height", value: "450", value_type: "integer", category: "media", description: "Post thumbnail height (px)" },
+  { key: "slideshow_max_size", value: "5", value_type: "integer", category: "media", description: "Max images in slideshow" },
+  { key: "max_upload_size_mb", value: "10", value_type: "integer", category: "media", description: "Max upload size in MB" },
+  
+  # Email settings
+  { key: "smtp_providers", value: '[{"name":"Postmark","host":"smtp.postmarkapp.com","port":587,"username":"","password":"","active":true}]', value_type: "array", category: "email", description: "SMTP provider list" },
+  { key: "smtp_strategy", value: "round_robin", value_type: "string", category: "email", description: "SMTP selection strategy (round_robin, random)" },
+  { key: "smtp_force_provider", value: "", value_type: "string", category: "email", description: "Force specific SMTP provider" }
 ]
 
 security_settings.each do |setting_attrs|
@@ -49,4 +61,4 @@ security_settings.each do |setting_attrs|
   end
 end
 
-puts "\nCreated default security settings"
+puts "\nCreated default settings (security, media, email)"
