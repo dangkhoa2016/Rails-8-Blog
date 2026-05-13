@@ -8,16 +8,12 @@ module Api
 
         def respond_with(resource, _opts = {})
           if resource.persisted?
-            token = JwtEncoder.encode(user_id: resource.id, role: resource.role)
             render json: {
               user: {
                 id: resource.id,
                 email: resource.email,
                 full_name: resource.full_name,
                 role: resource.role
-              },
-              meta: {
-                token: token
               }
             }, status: :ok
           else
@@ -25,7 +21,7 @@ module Api
           end
         end
 
-        def respond_to_on_destroy(_options = {})
+        def respond_to_on_destroy(resource = nil)
           if current_user
             render json: { message: "Logged out successfully" }, status: :ok
           else
