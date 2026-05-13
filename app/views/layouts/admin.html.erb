@@ -1,0 +1,94 @@
+<!DOCTYPE html>
+<html class="h-full bg-gray-50">
+  <head>
+    <title><%= content_for(:title) || "Admin - Rails 8 Blog" %></title>
+    <meta name="viewport" content="width=device-width,initial-scale=1">
+    <%= csrf_meta_tags %>
+    <%= csp_meta_tag %>
+    <%= yield :head %>
+    <%= stylesheet_link_tag :app, "data-turbo-track": "reload" %>
+    <%= javascript_importmap_tags %>
+  </head>
+  <body class="h-full">
+    <div class="min-h-full">
+      <% if current_user %>
+        <nav class="bg-white shadow-sm border-b border-gray-200">
+          <div class="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
+            <div class="flex h-16 justify-between">
+              <div class="flex">
+                <div class="flex flex-shrink-0 items-center">
+                  <%= link_to admin_posts_path, class: "text-xl font-bold text-primary-600 hover:text-primary-700" do %>
+                    <svg class="w-8 h-8 inline-block mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                      <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 21V5a2 2 0 00-2-2H7a2 2 0 00-2 2v16m14 0h2m-2 0h-5m-9 0H3m2 0h5M9 7h1m-1 4h1m4-4h1m-1 4h1m-5 10v-5a1 1 0 011-1h2a1 1 0 011 1v5m-4 0h4"></path>
+                    </svg>
+                    Admin
+                  <% end %>
+                </div>
+                <div class="hidden sm:ml-8 sm:flex sm:space-x-4">
+                  <%= nav_link("Posts", admin_posts_path, "article") %>
+                  <%= nav_link("Categories", admin_categories_path, "folder") %>
+                  <%= nav_link("Tags", admin_tags_path, "tag") %>
+                  <%= nav_link("Settings", '#', "cog") %>
+                  <%= nav_link("Audit Logs", '#', "clipboard") %>
+                  <%= nav_link("Users", admin_users_path, "users") if current_user.admin? %>
+                </div>
+              </div>
+              <div class="flex items-center gap-4">
+                <%= link_to "← Back to Site", root_path, class: "text-sm text-gray-500 hover:text-gray-700" %>
+                <div class="flex items-center gap-3">
+                  <% if current_user.avatar_public_id.present? %>
+                    <%= image_tag current_user.avatar_url(size: 32), class: "h-8 w-8 rounded-full object-cover" %>
+                  <% else %>
+                    <div class="h-8 w-8 rounded-full bg-primary-100 flex items-center justify-center text-primary-600 font-medium text-sm">
+                      <%= current_user.full_name.first.upcase %>
+                    </div>
+                  <% end %>
+                  <div class="text-sm">
+                    <p class="font-medium text-gray-900"><%= current_user.full_name %></p>
+                    <p class="text-gray-500 text-xs"><%= current_user.role.capitalize %></p>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </nav>
+      <% end %>
+
+      <main class="py-10">
+        <div class="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
+          <% if notice = flash[:notice] %>
+            <div class="rounded-md bg-green-50 p-4 mb-6">
+              <div class="flex">
+                <div class="flex-shrink-0">
+                  <svg class="h-5 w-5 text-green-400" fill="currentColor" viewBox="0 0 20 20">
+                    <path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clip-rule="evenodd"/>
+                  </svg>
+                </div>
+                <div class="ml-3">
+                  <p class="text-sm font-medium text-green-800"><%= notice %></p>
+                </div>
+              </div>
+            </div>
+          <% end %>
+
+          <% if alert = flash[:alert] %>
+            <div class="rounded-md bg-red-50 p-4 mb-6">
+              <div class="flex">
+                <div class="flex-shrink-0">
+                  <svg class="h-5 w-5 text-red-400" fill="currentColor" viewBox="0 0 20 20">
+                    <path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zM8.707 7.293a1 1 0 00-1.414 1.414L8.586 10l-1.293 1.293a1 1 0 101.414 1.414L10 11.414l1.293 1.293a1 1 0 001.414-1.414L11.414 10l1.293-1.293a1 1 0 00-1.414-1.414L10 8.586 8.707 7.293z" clip-rule="evenodd"/>
+                  </svg>
+                </div>
+                <div class="ml-3">
+                  <p class="text-sm font-medium text-red-800"><%= alert %></p>
+                </div>
+              </div>
+            </div>
+          <% end %>
+
+          <%= yield %>
+        </div>
+      </main>
+    </div>
+  </body>
+</html>
