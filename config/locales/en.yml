@@ -1,31 +1,157 @@
-# Files in the config/locales directory are used for internationalization and
-# are automatically loaded by Rails. If you want to use locales other than
-# English, add the necessary files in this directory.
-#
-# To use the locales, use `I18n.t`:
-#
-#     I18n.t "hello"
-#
-# In views, this is aliased to just `t`:
-#
-#     <%= t("hello") %>
-#
-# To use a different locale, set it with `I18n.locale`:
-#
-#     I18n.locale = :es
-#
-# This would use the information in config/locales/es.yml.
-#
-# To learn more about the API, please read the Rails Internationalization guide
-# at https://guides.rubyonrails.org/i18n.html.
-#
-# Be aware that YAML interprets the following case-insensitive strings as
-# booleans: `true`, `false`, `on`, `off`, `yes`, `no`. Therefore, these strings
-# must be quoted to be interpreted as strings. For example:
-#
-#     en:
-#       "yes": yup
-#       enabled: "ON"
-
 en:
-  hello: "Hello world"
+  brand:
+    name: "Rails 8 Blog"
+    tagline: "Write. Publish. Inspire."
+
+  nav:
+    home: "Home"
+    admin: "Admin"
+    posts: "Posts"
+    categories: "Categories"
+    tags: "Tags"
+    comments: "Comments"
+    settings: "Settings"
+
+  static:
+    welcome_title: "Welcome to Rails Blog"
+    admin_dashboard: "Admin Dashboard"
+    under_development: "System is under development."
+
+  errors:
+    not_authorized: "You are not authorized to perform this action."
+    access_denied: "Access denied"
+    not_found: "Page not found"
+    server_error: "Something went wrong"
+
+  common:
+    save: "Save"
+    cancel: "Cancel"
+    delete: "Delete"
+    edit: "Edit"
+    create: "Create"
+    update: "Update"
+    submit: "Submit"
+    back: "Back"
+    search: "Search"
+    loading: "Loading..."
+    confirm_delete: "Are you sure you want to delete this?"
+
+  shared:
+    sign_in: "Sign in"
+    sign_up: "Sign up"
+    sign_out: "Sign out"
+    sign_in_with: "Sign in with %{provider}"
+    edit_profile: "Edit profile"
+    create_account: "Create account"
+    join_community: "Join the community and start writing"
+    already_have_account: "Already have an account?"
+    dont_have_account: "Don't have an account?"
+    create_free_account: "Create free account"
+    join_our_community: "Join our community of writers and readers"
+
+  devise:
+    shared:
+      minimum_password_length: "Minimum %{count} characters"
+      brand_tagline: "Write. Publish. Inspire."
+
+    registrations:
+      new:
+        title: "Create account"
+        subtitle: "Join the community and start writing"
+        placeholder_name: "John Doe"
+        placeholder_email: "you@example.com"
+        placeholder_password: "Create a password"
+        placeholder_password_confirm: "Confirm your password"
+      edit:
+        title: "Edit profile"
+        subtitle: "Update your account settings"
+        current_password_note: "We need your current password to confirm changes"
+        leave_blank_note: "Leave blank if you don't want to change it"
+        waiting_confirmation: "Currently waiting confirmation for:"
+        update: "Update"
+        cancel_account: "Cancel my account"
+        or: "Or"
+    sessions:
+      new:
+        title: "Welcome back"
+        subtitle: "Sign in to pick up where you left off"
+        placeholder_email: "you@example.com"
+        placeholder_password: "••••••••"
+        remember_me: "Remember me"
+        sign_in: "Sign in"
+    passwords:
+      new:
+        title: "Forgot password?"
+        subtitle: "Enter your email and we'll send reset instructions"
+        placeholder_email: "you@example.com"
+        send_instructions: "Send reset instructions"
+        remembered_password: "Remembered your password?"
+        sign_in_continue: "Sign in and continue where you left off"
+      edit:
+        title: "Reset password"
+        subtitle: "Choose a new password for your account"
+        placeholder_password: "••••••••"
+        change_password: "Change my password"
+        password_updated: "Password updated?"
+        sign_in_new: "Sign in with your new password"
+    confirmations:
+      new:
+        title: "Resend confirmation"
+        subtitle: "Didn't receive confirmation instructions?"
+        placeholder_email: "you@example.com"
+        resend_instructions: "Resend instructions"
+    unlocks:
+      new:
+        title: "Account locked"
+        subtitle: "Didn't receive unlock instructions?"
+        placeholder_email: "you@example.com"
+        resend_instructions: "Resend unlock instructions"
+    links:
+      edit_registration: "Edit registration"
+      resend_confirmation: "Resend confirmation"
+      forgot_password: "Forgot password?"
+      unlock_instructions: "Unlock instructions"
+      sign_in_with: "Sign in with %{provider}"
+
+  mailer:
+    confirmation_instructions:
+      welcome: "Welcome %{email}!"
+      confirm_account: "You can confirm your account email through the link below:"
+      confirm_button: "Confirm my account"
+    reset_password_instructions:
+      hello: "Hello %{email}!"
+      request_link: "Someone has requested a link to change your password. You can do this through the link below."
+      change_button: "Change my password"
+      ignore_email: "If you didn't request this, please ignore this email."
+      no_change_until: "Your password won't change until you access the link above and create a new one."
+    unlock_instructions:
+      hello: "Hello %{email}!"
+      account_locked: "Your account has been locked due to an excessive number of unsuccessful sign in attempts."
+      unlock_button: "Unlock my account"
+    password_change:
+      hello: "Hello %{email}!"
+      changed: "We're contacting you to notify you that your password has been changed."
+    email_changed:
+      hello: "Hello %{email}!"
+      updated: "We're contacting you to notify you that your email has been changed to %{email}."
+      pending: "We're contacting you to notify you that your email is being changed from %{old_email} to %{new_email}."
+
+  locale:
+    switch: "Switch Language"
+    current: "Current Language"
+    languages:
+      en: "English"
+      vi: "Tiếng Việt"
+      ru: "Русский"
+      ja: "日本語"
+      ko: "한국어"
+      th: "ไทย"
+      de: "Deutsch"
+
+  form_labels:
+    email: "Email Address"
+    password: "Password"
+    password_confirmation: "Confirm Password"
+    current_password: "Current Password"
+    full_name: "Full Name"
+    remember_me: "Remember me"
