@@ -1,10 +1,10 @@
 <!DOCTYPE html>
 <html lang="<%= I18n.locale %>">
   <head>
-    <title><%= content_for(:title) || "Rails 8 Blog" %></title>
+    <title><%= content_for(:title) || t("brand.name") %></title>
     <meta name="viewport" content="width=device-width,initial-scale=1">
     <meta name="apple-mobile-web-app-capable" content="yes">
-    <meta name="application-name" content="Rails 8 Blog">
+    <meta name="application-name" content="<%= t("brand.name") %>">
     <meta name="mobile-web-app-capable" content="yes">
     <%= csrf_meta_tags %>
     <%= csp_meta_tag %>
@@ -27,14 +27,45 @@
         <div class="absolute inset-0 bg-gradient-to-br from-slate-800/65 to-slate-900/50 z-10"></div>
         <%= image_tag @background_image || 'login.png', class: 'w-full h-full object-cover opacity-85' %>
         <div class="absolute bottom-12 left-12 z-20 flex flex-col items-center max-sm:bottom-6 max-sm:left-6">
-          <%= image_tag "/favicon.png", class: "size-16 rounded-full bg-white/15 p-2 backdrop-blur-sm", alt: "Rails 8 Blog" %>
-          <h1 class="text-2xl font-bold text-white tracking-wide mt-3 max-sm:text-lg">Rails 8 Blog</h1>
-          <p class="text-sm text-white/70 mt-1"><%= I18n.t("devise.shared.brand_tagline", default: "Write. Publish. Inspire.")%></p>
+          <%= image_tag "/favicon.png", class: "size-16 rounded-full bg-white/15 p-2 backdrop-blur-sm", alt: t("brand.name") %>
+          <h1 class="text-2xl font-bold text-white tracking-wide mt-3 max-sm:text-lg"><%= t("brand.name") %></h1>
+          <p class="text-sm text-white/70 mt-1"><%= t("brand.tagline") %></p>
         </div>
       </div>
 
       <!-- Right panel: form -->
       <div class="flex-1 overflow-y-auto px-12 py-10 max-sm:px-4 max-sm:py-5">
+        <!-- Top bar with home link and language switcher -->
+        <div class="flex items-center justify-between mb-4">
+          <%= link_to root_path(locale: I18n.locale), class: "inline-flex items-center gap-2 px-3 py-2 text-sm text-slate-600 hover:text-indigo-600 transition" do %>
+            <svg class="size-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 12l2-2m0 0l7-7 7 7M5 10v10a1 1 0 001 1h3m10-11l2 2m-2-2v10a1 1 0 01-1 1h-3m-6 0a1 1 0 001-1v-4a1 1 0 011-1h2a1 1 0 011 1v4a1 1 0 001 1m-6 0h6"/>
+            </svg>
+            <span><%= t("nav.home") %></span>
+          <% end %>
+
+          <div class="relative inline-block" data-controller="locale-dropdown">
+            <button type="button" data-action="locale-dropdown#toggle" class="inline-flex items-center gap-2 px-3 py-2 text-sm text-slate-600 bg-white border border-slate-200 rounded-lg hover:bg-slate-50 transition">
+              <svg class="size-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 12a9 9 0 01-9 9m9-9a9 9 0 00-9-9m9 9H3m9 9a9 9 0 01-9-9m9 9c1.657 0 3-4.03 3-9s-1.343-9-3-9m0 18c-1.657 0-3-4.03-3-9s1.343-9 3-9m-9 9a9 9 0 019-9"/>
+              </svg>
+              <span><%= locale_flag_code(I18n.locale) %></span>
+              <svg class="size-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"/>
+              </svg>
+            </button>
+            <div data-locale-dropdown-target="menu" class="hidden absolute right-0 mt-2 w-48 bg-white border border-slate-200 rounded-lg shadow-lg py-1 z-50">
+              <% available_locales.each do |locale_code, _| %>
+                <% is_current = I18n.locale.to_sym == locale_code %>
+                <%= link_to switch_locale_url(locale_code), class: "flex items-center justify-between px-4 py-2 text-sm #{is_current ? 'text-indigo-600 bg-indigo-50 font-medium' : 'text-slate-600 hover:bg-slate-50'}" do %>
+                  <span><%= locale_name(locale_code) %></span>
+                  <span class="text-xs text-slate-400"><%= locale_flag_code(locale_code) %></span>
+                <% end %>
+              <% end %>
+            </div>
+          </div>
+        </div>
+
         <div class="max-w-md w-full mx-auto">
           <% if notice %>
             <div class="px-5 py-3 rounded-lg text-sm mb-5 leading-relaxed bg-green-50 text-green-800 border border-green-200">
