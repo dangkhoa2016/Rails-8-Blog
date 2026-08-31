@@ -1,3 +1,10 @@
+> ## Architecture v2 migration authority
+> During the deployment-v2 migration, the authoritative plan is
+> `../CODEX_EXECUTION_GUIDE/00_MASTER_EXECUTION_ORDER.md` plus the current
+> phase file. Older Cloudinary/Redis/Sidekiq/SQLite instructions below are
+> historical until Phase D12 rebases this document. When they conflict, the
+> deployment-v2 plan wins.
+
 # AGENTS.md — Rails Blog Management (Enterprise & API Ready)
 
 > **AI Coding Agent Reference Guide**  
