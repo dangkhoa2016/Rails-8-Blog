@@ -9,6 +9,13 @@
 
 node_modules
 
+# Runtime databases / caches
+/dump.rdb
+*.rdb
+
+# Local evidence archives
+/evidence/
+
 # Ignore all environment files.
 /.env*
 
