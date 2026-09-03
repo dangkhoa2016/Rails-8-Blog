@@ -13,6 +13,23 @@
 # it.
 #
 # See https://rubydoc.info/gems/rspec-core/RSpec/Core/Configuration
+
+# Task 2.3 (D2): SimpleCov coverage instrumentation — must load before application code.
+if ENV["COVERAGE"] == "true"
+  require "simplecov"
+
+  SimpleCov.start "rails" do
+    enable_coverage :branch
+    add_filter "/spec/"
+    add_filter "/config/"
+    add_filter "/db/"
+    track_files "{app,lib}/**/*.rb"
+    coverage_dir "coverage"
+  end
+
+  ENV["DISABLE_BOOTSNAP_COMPILE_CACHE"] = "1"
+end
+
 RSpec.configure do |config|
   # rspec-expectations config goes here. You can use an alternate
   # assertion/expectation library such as wrong or the stdlib/minitest
@@ -44,9 +61,7 @@ RSpec.configure do |config|
   # triggering implicit auto-inclusion in groups with matching metadata.
   config.shared_context_metadata_behavior = :apply_to_host_groups
 
-# The settings below are suggested to provide a good initial experience
-# with RSpec, but feel free to customize to your heart's content.
-=begin
+  # The settings below provide a good initial experience with RSpec.
   # This allows you to limit a spec run to individual examples or groups
   # you care about by tagging them with `:focus` metadata. When nothing
   # is tagged with `:focus`, all examples get run. RSpec also provides
@@ -63,7 +78,6 @@ RSpec.configure do |config|
   # recommended. For more details, see:
   # https://rspec.info/features/3-12/rspec-core/configuration/zero-monkey-patching-mode/
   config.disable_monkey_patching!
-  config.include FactoryBot::Syntax::Methods
 
   # Many RSpec users commonly either run the entire suite or an individual
   # file, and it's useful to allow more verbose output when running an
@@ -80,7 +94,7 @@ RSpec.configure do |config|
   # particularly slow.
   config.profile_examples = 10
 
-  # Run specs in random order to surface order dependencies. If you find an
+  # Task 2.5 (D2): Run specs in random order to surface order dependencies. If you find an
   # order dependency and want to debug it, you can fix the order by providing
   # the seed, which is printed after each run.
   #     --seed 1234
@@ -91,5 +105,4 @@ RSpec.configure do |config|
   # test failures related to randomization by passing the same `--seed` value
   # as the one that triggered the failure.
   Kernel.srand config.seed
-=end
 end

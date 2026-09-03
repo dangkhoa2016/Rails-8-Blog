@@ -18,6 +18,11 @@ RSpec.describe "Rack::Attack", type: :request do
     allow_any_instance_of(Devise::Mailer).to receive(:reset_password_instructions).and_return(double(deliver_later: true))
   end
 
+  after do
+    Rack::Attack.cache.store.clear
+    Rails.cache.clear
+  end
+
   describe "login throttling by IP" do
     it "allows requests under the limit" do
       4.times do
