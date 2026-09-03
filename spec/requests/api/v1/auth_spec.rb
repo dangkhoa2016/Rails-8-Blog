@@ -12,7 +12,7 @@ RSpec.describe "Api::V1::Auth", type: :request do
       expect(response).to have_http_status(:ok)
       expect(response.headers["Authorization"]).to be_present
       expect(response.headers["Authorization"]).to start_with("Bearer ")
-      
+
       json = JSON.parse(response.body)
       expect(json["user"]["email"]).to eq("test@example.com")
       expect(json["user"]["role"]).to eq("reader")

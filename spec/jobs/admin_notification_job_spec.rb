@@ -9,7 +9,7 @@ RSpec.describe AdminNotificationJob, type: :job do
     it "sends email to all admin users" do
       expect(AdminMailer).to receive(:security_alert).with(admin1.email, "Test security alert").and_return(double(deliver_later: true))
       expect(AdminMailer).to receive(:security_alert).with(admin2.email, "Test security alert").and_return(double(deliver_later: true))
-      
+
       AdminNotificationJob.perform_now("Test security alert")
     end
 

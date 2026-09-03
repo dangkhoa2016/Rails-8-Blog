@@ -11,6 +11,6 @@ class Users::ConfirmationsController < Devise::ConfirmationsController
   end
 
   def set_background_image
-    @background_image = 'confirmation.png'
+    @background_image = "confirmation.png"
   end
 end

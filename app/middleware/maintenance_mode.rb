@@ -1,5 +1,5 @@
 class MaintenanceMode
-  BYPASS_PATHS = ["/admin", "/auth", "/api/v1/auth", "/api/v1/health", "/up"].freeze
+  BYPASS_PATHS = [ "/admin", "/auth", "/api/v1/auth", "/api/v1/health", "/up" ].freeze
 
   def initialize(app)
     @app = app
@@ -19,8 +19,8 @@ class MaintenanceMode
     if maintenance_enabled
       locale = extract_locale(request.path) || I18n.default_locale
       message = I18n.t("maintenance.message", locale: locale, default: "System is under maintenance. Please try again later.")
-      
-      [503, { "Content-Type" => "text/html" }, [maintenance_html(message)]]
+
+      [ 503, { "Content-Type" => "text/html" }, [ maintenance_html(message) ] ]
     else
       @app.call(env)
     end

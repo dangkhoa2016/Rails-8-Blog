@@ -1,0 +1,41 @@
+#!/usr/bin/env ruby
+# frozen_string_literal: true
+
+$stdout.sync = true
+$stderr.sync = true
+
+require_relative "../lib/coverage_baseline"
+
+root = File.expand_path("..", __dir__)
+baseline_file = File.join(root, "config", "coverage_baseline.yml")
+last_run_file = File.join(root, "coverage", ".last_run.json")
+
+unless File.exist?(baseline_file)
+  warn "Coverage baseline file missing: #{baseline_file}"
+  exit 1
+end
+
+unless File.exist?(last_run_file)
+  warn "Coverage last run file missing: #{last_run_file}. Run with COVERAGE=true first."
+  exit 1
+end
+
+begin
+  baseline = CoverageBaseline.load_baseline(baseline_file)
+  current = CoverageBaseline.load_last_run(last_run_file)
+rescue StandardError => e
+  warn "Error loading coverage data: #{e.message}"
+  exit 1
+end
+
+puts "Coverage Comparison:"
+puts "  Line:   Current #{format('%.2f', current.line)}% | Baseline #{format('%.2f', baseline.line)}%"
+puts "  Branch: Current #{format('%.2f', current.branch)}% | Baseline #{format('%.2f', baseline.branch)}%"
+
+if CoverageBaseline.below?(current: current, baseline: baseline)
+  warn "\nCoverage dropped below locked baseline!"
+  exit 1
+else
+  puts "\nCoverage check PASSED: No regression detected."
+  exit 0
+end

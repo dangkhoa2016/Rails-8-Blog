@@ -1,6 +1,6 @@
 class Setting < ApplicationRecord
   include Auditable
-  
+
   CACHE_TTL = 5.minutes
 
   validates :key, presence: true, uniqueness: true

@@ -8,7 +8,7 @@ class ReactionsController < ApplicationController
                flash[:alert] = I18n.t("errors.rate_limited")
                redirect_back fallback_location: root_path
              },
-             only: [:create, :destroy]
+             only: [ :create, :destroy ]
 
   def create
     @reaction = @post.reactions.find_or_initialize_by(user: current_user)

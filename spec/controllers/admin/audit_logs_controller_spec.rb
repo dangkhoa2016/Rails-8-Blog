@@ -20,7 +20,7 @@ RSpec.describe Admin::AuditLogsController, type: :controller do
 
     it "assigns all logs" do
       get :index, params: { locale: "en" }
-      expect(assigns(:blocked_logs)).to match_array([log1, log2, log3])
+      expect(assigns(:blocked_logs)).to match_array([ log1, log2, log3 ])
     end
 
     it "filters by IP when provided" do

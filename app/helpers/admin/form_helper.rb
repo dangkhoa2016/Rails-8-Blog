@@ -14,7 +14,7 @@ module Admin
       label = options.delete(:label) || attribute.to_s.humanize
       required = options.delete(:required)
       hint = options.delete(:hint)
-      
+
       content_tag :div, class: "space-y-1" do
         concat form.label(attribute, label, class: "block text-sm font-semibold text-gray-700")
         concat form.text_field(attribute, options.merge(class: "#{INPUT_CLASSES} #{options.delete(:class)}", required: required))
@@ -25,7 +25,7 @@ module Admin
     def admin_email_field(form, attribute, options = {})
       label = options.delete(:label) || attribute.to_s.humanize
       required = options.delete(:required)
-      
+
       content_tag :div, class: "space-y-1" do
         concat form.label(attribute, label, class: "block text-sm font-semibold text-gray-700")
         concat form.email_field(attribute, options.merge(class: "#{INPUT_CLASSES} #{options.delete(:class)}", required: required))
@@ -35,7 +35,7 @@ module Admin
     def admin_password_field(form, attribute, options = {})
       label = options.delete(:label) || attribute.to_s.humanize
       hint = options.delete(:hint)
-      
+
       content_tag :div, class: "space-y-1" do
         concat form.label(attribute, label, class: "block text-sm font-semibold text-gray-700")
         concat form.password_field(attribute, options.merge(class: "#{INPUT_CLASSES} #{options.delete(:class)}"))
@@ -46,7 +46,7 @@ module Admin
     def admin_select_field(form, attribute, choices, options = {})
       label = options.delete(:label) || attribute.to_s.humanize
       prompt = options.delete(:prompt)
-      
+
       content_tag :div, class: "space-y-1" do
         concat form.label(attribute, label, class: "block text-sm font-semibold text-gray-700")
         concat form.select(attribute, choices, { prompt: prompt }, options.merge(class: "#{SELECT_CLASSES} #{options.delete(:class)}"))
@@ -55,7 +55,7 @@ module Admin
 
     def admin_datetime_field(form, attribute, options = {})
       label = options.delete(:label) || attribute.to_s.humanize
-      
+
       content_tag :div, class: "space-y-1" do
         concat form.label(attribute, label, class: "block text-sm font-semibold text-gray-700")
         concat form.datetime_field(attribute, options.merge(class: "#{INPUT_CLASSES} #{options.delete(:class)}"))
@@ -65,7 +65,7 @@ module Admin
     def admin_textarea_field(form, attribute, options = {})
       label = options.delete(:label) || attribute.to_s.humanize
       rows = options.delete(:rows) || 4
-      
+
       content_tag :div, class: "space-y-1" do
         concat form.label(attribute, label, class: "block text-sm font-semibold text-gray-700")
         concat form.text_area(attribute, options.merge(class: "#{INPUT_CLASSES} #{options.delete(:class)}", rows: rows))
@@ -74,7 +74,7 @@ module Admin
 
     def admin_checkbox_field(form, attribute, options = {})
       label = options.delete(:label) || attribute.to_s.humanize
-      
+
       content_tag :div, class: "flex items-center space-x-3" do
         concat form.check_box(attribute, options.merge(class: "h-5 w-5 rounded-lg border-2 border-gray-300 text-indigo-600 focus:ring-4 focus:ring-indigo-100 transition-all #{options.delete(:class)}"))
         concat form.label(attribute, label, class: "text-sm font-medium text-gray-700 cursor-pointer")
@@ -87,7 +87,7 @@ module Admin
                   "hover:shadow-xl hover:shadow-indigo-500/40 hover:-translate-y-0.5 " \
                   "focus:outline-none focus:ring-4 focus:ring-indigo-100 " \
                   "transition-all duration-200 #{options.delete(:class)}"
-      
+
       form.submit text, options.merge(class: css_class)
     end
 
@@ -97,7 +97,7 @@ module Admin
                   "hover:bg-gray-50 hover:border-gray-300 " \
                   "focus:outline-none focus:ring-4 focus:ring-gray-100 " \
                   "transition-all duration-200 #{options.delete(:class)}"
-      
+
       link_to text, path, options.merge(class: css_class)
     end
   end

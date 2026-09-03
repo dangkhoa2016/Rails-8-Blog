@@ -59,8 +59,8 @@ class Rack::Attack
     AdminNotificationJob.perform_later("IP #{request.ip} throttled on #{request.path}")
 
     # Return 429 response
-    [429, { "Content-Type" => "application/json" },
-     [{ error: "Too Many Requests", retry_after: 60 }.to_json]]
+    [ 429, { "Content-Type" => "application/json" },
+     [ { error: "Too Many Requests", retry_after: 60 }.to_json ] ]
   end
 
   # Custom response for blocklisted requests
@@ -77,7 +77,7 @@ class Rack::Attack
     AdminNotificationJob.perform_later("Blocklisted IP #{request.ip} attempted access to #{request.path}")
 
     # Return 403 response
-    [403, { "Content-Type" => "application/json" },
-     [{ error: "Forbidden" }.to_json]]
+    [ 403, { "Content-Type" => "application/json" },
+     [ { error: "Forbidden" }.to_json ] ]
   end
 end
