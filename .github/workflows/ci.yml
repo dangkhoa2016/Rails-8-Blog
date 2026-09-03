@@ -11,7 +11,7 @@ jobs:
 
     steps:
       - name: Checkout code
-        uses: actions/checkout@v6
+        uses: actions/checkout@v4
 
       - name: Set up Ruby
         uses: ruby/setup-ruby@v1
@@ -30,7 +30,7 @@ jobs:
 
     steps:
       - name: Checkout code
-        uses: actions/checkout@v6
+        uses: actions/checkout@v4
 
       - name: Set up Ruby
         uses: ruby/setup-ruby@v1
@@ -47,7 +47,7 @@ jobs:
       RUBOCOP_CACHE_ROOT: tmp/rubocop
     steps:
       - name: Checkout code
-        uses: actions/checkout@v6
+        uses: actions/checkout@v4
 
       - name: Set up Ruby
         uses: ruby/setup-ruby@v1
@@ -68,35 +68,35 @@ jobs:
       - name: Lint code for consistent style
         run: bin/rubocop -f github
 
-test:
-  runs-on: ubuntu-latest
-  needs: [ scan_ruby, scan_js, lint ]
+  test:
+    runs-on: ubuntu-latest
+    needs: [scan_ruby, scan_js, lint]
 
-  env:
-    RAILS_ENV: test
-    CI: true
+    env:
+      RAILS_ENV: test
+      CI: "true"
 
-  steps:
-    - name: Checkout code
-      uses: actions/checkout@v6
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
 
-    - name: Set up Ruby
-      uses: ruby/setup-ruby@v1
-      with:
-        ruby-version: .ruby-version
-        bundler-cache: true
+      - name: Set up Ruby
+        uses: ruby/setup-ruby@v1
+        with:
+          ruby-version: .ruby-version
+          bundler-cache: true
 
-    - name: Setup database
-      run: bundle exec rails db:create db:schema:load
+      - name: Prepare database
+        run: bin/rails db:prepare
 
-    - name: Run tests
-      run: |
-        bundle exec rspec \
-          --out tmp/rspec_results.xml
+      - name: Run RSpec with coverage
+        run: COVERAGE=true bundle exec rspec --format progress | tee tmp/rspec.txt
 
-    - name: Upload test results
-      uses: actions/upload-artifact@v6
-      if: always()
-      with:
-        name: rspec-results
-        path: tmp/rspec_results.xml
+      - name: Upload test results and coverage
+        uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: test-results
+          path: |
+            tmp/rspec.txt
+            coverage/

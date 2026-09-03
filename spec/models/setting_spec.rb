@@ -22,7 +22,7 @@ RSpec.describe Setting, type: :model do
 
     it "caches the result in Redis" do
       Setting.create!(key: "cached_key", value: "cached_value", value_type: "string")
-      
+
       expect(Rails.cache).to receive(:fetch).with("setting:cached_key", expires_in: 5.minutes).and_call_original
       Setting.get("cached_key")
     end
@@ -38,7 +38,7 @@ RSpec.describe Setting, type: :model do
     it "updates existing setting" do
       Setting.create!(key: "existing_key", value: "old_value", value_type: "string")
       Setting.set("existing_key", "new_value")
-      
+
       expect(Setting.find_by(key: "existing_key").value).to eq("new_value")
     end
 
@@ -59,7 +59,7 @@ RSpec.describe Setting, type: :model do
     end
 
     it "infers type correctly for array" do
-      Setting.set("array_key", ["a", "b", "c"])
+      Setting.set("array_key", [ "a", "b", "c" ])
       expect(Setting.find_by(key: "array_key").value_type).to eq("array")
     end
   end
@@ -77,7 +77,7 @@ RSpec.describe Setting, type: :model do
 
     it "returns array for array type" do
       setting = Setting.create!(key: "arr", value: '["a","b"]', value_type: "array")
-      expect(setting.typed_value).to eq(["a", "b"])
+      expect(setting.typed_value).to eq([ "a", "b" ])
     end
 
     it "returns hash for json type" do

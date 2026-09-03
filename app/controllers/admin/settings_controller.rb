@@ -6,7 +6,7 @@ module Admin
 
     def update
       errors = []
-      
+
       params[:settings]&.each do |key, value|
         setting = Setting.find_by(key: key)
         next unless setting

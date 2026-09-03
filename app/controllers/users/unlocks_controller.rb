@@ -5,6 +5,6 @@ class Users::UnlocksController < Devise::UnlocksController
   private
 
   def set_background_image
-    @background_image = 'unlock.png'
+    @background_image = "unlock.png"
   end
 end

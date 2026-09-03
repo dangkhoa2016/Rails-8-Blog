@@ -48,7 +48,7 @@ module Api
           next: (page * items < collection.count) ? page + 1 : nil,
           prev: page > 1 ? page - 1 : nil
         )
-        [pagy_obj, collection.offset(offset).limit(items)]
+        [ pagy_obj, collection.offset(offset).limit(items) ]
       end
 
       def pagy_metadata(pagy)
