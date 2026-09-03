@@ -2,7 +2,7 @@ require "rails_helper"
 
 RSpec.describe "Admin::Settings", type: :request do
   let(:admin) { User.create!(email: "admin_settings@example.com", full_name: "Admin", role: "admin", password: "Password123!", confirmed_at: Time.current) }
-  
+
   before do
     sign_in admin
     Setting.create!(key: "test_string", value: "hello", value_type: "string", category: "general")

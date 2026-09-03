@@ -17,7 +17,7 @@ module Api
 
       def destroy
         reaction = @post.reactions.find_by(user: current_user)
-        
+
         if reaction
           authorize reaction
           reaction.destroy

@@ -1,7 +1,7 @@
 require "rails_helper"
 
 RSpec.describe MaintenanceMode do
-  let(:app) { ->(env) { [200, { "Content-Type" => "text/html" }, ["OK"]] } }
+  let(:app) { ->(env) { [ 200, { "Content-Type" => "text/html" }, [ "OK" ] ] } }
   let(:middleware) { MaintenanceMode.new(app) }
 
   before do

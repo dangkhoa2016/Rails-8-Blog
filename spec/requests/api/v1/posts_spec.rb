@@ -30,7 +30,7 @@ RSpec.describe "Api::V1::Posts", type: :request do
   describe "GET /api/v1/posts" do
     it "returns published posts" do
       get "/api/v1/posts"
-      
+
       expect(response).to have_http_status(:ok)
       json = JSON.parse(response.body)
       expect(json).to be_an(Array)
@@ -44,14 +44,14 @@ RSpec.describe "Api::V1::Posts", type: :request do
       end
 
       get "/api/v1/posts", headers: { "Accept-Language" => "vi" }
-      
+
       json = JSON.parse(response.body)
       expect(json.first["title"]).to eq("Bài viết đầu tiên")
     end
 
     it "filters by category_id" do
       get "/api/v1/posts", params: { category_id: category.id }
-      
+
       json = JSON.parse(response.body)
       expect(json.length).to eq(1)
     end
@@ -60,7 +60,7 @@ RSpec.describe "Api::V1::Posts", type: :request do
   describe "GET /api/v1/posts/:slug" do
     it "returns post detail" do
       get "/api/v1/posts/first-post"
-      
+
       expect(response).to have_http_status(:ok)
       json = JSON.parse(response.body)
       expect(json["title"]).to eq("First Post")
@@ -69,7 +69,7 @@ RSpec.describe "Api::V1::Posts", type: :request do
 
     it "returns 404 for non-existent post" do
       get "/api/v1/posts/non-existent"
-      
+
       expect(response).to have_http_status(:not_found)
     end
   end

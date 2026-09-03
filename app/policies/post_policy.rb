@@ -32,5 +32,5 @@ class Scope < ApplicationPolicy::Scope
          scope.where(status: "published")
        end
      end
-   end
+end
 end
