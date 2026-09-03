@@ -71,7 +71,7 @@ gem "rack-attack"
 
 # === SLUG ===
 gem "friendly_id"
-gem "friendly_id-mobility", git: "https://github.com/dangkhoa2016/friendly_id-mobility.git", branch: "master-upgrade-to-latest-friendly_id"
+gem "friendly_id-mobility", git: "https://github.com/dangkhoa2016/friendly_id-mobility.git", ref: "e45aae8163c5872d0436c62254e468a59376ffda"
 
 # === SOFT DELETE ===
 gem "discard"

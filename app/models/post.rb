@@ -19,7 +19,7 @@ class Post < ApplicationRecord
   translates :title, :slug, backend: :table
 
   extend FriendlyId
-  friendly_id :title, use: [ :mobility ]
+  friendly_id :title, use: [ :history, :mobility ]
 
   is_impressionable counter_cache: true, column_name: :impressions_count,
                     unique: :ip_address
