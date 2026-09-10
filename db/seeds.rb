@@ -1,35 +1,30 @@
-# This file should ensure the existence of records required to run the application in every environment (production,
-# development, test). The code here should be idempotent so that it can be executed at any point in every environment.
-# The data can then be loaded with the bin/rails db:seed command (or created alongside the database with db:setup).
-#
-# Example:
-#
-#   ["Action", "Comedy", "Drama", "Horror"].each do |genre_name|
-#     MovieGenre.find_or_create_by!(name: genre_name)
-#   end
+# Default application settings are safe to seed in non-test environments.
+# Demo accounts require an explicit development-only opt-in.
+unless Rails.env.test?
+  if Rails.env.development? && ENV["SEED_DEMO_USERS"] == "1"
+    demo_password = ENV.fetch("SEED_DEMO_PASSWORD") do
+      raise ArgumentError, "SEED_DEMO_PASSWORD is required to seed demo users"
+    end
+    raise ArgumentError, "SEED_DEMO_PASSWORD must be at least 12 characters" if demo_password.length < 12
 
-# Create test users
-users = [
-  { email: 'admin@example.com', full_name: 'Admin User', role: 'admin', password: 'Password123!' },
-  { email: 'author@example.com', full_name: 'Author User', role: 'author', password: 'Password123!' },
-  { email: 'reader@example.com', full_name: 'Reader User', role: 'reader', password: 'Password123!' }
-]
+    demo_users = [
+      { email: "admin@example.com", full_name: "Admin User", role: "admin" },
+      { email: "author@example.com", full_name: "Author User", role: "author" },
+      { email: "reader@example.com", full_name: "Reader User", role: "reader" }
+    ]
 
-users.each do |user_attrs|
-  User.find_or_create_by!(email: user_attrs[:email]) do |user|
-    user.full_name = user_attrs[:full_name]
-    user.role = user_attrs[:role]
-    user.password = user_attrs[:password]
-    user.password_confirmation = user_attrs[:password]
-    user.confirmed_at = Time.current
+    demo_users.each do |attributes|
+      User.find_or_create_by!(email: attributes[:email]) do |user|
+        user.full_name = attributes[:full_name]
+        user.role = attributes[:role]
+        user.password = demo_password
+        user.password_confirmation = demo_password
+        user.confirmed_at = Time.current
+      end
+    end
+
+    puts "Development demo users are available (admin, author, reader)."
   end
-end
-
-puts "Created test users:"
-puts "- admin@example.com (admin)"
-puts "- author@example.com (author)"
-puts "- reader@example.com (reader)"
-puts "Password for all: Password123!"
 
 # Create default security settings
 security_settings = [
@@ -62,3 +57,4 @@ security_settings.each do |setting_attrs|
 end
 
 puts "\nCreated default settings (security, media, email)"
+end
