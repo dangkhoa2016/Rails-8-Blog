@@ -11,6 +11,9 @@
 # It's strongly recommended that you check this file into your version control system.
 
 ActiveRecord::Schema[8.1].define(version: 2026_09_02_133901) do
+  # These are extensions that must be enabled in order to support this database
+  enable_extension "pg_catalog.plpgsql"
+
   create_table "action_text_rich_texts", force: :cascade do |t|
     t.text "body"
     t.datetime "created_at", null: false
@@ -349,8 +352,8 @@ ActiveRecord::Schema[8.1].define(version: 2026_09_02_133901) do
     t.string "event", null: false
     t.bigint "item_id", null: false
     t.string "item_type", null: false
-    t.text "object", limit: 1073741823
-    t.text "object_changes", limit: 1073741823
+    t.text "object"
+    t.text "object_changes"
     t.string "whodunnit"
     t.index ["item_type", "item_id"], name: "index_versions_on_item_type_and_item_id"
   end

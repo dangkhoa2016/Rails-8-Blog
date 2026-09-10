@@ -5,5 +5,5 @@ bin/rubocop
 bin/brakeman --no-pager --except CheckEOLRuby
 bin/bundler-audit
 bin/importmap audit
-COVERAGE=true bundle exec rspec
+env -u CI COVERAGE=true bundle exec rspec
 ./script/check_coverage_baseline

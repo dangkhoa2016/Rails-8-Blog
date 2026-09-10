@@ -1,8 +1,10 @@
 #!/bin/bash -e
 
-# If running the rails server then create or migrate existing database
 if [ "${@: -2:1}" == "./bin/rails" ] && [ "${@: -1:1}" == "server" ]; then
-  ./bin/rails db:prepare
+  : "${DATABASE_URL:?DATABASE_URL is required for production server boot}"
+  : "${DATABASE_URL_UNPOOLED:?DATABASE_URL_UNPOOLED is required for production database preparation}"
+
+  DATABASE_URL="${DATABASE_URL_UNPOOLED}" ./bin/rails db:prepare
 fi
 
 exec "${@}"
