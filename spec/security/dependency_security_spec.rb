@@ -20,7 +20,7 @@ RSpec.describe "dependency security floors" do
     "pagy" => "43.5.6",
     "puma" => "8.0.2",
     "rails-html-sanitizer" => "1.7.1",
-    "sqlite3" => "2.9.6",
+    "pg" => "1.6.3",
     "view_component" => "4.12.0",
     "websocket-driver" => "0.8.2"
   }.freeze

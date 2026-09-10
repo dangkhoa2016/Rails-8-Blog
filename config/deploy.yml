@@ -40,6 +40,8 @@ registry:
 env:
   secret:
     - RAILS_MASTER_KEY
+    - DATABASE_URL
+    - DATABASE_URL_UNPOOLED
   clear:
     # Run the Solid Queue Supervisor inside the web server's Puma process to do jobs.
     # When you start using multiple servers, you should split out job processing to a dedicated machine.
@@ -66,7 +68,7 @@ aliases:
   logs: app logs -f
   dbc: app exec --interactive --reuse "bin/rails dbconsole --include-password"
 
-# Use a persistent storage volume for sqlite database files and local Active Storage files.
+# Persist local Active Storage files pending the D6 storage migration.
 # Recommended to change this to a mounted volume path that is backed up off server.
 volumes:
   - "rails_8_blog_storage:/rails/storage"

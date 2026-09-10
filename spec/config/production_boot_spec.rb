@@ -7,6 +7,7 @@ require "tempfile"
 
 RSpec.describe "production boot" do
   project_root = Pathname(__dir__).join("../..").expand_path
+  database_url = ENV.fetch("D3_TEST_DATABASE_URL")
 
   boot_probe = <<~'RUBY'
     result_path = ENV.fetch("PRODUCTION_BOOT_RESULT")
@@ -50,7 +51,7 @@ RSpec.describe "production boot" do
   it "initializes the production application without an undefined database role" do
     Tempfile.create("production-boot-result") do |result|
       environment = {
-        "DATABASE_URL" => nil,
+        "DATABASE_URL" => database_url,
         "PRODUCTION_BOOT_RESULT" => result.path,
         "RAILS_ENV" => "production",
         "RAILS_MASTER_KEY" => nil,
@@ -77,7 +78,7 @@ RSpec.describe "production boot" do
   it "uses MemoryStore for production cache operations" do
     Tempfile.create("production-cache-result") do |result|
       environment = {
-        "DATABASE_URL" => nil,
+        "DATABASE_URL" => database_url,
         "PRODUCTION_CACHE_RESULT" => result.path,
         "RAILS_ENV" => "production",
         "RAILS_MASTER_KEY" => nil,
