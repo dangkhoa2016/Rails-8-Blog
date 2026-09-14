@@ -18,6 +18,8 @@ vi:
       updated: "Cập nhật cài đặt thành công"
 
   admin:
+    navigation:
+      open: "Mở điều hướng quản trị"
     back: "Quay lại danh sách"
     edit: "Sửa"
     confirm_delete: "Bạn có chắc chắn?"
@@ -119,12 +121,38 @@ vi:
     admin_dashboard: "Bảng điều khiển quản trị"
     under_development: "Hệ thống đang trong quá trình phát triển."
 
+  home:
+    title: "Rails 8 Blog"
+    hero_title: "Những câu chuyện đáng sẻ chia"
+    hero_body: "Khám phá những bài viết sâu sắc từ cộng đồng về các chủ đề bạn quan tâm."
+    explore_posts: "Khám phá bài viết"
+    browse_topics: "Khám phá chủ đề"
+    recent_eyebrow: "Từ blog"
+    recent_posts: "Bài viết mới"
+    view_all: "Xem tất cả bài viết"
+    empty_title: "Chưa có bài viết nào được xuất bản"
+    empty_body: "Bài viết mới sẽ xuất hiện tại đây ngay khi được xuất bản."
+    byline: "Bởi %{author}"
+
   errors:
     not_authorized: "Bạn không được phép thực hiện hành động này."
     access_denied: "Truy cập bị từ chối"
     not_found: "Không tìm thấy trang"
     server_error: "Đã xảy ra lỗi"
     rate_limited: "Quá nhiều yêu cầu. Vui lòng thử lại sau."
+
+  engagement:
+    title: "Tham gia trò chuyện"
+    reactions:
+      like: "Thích"
+      love: "Yêu thích"
+    comment_label: "Bình luận"
+    post_comment: "Đăng bình luận"
+    comment_invalid: "Vui lòng nhập bình luận"
+    sign_in_prompt: "để bình luận hoặc bày tỏ cảm xúc."
+    current_reaction: "Cảm xúc của bạn: %{kind}"
+    no_reaction: "Chưa có cảm xúc"
+    remove_reaction: "Xóa cảm xúc"
 
   maintenance:
     message: "Hệ thống đang bảo trì. Vui lòng thử lại sau."
@@ -267,5 +295,8 @@ vi:
     by: "Bởi"
     published_at: "Xuất bản lúc"
     back: "Quay lại danh sách"
+    empty_title: "Chưa có bài viết nào được xuất bản"
+    empty_body: "Hãy quay lại sớm để xem bài viết mới."
+    pagination: "Phân trang"
     read_more: "Đọc thêm"
     no_posts: "Chưa có bài viết"
