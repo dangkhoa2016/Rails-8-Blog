@@ -1,13 +1,20 @@
-<h1><%= t("posts.title") %></h1>
+<% content_for :title, t("posts.title") %>
 
-<% @posts.each do |post| %>
-  <article>
-    <h2><%= link_to post.title, post_path(I18n.locale, post.slug) %></h2>
-    <p><%= t("posts.by") %> <%= post.user.full_name %></p>
-    <p><%= post.category.name if post.category %></p>
-    <% if post.tags.any? %>
-      <p><%= post.tags.map(&:name).join(", ") %></p>
+<div class="w-full space-y-8 pb-16">
+  <header class="max-w-3xl">
+    <p class="text-sm font-semibold uppercase tracking-[0.18em] text-indigo-600"><%= t("brand.name") %></p>
+    <h1 class="mt-2 text-4xl font-bold tracking-tight text-slate-900"><%= t("posts.title") %></h1>
+  </header>
+
+  <% if @posts.any? %>
+    <div class="grid gap-6 lg:grid-cols-2"><%= render partial: "posts/post_card", collection: @posts, as: :post %></div>
+    <% if @pagy.pages > 1 %>
+      <div class="flex justify-center"><%== @pagy.series_nav(aria_label: t("posts.pagination")) %></div>
     <% end %>
-    <p><%= t("posts.published_at") %>: <%= l(post.published_at, format: :long) if post.published_at %></p>
-  </article>
-<% end %>
+  <% else %>
+    <div class="rounded-2xl border border-dashed border-slate-300 bg-white px-6 py-12 text-center">
+      <p class="text-lg font-semibold text-slate-900"><%= t("posts.empty_title") %></p>
+      <p class="mt-2 text-slate-600"><%= t("posts.empty_body") %></p>
+    </div>
+  <% end %>
+</div>
