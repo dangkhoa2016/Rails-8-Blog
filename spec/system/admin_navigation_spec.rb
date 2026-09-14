@@ -1,0 +1,85 @@
+# frozen_string_literal: true
+
+require "rails_helper"
+
+RSpec.describe "Admin navigation", type: :system do
+  def sign_in_as(user)
+    Rack::Attack.cache.store.clear
+    visit "/vi/auth/sign_in"
+    fill_in "Email", with: user.email
+    fill_in "Mật khẩu", with: user.password
+    click_button "Đăng nhập"
+  end
+
+  it "links an admin to every desktop destination without placeholders" do
+    admin = create(:user, :admin)
+    sign_in_as(admin)
+    visit "/vi/admin"
+
+    expect(page).to have_link("Posts", href: "/vi/admin/posts")
+    expect(page).to have_link("Categories", href: "/vi/admin/categories")
+    expect(page).to have_link("Tags", href: "/vi/admin/tags")
+    expect(page).to have_link("Settings", href: "/vi/admin/settings")
+    expect(page).to have_link("Audit Logs", href: "/vi/admin/audit_logs")
+    expect(page).to have_link("Users", href: "/vi/admin/users")
+    expect(page).to have_link("← Back to Site", href: "/vi")
+    expect(page).not_to have_css("a[href='#']")
+  end
+
+  it "opens an accessible mobile menu with the authorized admin destinations", js: true do
+    admin = create(:user, :admin)
+    sign_in_as(admin)
+    page.current_window.resize_to(375, 812)
+    visit "/vi/admin"
+
+    expect(page.evaluate_script("window.Stimulus.getControllerForElementAndIdentifier(document.querySelector('[data-controller=admin-nav]'), 'admin-nav') !== null")).to be(true)
+    expect(page).to have_css("button[aria-label='Mở điều hướng quản trị'][aria-expanded='false']")
+    page.evaluate_script(<<~JS)
+      (() => {
+        const button = document.querySelector("button[aria-label='Mở điều hướng quản trị']")
+        const controller = window.Stimulus.getControllerForElementAndIdentifier(document.querySelector("[data-controller='admin-nav']"), "admin-nav")
+        const rect = button.getBoundingClientRect()
+        const diagnostic = {
+          raw_click_count: 0,
+          transitions: [],
+          runtime_errors: [],
+          controller_connected: !!controller,
+          data_action: button.getAttribute("data-action"),
+          viewport: [window.innerWidth, window.innerHeight],
+          rect: [rect.left, rect.top, rect.width, rect.height],
+          center_target: document.elementFromPoint(rect.left + rect.width / 2, rect.top + rect.height / 2)?.tagName
+        }
+        button.addEventListener("click", () => diagnostic.raw_click_count += 1)
+        new MutationObserver(() => diagnostic.transitions.push(button.getAttribute("aria-expanded"))).observe(button, { attributes: true, attributeFilter: ["aria-expanded"] })
+        window.addEventListener("error", (event) => diagnostic.runtime_errors.push(event.message))
+        window.addEventListener("unhandledrejection", (event) => diagnostic.runtime_errors.push(String(event.reason)))
+        window.__adminNavDiagnostic = diagnostic
+      })()
+    JS
+    button = find("button[aria-label='Mở điều hướng quản trị']")
+    page.execute_script("arguments[0].click()", button)
+    expect(page.has_css?("button[aria-label='Mở điều hướng quản trị'][aria-expanded='true']")).to be(true), -> { "ADMIN_NAV_DIAGNOSTIC=#{page.evaluate_script('window.__adminNavDiagnostic').inspect}" }
+    expect(page.evaluate_script("window.__adminNavDiagnostic")).to include(
+      "raw_click_count" => 1,
+      "runtime_errors" => [],
+      "transitions" => [ "true" ]
+    )
+    expect(page).to have_link("Settings", href: "/vi/admin/settings")
+    expect(page).to have_link("Audit Logs", href: "/vi/admin/audit_logs")
+    page.execute_script("document.body.click()")
+    expect(page).to have_css("button[aria-label='Mở điều hướng quản trị'][aria-expanded='false']")
+    page.execute_script("arguments[0].click()", button)
+    expect(page).to have_css("button[aria-label='Mở điều hướng quản trị'][aria-expanded='true']")
+    page.execute_script("window.dispatchEvent(new KeyboardEvent('keydown', { key: 'Escape', bubbles: true }))")
+    expect(page).to have_css("button[aria-label='Mở điều hướng quản trị'][aria-expanded='false']")
+  end
+
+  it "does not render admin navigation for a non-admin reader" do
+    reader = create(:user, :reader)
+    sign_in_as(reader)
+    visit "/vi/admin"
+
+    expect(page).to have_current_path("/vi")
+    expect(page).not_to have_link("Users", href: "/vi/admin/users")
+  end
+end
