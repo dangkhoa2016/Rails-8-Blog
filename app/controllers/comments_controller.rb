@@ -19,7 +19,7 @@ class CommentsController < ApplicationController
     if @comment.save
       redirect_to @post, notice: "Comment created successfully."
     else
-      redirect_to @post, alert: "Failed to create comment."
+      redirect_to @post, alert: t("engagement.comment_invalid")
     end
   end
 
@@ -32,7 +32,7 @@ class CommentsController < ApplicationController
   private
 
   def set_post
-    @post = Post.find(params[:post_id])
+    @post = Post.friendly.find(params[:post_slug])
   end
 
   def set_comment
@@ -40,6 +40,6 @@ class CommentsController < ApplicationController
   end
 
   def comment_params
-    params.require(:comment).permit(:content)
+    params.require(:comment).permit(:body)
   end
 end

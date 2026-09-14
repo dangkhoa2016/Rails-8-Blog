@@ -17,11 +17,37 @@ ja:
     admin_dashboard: "管理ダッシュボード"
     under_development: "システムは開発中です。"
 
+  home:
+    title: "Rails 8 Blog"
+    hero_title: "共有したくなる物語"
+    hero_body: "あなたに大切なテーマについて、コミュニティの思慮深い文章をお読みください。"
+    explore_posts: "記事を読む"
+    browse_topics: "トピックを見る"
+    recent_eyebrow: "ブログより"
+    recent_posts: "最新の物語"
+    view_all: "すべての記事を見る"
+    empty_title: "公開された記事はまだありません"
+    empty_body: "新しい記事は公開されるとここに表示されます。"
+    byline: "%{author} 著"
+
   errors:
     not_authorized: "このアクションを実行する権限がありません。"
     access_denied: "アクセスが拒否されました"
     not_found: "ページが見つかりません"
     server_error: "エラーが発生しました"
+
+  engagement:
+    title: "会話に参加する"
+    reactions:
+      like: "いいね"
+      love: "大好き"
+    comment_label: "コメント"
+    post_comment: "コメントを投稿"
+    comment_invalid: "コメントを入力してください"
+    sign_in_prompt: "してコメントまたはリアクションしてください。"
+    current_reaction: "あなたのリアクション: %{kind}"
+    no_reaction: "リアクションはまだありません"
+    remove_reaction: "リアクションを削除"
 
   common:
     save: "保存"
@@ -160,5 +186,8 @@ ja:
     by: "著者"
     published_at: "公開日"
     back: "記事一覧に戻る"
+    empty_title: "公開された記事はまだありません"
+    empty_body: "新しい記事は後ほどご確認ください。"
+    pagination: "ページネーション"
     read_more: "続きを読む"
     no_posts: "記事がありません"

@@ -13,8 +13,14 @@ module ApplicationHelper
 
   def switch_locale_url(locale)
     uri = URI.parse(request.original_url)
-    path = uri.path.sub(/\/(en|vi|ru|ja|ko|th|de)(\/|$)/, "/#{locale}/")
-    uri.path = path
+    path = uri.path.sub(%r{\A/(en|vi|ru|ja|ko|th|de)(?=/|\z)}, "/#{locale}")
+    uri.path = path == "/" ? "/#{locale}" : path
+
+    # Preserve other query parameters without overriding the selected language.
+    query = Rack::Utils.parse_nested_query(uri.query.to_s)
+    query.delete("locale")
+    uri.query = query.any? ? query.to_query : nil
+
     uri.to_s
   end
 
@@ -41,7 +47,7 @@ module ApplicationHelper
         nil
     end
 
-    content = icon_svg ? %(<svg class="w-4 h-4 mr-1.5" fill="none" stroke="currentColor" viewBox="0 0 24 24">#{icon_svg}</svg>#{text}) : text
+    content = icon_svg ? %(<svg aria-hidden="true" class="w-4 h-4 mr-1.5" fill="none" stroke="currentColor" viewBox="0 0 24 24">#{icon_svg}</svg>#{text}) : text
 
     link_to raw(content), path, class: classes.join(" ")
   end

@@ -17,11 +17,37 @@ de:
     admin_dashboard: "Admin-Dashboard"
     under_development: "System wird entwickelt."
 
+  home:
+    title: "Rails 8 Blog"
+    hero_title: "Geschichten, die es wert sind, geteilt zu werden"
+    hero_body: "Lesen Sie durchdachte Beiträge unserer Community zu den Themen, die Ihnen wichtig sind."
+    explore_posts: "Beiträge entdecken"
+    browse_topics: "Themen entdecken"
+    recent_eyebrow: "Aus dem Blog"
+    recent_posts: "Aktuelle Geschichten"
+    view_all: "Alle Beiträge ansehen"
+    empty_title: "Noch keine veröffentlichten Geschichten"
+    empty_body: "Neue Beiträge erscheinen hier, sobald sie veröffentlicht sind."
+    byline: "Von %{author}"
+
   errors:
     not_authorized: "Sie sind nicht berechtigt, diese Aktion auszuführen."
     access_denied: "Zugriff verweigert"
     not_found: "Seite nicht gefunden"
     server_error: "Etwas ist schiefgelaufen"
+
+  engagement:
+    title: "An der Unterhaltung teilnehmen"
+    reactions:
+      like: "Gefällt mir"
+      love: "Liebe"
+    comment_label: "Kommentar"
+    post_comment: "Kommentar veröffentlichen"
+    comment_invalid: "Bitte geben Sie einen Kommentar ein"
+    sign_in_prompt: "um zu kommentieren oder zu reagieren."
+    current_reaction: "Ihre Reaktion: %{kind}"
+    no_reaction: "Noch keine Reaktion"
+    remove_reaction: "Reaktion entfernen"
 
   common:
     save: "Speichern"
@@ -161,5 +187,8 @@ de:
     by: "Von"
     published_at: "Veröffentlicht am"
     back: "Zurück zu Beiträgen"
+    empty_title: "Noch keine veröffentlichten Beiträge"
+    empty_body: "Schauen Sie bald wieder für neue Texte vorbei."
+    pagination: "Seitennavigation"
     read_more: "Weiterlesen"
     no_posts: "Keine Beiträge verfügbar"

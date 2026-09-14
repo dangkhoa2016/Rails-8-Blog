@@ -1,18 +1,22 @@
-<div data-controller="language-tabs" class="space-y-6">
+<div data-controller="language-tabs" data-language-tabs-active-value="<%= I18n.locale %>" class="space-y-6">
   <!-- Language Tabs -->
   <div class="border-b border-gray-200 bg-gray-50 -mx-6 -mt-6 px-6 pt-6 rounded-t-lg">
-    <nav class="-mb-px flex space-x-6" role="tablist">
+    <nav class="-mb-px flex space-x-6 overflow-x-auto" role="tablist">
       <% I18n.available_locales.each do |locale| %>
         <button
           type="button"
           data-language-tabs-target="tab"
           data-locale="<%= locale %>"
-          data-action="click->language-tabs#switch"
+          data-action="click->language-tabs#switch keydown->language-tabs#navigate"
           role="tab"
+          id="post-language-tab-<%= locale %>"
+          aria-controls="post-language-panel-<%= locale %>"
+          aria-selected="<%= locale == I18n.locale %>"
+          tabindex="<%= locale == I18n.locale ? 0 : -1 %>"
           class="language-tab whitespace-nowrap pb-4 px-1 border-b-2 font-semibold text-sm transition-colors duration-150 <%= locale == I18n.locale ? 'border-indigo-500 text-indigo-600' : 'border-transparent text-gray-500 hover:text-gray-700 hover:border-gray-300' %>">
           <span class="flex items-center gap-2">
             <span class="text-xs font-bold bg-white px-2 py-0.5 rounded"><%= locale.upcase %></span>
-            <%= t("locales.#{locale}") %>
+            <%= locale_name(locale) %>
           </span>
         </button>
       <% end %>
@@ -21,7 +25,7 @@
 
   <!-- Language Panels -->
   <% I18n.available_locales.each do |locale| %>
-    <div data-language-tabs-target="panel" data-locale="<%= locale %>" class="<%= "hidden" unless locale == I18n.locale %> space-y-5">
+    <div id="post-language-panel-<%= locale %>" data-language-tabs-target="panel" data-locale="<%= locale %>" role="tabpanel" aria-labelledby="post-language-tab-<%= locale %>" class="<%= "hidden" unless locale == I18n.locale %> space-y-5">
       <div class="space-y-1">
         <%= f.label :title, t("admin.posts.title_for", lang: locale.upcase), class: "block text-sm font-semibold text-gray-700" %>
         <%= f.text_field :title,
@@ -46,21 +50,21 @@
   <div class="grid grid-cols-1 gap-5 pt-6 border-t border-gray-200 sm:grid-cols-2">
     <%= admin_select_field f, :category_id, 
           Category.all.map { |c| [c.name, c.id] }, 
-          label: t("activerecord.attributes.post.category"),
+          label: t("admin.posts.category"),
           prompt: t("admin.posts.select_category") %>
 
     <%= admin_select_field f, :status, 
-          Post::STATUSES.map { |s| [s.humanize, s] }, 
-          label: t("activerecord.attributes.post.status") %>
+          Post::STATUSES.map { |s| [t("admin.post_status.#{s}", default: s.humanize), s] },
+          label: t("admin.posts.status") %>
 
     <%= admin_datetime_field f, :scheduled_at, 
-          label: t("activerecord.attributes.post.scheduled_at") %>
+          label: t("admin.posts.scheduled_at") %>
   </div>
 
   <!-- Tags -->
   <div class="pt-6 border-t border-gray-200 space-y-3">
     <label class="block text-sm font-semibold text-gray-700">
-      <%= t("activerecord.attributes.post.tags") %>
+      <%= t("admin.posts.tags") %>
     </label>
     <div class="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 gap-3">
       <% Tag.all.each do |tag| %>
