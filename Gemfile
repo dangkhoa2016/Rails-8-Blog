@@ -111,6 +111,8 @@ group :development, :test do
   gem "webmock"
   gem "simplecov"
   gem "shoulda-matchers"
+  gem "capybara"
+  gem "selenium-webdriver"
 end
 
 group :development do

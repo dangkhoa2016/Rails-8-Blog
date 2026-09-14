@@ -41,7 +41,7 @@ module ApplicationHelper
         nil
     end
 
-    content = icon_svg ? %(<svg class="w-4 h-4 mr-1.5" fill="none" stroke="currentColor" viewBox="0 0 24 24">#{icon_svg}</svg>#{text}) : text
+    content = icon_svg ? %(<svg aria-hidden="true" class="w-4 h-4 mr-1.5" fill="none" stroke="currentColor" viewBox="0 0 24 24">#{icon_svg}</svg>#{text}) : text
 
     link_to raw(content), path, class: classes.join(" ")
   end

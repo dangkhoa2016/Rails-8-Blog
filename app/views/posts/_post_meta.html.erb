@@ -1,0 +1,11 @@
+<div class="flex flex-wrap items-center gap-x-3 gap-y-2 text-sm text-slate-600">
+  <span><%= t("posts.by") %> <%= post.user.full_name %></span>
+  <span aria-hidden="true">·</span>
+  <%= link_to post.category.name, category_path(post.category, locale: I18n.locale), class: "font-medium text-indigo-600 hover:text-indigo-700" %>
+  <% post.tags.each do |tag| %>
+    <%= link_to tag.name, tag_path(tag, locale: I18n.locale), class: "rounded-full bg-slate-100 px-2.5 py-1 text-xs font-medium text-slate-700 hover:bg-slate-200" %>
+  <% end %>
+  <% if post.published_at? %>
+    <time datetime="<%= post.published_at.iso8601 %>"><%= l(post.published_at, format: :long) %></time>
+  <% end %>
+</div>

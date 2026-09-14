@@ -12,29 +12,30 @@
   <body class="h-full">
     <div class="min-h-full">
       <% if current_user %>
-        <nav class="bg-white shadow-sm border-b border-gray-200">
+        <nav data-controller="admin-nav" class="bg-white shadow-sm border-b border-gray-200">
           <div class="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
             <div class="flex h-16 justify-between">
               <div class="flex">
                 <div class="flex flex-shrink-0 items-center">
                   <%= link_to admin_posts_path, class: "text-xl font-bold text-primary-600 hover:text-primary-700" do %>
-                    <svg class="w-8 h-8 inline-block mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <svg aria-hidden="true" class="w-8 h-8 inline-block mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                       <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 21V5a2 2 0 00-2-2H7a2 2 0 00-2 2v16m14 0h2m-2 0h-5m-9 0H3m2 0h5M9 7h1m-1 4h1m4-4h1m-1 4h1m-5 10v-5a1 1 0 011-1h2a1 1 0 011 1v5m-4 0h4"></path>
                     </svg>
                     Admin
                   <% end %>
                 </div>
-                <div class="hidden sm:ml-8 sm:flex sm:space-x-4">
+                <button type="button" data-admin-nav-target="button" data-action="click->admin-nav#toggle" aria-label="<%= t("admin.navigation.open") %>" aria-expanded="false" aria-controls="admin-navigation-menu" class="ml-4 rounded-md p-2 text-gray-700 lg:hidden"><span aria-hidden="true">☰</span></button>
+                <div class="hidden lg:ml-8 lg:flex lg:space-x-4">
                   <%= nav_link("Posts", admin_posts_path, "article") %>
                   <%= nav_link("Categories", admin_categories_path, "folder") %>
                   <%= nav_link("Tags", admin_tags_path, "tag") %>
-                  <%= nav_link("Settings", '#', "cog") %>
-                  <%= nav_link("Audit Logs", '#', "clipboard") %>
+                  <%= nav_link("Settings", admin_settings_path, "cog") %>
+                  <%= nav_link("Audit Logs", admin_audit_logs_path, "clipboard") %>
                   <%= nav_link("Users", admin_users_path, "users") if current_user.admin? %>
                 </div>
               </div>
               <div class="flex items-center gap-4">
-                <%= link_to "← Back to Site", root_path, class: "text-sm text-gray-500 hover:text-gray-700" %>
+                <%= link_to "← Back to Site", localized_root_path(I18n.locale), class: "text-sm text-gray-500 hover:text-gray-700" %>
                 <div class="flex items-center gap-3">
                   <% if current_user.avatar_public_id.present? %>
                     <%= image_tag current_user.avatar_url(size: 32), class: "h-8 w-8 rounded-full object-cover" %>
@@ -50,6 +51,7 @@
                 </div>
               </div>
             </div>
+            <div id="admin-navigation-menu" data-admin-nav-target="menu" data-action="keydown.esc@window->admin-nav#close" class="hidden border-t border-gray-200 py-3 lg:hidden" tabindex="-1"><div class="grid gap-1"><%= link_to "Posts", admin_posts_path, class: "rounded px-3 py-2 text-sm text-gray-700 hover:bg-gray-50" %><%= link_to "Categories", admin_categories_path, class: "rounded px-3 py-2 text-sm text-gray-700 hover:bg-gray-50" %><%= link_to "Tags", admin_tags_path, class: "rounded px-3 py-2 text-sm text-gray-700 hover:bg-gray-50" %><%= link_to "Settings", admin_settings_path, class: "rounded px-3 py-2 text-sm text-gray-700 hover:bg-gray-50" %><%= link_to "Audit Logs", admin_audit_logs_path, class: "rounded px-3 py-2 text-sm text-gray-700 hover:bg-gray-50" %><%= link_to "Users", admin_users_path, class: "rounded px-3 py-2 text-sm text-gray-700 hover:bg-gray-50" if current_user.admin? %></div></div>
           </div>
         </nav>
       <% end %>

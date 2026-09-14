@@ -20,6 +20,7 @@ Rails.application.configure do
 
   # Show full error reports.
   config.consider_all_requests_local = true
+  config.hosts << "127.0.0.1"
   config.cache_store = :memory_store
 
   # Active Job adapter

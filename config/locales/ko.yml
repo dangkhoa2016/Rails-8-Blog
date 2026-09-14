@@ -17,11 +17,37 @@ ko:
     admin_dashboard: "관리 대시보드"
     under_development: "시스템이 개발 중입니다."
 
+  home:
+    title: "Rails 8 Blog"
+    hero_title: "함께 나누고 싶은 이야기"
+    hero_body: "관심 있는 주제에 관한 커뮤니티의 깊이 있는 글을 읽어 보세요."
+    explore_posts: "게시물 둘러보기"
+    browse_topics: "주제 둘러보기"
+    recent_eyebrow: "블로그에서"
+    recent_posts: "최근 이야기"
+    view_all: "모든 게시물 보기"
+    empty_title: "아직 발행된 글이 없습니다"
+    empty_body: "새 글이 발행되면 여기에 표시됩니다."
+    byline: "%{author} 작성"
+
   errors:
     not_authorized: "이 작업을 수행할 권한이 없습니다."
     access_denied: "접근이 거부되었습니다"
     not_found: "페이지를 찾을 수 없습니다"
     server_error: "문제가 발생했습니다"
+
+  engagement:
+    title: "대화에 참여하세요"
+    reactions:
+      like: "좋아요"
+      love: "사랑해요"
+    comment_label: "댓글"
+    post_comment: "댓글 게시"
+    comment_invalid: "댓글을 입력해 주세요"
+    sign_in_prompt: "댓글을 남기거나 반응을 표시하세요."
+    current_reaction: "내 반응: %{kind}"
+    no_reaction: "아직 반응이 없습니다"
+    remove_reaction: "반응 삭제"
 
   common:
     save: "저장"
@@ -161,5 +187,8 @@ ko:
     by: "작성자"
     published_at: "게시일"
     back: "게시물 목록으로"
+    empty_title: "아직 발행된 게시물이 없습니다"
+    empty_body: "새 글을 위해 나중에 다시 확인해 주세요."
+    pagination: "페이지 나누기"
     read_more: "더 읽기"
     no_posts: "게시물이 없습니다"
