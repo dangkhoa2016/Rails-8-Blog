@@ -62,11 +62,10 @@ gem "activestorage"
 # ActionText is built into Rails 8
 
 # === BACKGROUND JOBS ===
-gem "sidekiq"
-gem "sidekiq-scheduler"
+# Active Job runtime target is Solid Queue (declared above with the
+# database-backed adapters).
 
 # === CACHING / RATE LIMIT ===
-gem "redis"
 gem "rack-attack"
 
 # === SLUG ===
