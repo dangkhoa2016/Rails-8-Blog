@@ -55,13 +55,10 @@ module Rails8Blog
     config.i18n.fallbacks = true
 
     # Active Job Configuration
-    config.active_job.queue_adapter = :sidekiq
+    config.active_job.queue_adapter = :solid_queue
 
     # Cache Store Configuration
-    config.cache_store = :redis_cache_store, {
-      url: ENV.fetch("REDIS_URL", "redis://localhost:6379/1"),
-      namespace: "blog_cache"
-    }
+    config.cache_store = :memory_store
 
     # Rack::Attack middleware
     config.middleware.use Rack::Attack
