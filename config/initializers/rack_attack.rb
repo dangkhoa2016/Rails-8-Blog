@@ -1,10 +1,6 @@
 class Rack::Attack
-  # Redis store for throttling
-  if ENV["REDIS_URL"].present? || Rails.env.production? || Rails.env.development?
-    Rack::Attack.cache.store = ActiveSupport::Cache::RedisCacheStore.new(url: ENV.fetch("REDIS_URL", "redis://localhost:6379/0"))
-  else
-    Rack::Attack.cache.store = ActiveSupport::Cache::MemoryStore.new
-  end
+  # In-memory store for throttling (no external cache dependency)
+  Rack::Attack.cache.store = ActiveSupport::Cache::MemoryStore.new
 
   # Helper to read settings from cache
   def self.setting(key, default)
