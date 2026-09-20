@@ -23,13 +23,13 @@ class PostPolicy < ApplicationPolicy
 class Scope < ApplicationPolicy::Scope
      def resolve
        if user.nil?
-         scope.where(status: "published")
+         scope.publicly_visible
        elsif user.admin?
          scope.all
        elsif user.author?
-         scope.where(user: user).or(scope.where(status: "published"))
+         scope.where(user: user).or(scope.publicly_visible)
        else
-         scope.where(status: "published")
+         scope.publicly_visible
        end
      end
 end

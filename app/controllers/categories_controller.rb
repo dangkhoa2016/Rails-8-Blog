@@ -8,7 +8,7 @@ class CategoriesController < ApplicationController
   def show
     @category = Category.friendly.find(params[:slug])
     authorize @category
-    posts = policy_scope(@category.posts).published
+    posts = policy_scope(@category.posts).publicly_visible
                                          .includes(:category, :tags, :user, :post_translations)
                                          .order(published_at: :desc)
     @pagy, @posts = pagy(posts)

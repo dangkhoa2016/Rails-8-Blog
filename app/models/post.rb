@@ -32,6 +32,13 @@ class Post < ApplicationRecord
   validate  :scheduled_at_must_be_future, if: :scheduled?
 
   scope :published, -> { where(status: "published").where("published_at <= ?", Time.current) }
+  scope :publicly_visible, -> {
+    now = Time.current
+    published_posts = where(status: "published").where("published_at <= ?", now)
+    due_scheduled_posts = where(status: "scheduled").where("scheduled_at <= ?", now)
+
+    published_posts.or(due_scheduled_posts)
+  }
   scope :scheduled, -> { where(status: "scheduled").where("scheduled_at > ?", Time.current) }
   scope :by_locale, ->(locale) { joins(:post_translations).where(post_translations: { locale: locale }) }
 
