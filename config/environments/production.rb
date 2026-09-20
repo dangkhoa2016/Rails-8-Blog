@@ -3,6 +3,14 @@ require "active_support/core_ext/integer/time"
 Rails.application.configure do
   # Settings specified here will take precedence over those in config/application.rb.
 
+  %w[
+    R2_ENDPOINT
+    R2_ACCESS_KEY_ID
+    R2_SECRET_ACCESS_KEY
+    R2_BUCKET
+    R2_REGION
+  ].each { |name| ENV.fetch(name) }
+
   # Code is not reloaded between requests.
   config.enable_reloading = false
 
