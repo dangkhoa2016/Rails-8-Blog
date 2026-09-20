@@ -11,6 +11,7 @@ RSpec.describe "Public posts", type: :system do
     fill_in "Email", with: user.email
     fill_in "Password", with: user.password
     click_button "Sign in"
+    expect(page).to have_current_path("/?locale=en")
   end
 
   it "shows published cards with localized metadata and hides unpublished posts" do

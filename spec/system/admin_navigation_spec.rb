@@ -9,6 +9,7 @@ RSpec.describe "Admin navigation", type: :system do
     fill_in "Email", with: user.email
     fill_in "Mật khẩu", with: user.password
     click_button "Đăng nhập"
+    expect(page).to have_current_path("/?locale=vi")
   end
 
   it "links an admin to every desktop destination without placeholders" do
@@ -16,13 +17,13 @@ RSpec.describe "Admin navigation", type: :system do
     sign_in_as(admin)
     visit "/vi/admin"
 
-    expect(page).to have_link("Posts", href: "/vi/admin/posts")
-    expect(page).to have_link("Categories", href: "/vi/admin/categories")
-    expect(page).to have_link("Tags", href: "/vi/admin/tags")
-    expect(page).to have_link("Settings", href: "/vi/admin/settings")
-    expect(page).to have_link("Audit Logs", href: "/vi/admin/audit_logs")
-    expect(page).to have_link("Users", href: "/vi/admin/users")
-    expect(page).to have_link("← Back to Site", href: "/vi")
+    expect(page).to have_link("Bài viết", href: "/vi/admin/posts")
+    expect(page).to have_link("Danh mục", href: "/vi/admin/categories")
+    expect(page).to have_link("Nhãn", href: "/vi/admin/tags")
+    expect(page).to have_link("Cài đặt", href: "/vi/admin/settings")
+    expect(page).to have_link("Nhật ký kiểm toán", href: "/vi/admin/audit_logs")
+    expect(page).to have_link("Người dùng", href: "/vi/admin/users")
+    expect(page).to have_css('a[aria-label="Quay lại trang chủ"][href="/vi"]')
     expect(page).not_to have_css("a[href='#']")
   end
 
@@ -64,8 +65,8 @@ RSpec.describe "Admin navigation", type: :system do
       "runtime_errors" => [],
       "transitions" => [ "true" ]
     )
-    expect(page).to have_link("Settings", href: "/vi/admin/settings")
-    expect(page).to have_link("Audit Logs", href: "/vi/admin/audit_logs")
+    expect(page).to have_link("Cài đặt", href: "/vi/admin/settings")
+    expect(page).to have_link("Nhật ký kiểm toán", href: "/vi/admin/audit_logs")
     page.execute_script("document.body.click()")
     expect(page).to have_css("button[aria-label='Mở điều hướng quản trị'][aria-expanded='false']")
     page.execute_script("arguments[0].click()", button)
@@ -80,7 +81,7 @@ RSpec.describe "Admin navigation", type: :system do
     visit "/vi/admin"
 
     expect(page).to have_current_path("/vi")
-    expect(page).not_to have_link("Users", href: "/vi/admin/users")
+    expect(page).not_to have_link("Người dùng", href: "/vi/admin/users")
   end
 
   it "keeps future scheduled posts manageable in the admin index" do

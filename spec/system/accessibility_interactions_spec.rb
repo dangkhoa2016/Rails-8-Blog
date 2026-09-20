@@ -9,6 +9,7 @@ RSpec.describe "Accessibility interactions", type: :system do
     fill_in "Email", with: user.email
     fill_in "Mật khẩu", with: user.password
     click_button "Đăng nhập"
+    expect(page).to have_current_path("/?locale=vi")
   end
 
   def have_visible_focus_indicator(element)
@@ -55,6 +56,9 @@ RSpec.describe "Accessibility interactions", type: :system do
     expect(page).to have_current_path("/vi/admin")
     visit "/vi/admin/posts/new"
 
+    # Wait for Stimulus to bind keyboard events; initial ARIA state comes from HTML.
+    expect(page).to have_css("[data-controller~='language-tabs'][data-language-tabs-ready='true']")
+
     tablist = find("[role='tablist']")
     tabs = tablist.all("[role='tab']")
     expect(tabs.map { |tab| tab["data-locale"] }).to eq(%w[en vi ru ja ko th de])
@@ -73,20 +77,20 @@ RSpec.describe "Accessibility interactions", type: :system do
     expect(hidden_english_panel).not_to be_visible
 
     vietnamese_tab.send_keys(:arrow_right)
-    expect(russian_tab["aria-selected"]).to eq("true")
+    expect(page).to have_css("[role='tab'][data-locale='ru'][aria-selected='true']")
     expect(page.evaluate_script("document.activeElement === arguments[0]", russian_tab)).to be(true)
     expect(page).to have_css("#post-language-panel-ru:not(.hidden)")
 
     russian_tab.send_keys(:end)
-    expect(german_tab["aria-selected"]).to eq("true")
+    expect(page).to have_css("[role='tab'][data-locale='de'][aria-selected='true']")
     expect(page.evaluate_script("document.activeElement === arguments[0]", german_tab)).to be(true)
 
     german_tab.send_keys(:home)
-    expect(english_tab["aria-selected"]).to eq("true")
+    expect(page).to have_css("[role='tab'][data-locale='en'][aria-selected='true']")
     expect(page.evaluate_script("document.activeElement === arguments[0]", english_tab)).to be(true)
 
     english_tab.send_keys(:arrow_left)
-    expect(german_tab["aria-selected"]).to eq("true")
+    expect(page).to have_css("[role='tab'][data-locale='de'][aria-selected='true']")
     expect(page.evaluate_script("document.activeElement === arguments[0]", german_tab)).to be(true)
   end
 

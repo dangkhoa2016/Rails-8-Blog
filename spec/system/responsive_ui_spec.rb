@@ -16,6 +16,7 @@ RSpec.describe "Responsive UI matrix", type: :system, js: true do
     fill_in "Email", with: user.email
     fill_in "Mật khẩu", with: user.password
     click_button "Đăng nhập"
+    expect(page).to have_current_path("/?locale=vi")
   end
 
   def resize_to(viewport)
@@ -46,6 +47,23 @@ RSpec.describe "Responsive UI matrix", type: :system, js: true do
 
     expect(bounds.fetch("left")).to be >= 0
     expect(bounds.fetch("right")).to be <= bounds.fetch("viewport")
+  end
+
+  it "keeps localized admin editor and audit logs usable at 320px" do
+    admin = create(:user, :admin)
+    sign_in_as(admin)
+    resize_to([ 320, 568 ])
+
+    %w[en vi].each do |locale|
+      [ "/#{locale}/admin/posts/new", "/#{locale}/admin/settings", "/#{locale}/admin/audit_logs" ].each do |path|
+        visit path
+        expect_no_horizontal_overflow
+        expect(page).not_to have_css(".translation_missing")
+        expect(page).not_to have_text("Translation missing:")
+      end
+      visit "/#{locale}/admin/posts/new"
+      expect(page).to have_css("[role='tab']", minimum: 7)
+    end
   end
 
   VIEWPORTS.each do |name, viewport|
@@ -95,10 +113,10 @@ RSpec.describe "Responsive UI matrix", type: :system, js: true do
       if viewport.first < 1024
         toggle = find("button[aria-label='Mở điều hướng quản trị']")
         expect_horizontally_reachable(toggle)
-        expect(page).not_to have_link("Posts", visible: true)
+        within("nav[data-controller='admin-nav']") { expect(page).not_to have_link("Bài viết", visible: true) }
       else
         expect(page).not_to have_css("button[aria-label='Mở điều hướng quản trị']", visible: true)
-        expect(page).to have_link("Posts", visible: true)
+        expect(page).to have_link("Bài viết", visible: true)
       end
 
       visit "/vi/admin/posts/new"
