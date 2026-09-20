@@ -9,6 +9,7 @@ RSpec.describe "Accessibility interactions", type: :system do
     fill_in "Email", with: user.email
     fill_in "Mật khẩu", with: user.password
     click_button "Đăng nhập"
+    expect(page).to have_current_path("/?locale=vi")
   end
 
   def have_visible_focus_indicator(element)
