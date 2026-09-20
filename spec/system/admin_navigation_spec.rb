@@ -9,6 +9,7 @@ RSpec.describe "Admin navigation", type: :system do
     fill_in "Email", with: user.email
     fill_in "Mật khẩu", with: user.password
     click_button "Đăng nhập"
+    expect(page).to have_current_path("/?locale=vi")
   end
 
   it "links an admin to every desktop destination without placeholders" do

@@ -4,8 +4,17 @@ RSpec.describe MaintenanceMode do
   let(:app) { ->(env) { [ 200, { "Content-Type" => "text/html" }, [ "OK" ] ] } }
   let(:middleware) { MaintenanceMode.new(app) }
 
-  before do
+  before do |example|
+    next if example.metadata[:cache_isolation]
+
     Setting.create!(key: "maintenance_mode", value: "false", value_type: "boolean")
+  end
+
+  around do |example|
+    example.run
+  ensure
+    Rails.cache.delete("setting:maintenance_mode")
+    Rails.cache.delete("maintenance_mode")
   end
 
   describe "#call" do
@@ -52,6 +61,26 @@ RSpec.describe MaintenanceMode do
         _status, _headers, body = middleware.call(env)
         expect(body.first).to include("System is under maintenance")
       end
+    end
+  end
+
+  describe "cache isolation", :cache_isolation, order: :defined do
+    it "can cache an enabled maintenance setting" do
+      Setting.create!(key: "maintenance_mode", value: "false", value_type: "boolean")
+      Setting.set("maintenance_mode", true)
+      Rails.cache.delete("setting:maintenance_mode")
+
+      env = Rack::MockRequest.env_for("/en/posts")
+      status, _headers, _body = middleware.call(env)
+
+      expect(status).to eq(503)
+    end
+
+    it "does not expose an enabled cache entry to the next example" do
+      env = Rack::MockRequest.env_for("/en/posts")
+      status, _headers, _body = middleware.call(env)
+
+      expect(status).to eq(200)
     end
   end
 end

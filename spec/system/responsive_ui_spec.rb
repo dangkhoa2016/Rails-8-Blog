@@ -16,6 +16,7 @@ RSpec.describe "Responsive UI matrix", type: :system, js: true do
     fill_in "Email", with: user.email
     fill_in "Mật khẩu", with: user.password
     click_button "Đăng nhập"
+    expect(page).to have_current_path("/?locale=vi")
   end
 
   def resize_to(viewport)
