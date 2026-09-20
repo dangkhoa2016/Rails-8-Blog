@@ -2,10 +2,16 @@
 
 module Ui1TestData
   def create_ui1_post(locale: :en, status: "published", title: "A UI1 post", published_at: Time.current,
-                       with_content: true, with_tag: true)
+                       scheduled_at: nil, with_content: true, with_tag: true)
     author = create(:user, :author)
     category = Category.create!(name: "UI1 category #{SecureRandom.hex(4)}")
-    post = Post.new(user: author, category: category, status: status, published_at: published_at)
+    post = Post.new(
+      user: author,
+      category: category,
+      status: status,
+      published_at: published_at,
+      scheduled_at: scheduled_at
+    )
 
     Mobility.with_locale(locale) { post.title = title }
     post.save!

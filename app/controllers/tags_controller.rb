@@ -8,7 +8,7 @@ class TagsController < ApplicationController
   def show
     @tag = Tag.friendly.find(params[:slug])
     authorize @tag
-    posts = policy_scope(@tag.posts).published
+    posts = policy_scope(@tag.posts).publicly_visible
                                      .includes(:category, :tags, :user, :post_translations)
                                      .order(published_at: :desc)
     @pagy, @posts = pagy(posts)
