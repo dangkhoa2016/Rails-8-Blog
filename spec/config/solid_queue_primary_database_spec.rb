@@ -28,7 +28,12 @@ RSpec.describe "Solid Queue primary database topology" do
       "RAILS_ENV" => "production",
       "RAILS_MASTER_KEY" => nil,
       "SECRET_KEY_BASE" => nil,
-      "SECRET_KEY_BASE_DUMMY" => "1"
+      "SECRET_KEY_BASE_DUMMY" => "1",
+      "R2_ENDPOINT" => "https://example.invalid",
+      "R2_ACCESS_KEY_ID" => "r2-contract-access-key",
+      "R2_SECRET_ACCESS_KEY" => "r2-contract-secret",
+      "R2_BUCKET" => "r2-contract-bucket",
+      "R2_REGION" => "auto"
     }
   end
 

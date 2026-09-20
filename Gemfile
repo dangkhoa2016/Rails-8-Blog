@@ -52,11 +52,12 @@ gem "pundit"
 
 # === I18N / MULTILINGUAL DATA ===
 gem "mobility"
-gem "mobility-actiontext"
+gem "mobility-actiontext", require: false
 
 # === MEDIA ===
 gem "cloudinary"
-gem "activestorage"
+gem "activestorage", require: false
+gem "aws-sdk-s3", require: false
 
 # === RICH TEXT ===
 # ActionText is built into Rails 8

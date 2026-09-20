@@ -9,6 +9,11 @@ RSpec.describe "production boot" do
   project_root = Pathname(__dir__).join("../..").expand_path
   database_url = ENV.fetch("D3_TEST_DATABASE_URL")
 
+  application_probe = <<~'RUBY'
+    require File.expand_path("config/application", Dir.pwd)
+    puts "APPLICATION_BUNDLER_REQUIRE=PASS"
+  RUBY
+
   boot_probe = <<~'RUBY'
     result_path = ENV.fetch("PRODUCTION_BOOT_RESULT")
 
@@ -56,7 +61,12 @@ RSpec.describe "production boot" do
         "RAILS_ENV" => "production",
         "RAILS_MASTER_KEY" => nil,
         "SECRET_KEY_BASE" => nil,
-        "SECRET_KEY_BASE_DUMMY" => "1"
+        "SECRET_KEY_BASE_DUMMY" => "1",
+        "R2_ENDPOINT" => "https://example.invalid",
+        "R2_ACCESS_KEY_ID" => "r2-contract-access-key",
+        "R2_SECRET_ACCESS_KEY" => "r2-contract-secret",
+        "R2_BUCKET" => "r2-contract-bucket",
+        "R2_REGION" => "auto"
       }
 
       stdout, stderr, status = Open3.capture3(
@@ -75,6 +85,26 @@ RSpec.describe "production boot" do
     end
   end
 
+  it "boots despite Mobility ActionText's nonstandard require path" do
+    environment = {
+      "RAILS_ENV" => "production",
+      "RAILS_MASTER_KEY" => nil,
+      "SECRET_KEY_BASE" => nil,
+      "SECRET_KEY_BASE_DUMMY" => "1"
+    }
+
+    stdout, stderr, status = Open3.capture3(
+      environment,
+      RbConfig.ruby,
+      "-e",
+      application_probe,
+      chdir: project_root.to_s
+    )
+
+    expect(status).to be_success, -> { "Application Bundler boot failed.\n#{stdout}#{stderr}" }
+    expect(stdout).to include("APPLICATION_BUNDLER_REQUIRE=PASS\n")
+  end
+
   it "uses MemoryStore for production cache operations" do
     Tempfile.create("production-cache-result") do |result|
       environment = {
@@ -83,7 +113,12 @@ RSpec.describe "production boot" do
         "RAILS_ENV" => "production",
         "RAILS_MASTER_KEY" => nil,
         "SECRET_KEY_BASE" => nil,
-        "SECRET_KEY_BASE_DUMMY" => "1"
+        "SECRET_KEY_BASE_DUMMY" => "1",
+        "R2_ENDPOINT" => "https://example.invalid",
+        "R2_ACCESS_KEY_ID" => "r2-contract-access-key",
+        "R2_SECRET_ACCESS_KEY" => "r2-contract-secret",
+        "R2_BUCKET" => "r2-contract-bucket",
+        "R2_REGION" => "auto"
       }
 
       stdout, stderr, status = Open3.capture3(
