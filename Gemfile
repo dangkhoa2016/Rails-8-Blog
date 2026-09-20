@@ -1,7 +1,7 @@
 source "https://rubygems.org"
 
 # Bundle edge Rails instead: gem "rails", github: "rails/rails", branch: "main"
-gem "rails", "~> 8.1.3"
+gem "rails", "~> 8.1.4", ">= 8.1.4.1"
 # Pin the patched DNS resolver shipped separately from the Ruby runtime.
 gem "resolv", ">= 0.7.2"
 # The modern asset pipeline for Rails [https://github.com/rails/propshaft]
@@ -52,11 +52,12 @@ gem "pundit"
 
 # === I18N / MULTILINGUAL DATA ===
 gem "mobility"
-gem "mobility-actiontext"
+gem "mobility-actiontext", require: false
 
 # === MEDIA ===
 gem "cloudinary"
-gem "activestorage"
+gem "activestorage", require: false
+gem "aws-sdk-s3", require: false
 
 # === RICH TEXT ===
 # ActionText is built into Rails 8
