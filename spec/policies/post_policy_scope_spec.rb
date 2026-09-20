@@ -3,6 +3,8 @@
 require "rails_helper"
 
 RSpec.describe PostPolicy do
+  include ActiveSupport::Testing::TimeHelpers
+
   let(:category) { Category.create!(name: "Policy Category", slug: "policy-category") }
   let(:owner) { create(:user, :author) }
   let(:other_author) { create(:user, :author) }
@@ -10,7 +12,9 @@ RSpec.describe PostPolicy do
   let(:reader) { create(:user, :reader) }
 
   def post_for(user, status)
-    Post.create!(user: user, category: category, status: status)
+    attributes = { user: user, category: category, status: status }
+    attributes[:published_at] = 1.hour.ago if status == "published"
+    Post.create!(**attributes)
   end
 
   it "denies post creation to a guest and scheduling to a non-admin" do
@@ -30,12 +34,27 @@ RSpec.describe PostPolicy do
     expect(policy.publish?).to be(false)
   end
 
-  it "limits a guest scope to published posts" do
+  it "limits a guest scope to publicly visible posts" do
     published = post_for(owner, "published")
     draft = post_for(owner, "draft")
 
     expect(described_class::Scope.new(nil, Post).resolve).to contain_exactly(published)
     expect(described_class::Scope.new(nil, Post).resolve).not_to include(draft)
+  end
+
+  it "includes a scheduled post exactly when it becomes due" do
+    travel_to(Time.zone.parse("2026-09-19 10:00:00 UTC"))
+    due_at = 1.hour.from_now
+    due_post = Post.create!(user: owner, category: category, status: "scheduled", scheduled_at: due_at)
+    future_post = Post.create!(user: owner, category: category, status: "scheduled", scheduled_at: 2.hours.from_now)
+
+    travel_to(due_at)
+
+    expect(described_class::Scope.new(nil, Post).resolve).to contain_exactly(due_post)
+    expect(described_class::Scope.new(reader, Post).resolve).to contain_exactly(due_post)
+    expect(described_class::Scope.new(admin, Post).resolve).to contain_exactly(due_post, future_post)
+  ensure
+    travel_back
   end
 
   it "gives an admin the complete post scope" do
@@ -45,7 +64,7 @@ RSpec.describe PostPolicy do
     expect(described_class::Scope.new(admin, Post).resolve).to contain_exactly(own_draft, other_draft)
   end
 
-  it "gives an author own posts plus published posts" do
+  it "gives an author own posts plus publicly visible posts" do
     own_draft = post_for(owner, "draft")
     other_published = post_for(other_author, "published")
     other_draft = post_for(other_author, "draft")
@@ -54,7 +73,7 @@ RSpec.describe PostPolicy do
     expect(described_class::Scope.new(owner, Post).resolve).not_to include(other_draft)
   end
 
-  it "limits a reader scope to published posts" do
+  it "limits a reader scope to publicly visible posts" do
     published = post_for(owner, "published")
     draft = post_for(owner, "draft")
 

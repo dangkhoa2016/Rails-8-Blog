@@ -82,4 +82,21 @@ RSpec.describe "Admin navigation", type: :system do
     expect(page).to have_current_path("/vi")
     expect(page).not_to have_link("Users", href: "/vi/admin/users")
   end
+
+  it "keeps future scheduled posts manageable in the admin index" do
+    scheduled_post = create_browser_post(
+      status: "scheduled",
+      scheduled_at: 1.hour.from_now,
+      published_at: nil,
+      title: "Admin scheduled story"
+    )
+    admin = create(:user, :admin)
+
+    sign_in_as(admin)
+    visit "/vi/admin/posts"
+
+    expect(page).to have_text("Admin scheduled story")
+    expect(page).to have_text("scheduled")
+    expect(scheduled_post.reload).to be_scheduled
+  end
 end

@@ -3,6 +3,8 @@
 require "rails_helper"
 
 RSpec.describe "Public home", type: :system do
+  include ActiveSupport::Testing::TimeHelpers
+
   it "renders a localized reader landing page instead of the development placeholder" do
     visit "/en"
 
@@ -29,6 +31,32 @@ RSpec.describe "Public home", type: :system do
 
     expect(page).to have_link(published_post.title_for(:en), href: "/en/posts/#{published_post.slug}")
     expect(page).not_to have_text("Draft Browser story")
+  end
+
+  it "shows a due scheduled post and hides a future scheduled post" do
+    travel_to(Time.zone.parse("2026-09-19 10:00:00 UTC"))
+    due_at = 1.hour.from_now
+    due_scheduled = create_browser_post(
+      status: "scheduled",
+      scheduled_at: due_at,
+      published_at: nil,
+      title: "Due scheduled home story"
+    )
+    create_browser_post(
+      status: "scheduled",
+      scheduled_at: 2.hours.from_now,
+      published_at: nil,
+      title: "Future scheduled home story"
+    )
+
+    travel_to(due_at)
+    visit "/en"
+
+    expect(page).to have_link("Due scheduled home story", href: "/en/posts/#{due_scheduled.slug}")
+    expect(page).not_to have_text("Future scheduled home story")
+    expect(due_scheduled.reload).to be_scheduled
+  ensure
+    travel_back
   end
 
   it "lets a guest enter each public reader surface" do
