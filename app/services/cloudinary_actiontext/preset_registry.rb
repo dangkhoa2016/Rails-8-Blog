@@ -1,9 +1,9 @@
 module CloudinaryActiontext
   class PresetRegistry
     PRESETS = {
-      rich_text_inline_320: { width: 320, height: 240, crop: "limit", flags: "no_upscale" }.freeze,
-      rich_text_content_800: { width: 800, height: 600, crop: "limit", flags: "no_upscale" }.freeze,
-      rich_text_content_1024: { width: 1024, height: 768, crop: "limit", flags: "no_upscale" }.freeze
+      rich_text_inline_320: { width: 320, height: 240, crop: "limit" }.freeze,
+      rich_text_content_800: { width: 800, height: 600, crop: "limit" }.freeze,
+      rich_text_content_1024: { width: 1024, height: 768, crop: "limit" }.freeze
     }.freeze
 
     class << self
