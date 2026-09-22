@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[8.1].define(version: 2026_09_02_133901) do
+ActiveRecord::Schema[8.1].define(version: 2026_09_22_010000) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "pg_catalog.plpgsql"
 
@@ -95,6 +95,20 @@ ActiveRecord::Schema[8.1].define(version: 2026_09_02_133901) do
     t.index ["slug", "sluggable_type", "locale"], name: "index_friendly_id_slugs_on_slug_and_sluggable_type_and_locale"
     t.index ["slug", "sluggable_type", "scope", "locale"], name: "index_friendly_id_slugs_unique", unique: true
     t.index ["sluggable_type", "sluggable_id"], name: "index_friendly_id_slugs_on_sluggable_type_and_sluggable_id"
+  end
+
+  create_table "image_deliveries", force: :cascade do |t|
+    t.bigint "active_storage_blob_id", null: false
+    t.string "cloudinary_asset_id"
+    t.string "cloudinary_public_id"
+    t.string "cloudinary_version"
+    t.datetime "created_at", null: false
+    t.string "failure_reason"
+    t.string "source_checksum", null: false
+    t.string "status", default: "pending", null: false
+    t.datetime "updated_at", null: false
+    t.index ["active_storage_blob_id"], name: "index_image_deliveries_on_active_storage_blob_id", unique: true
+    t.check_constraint "status::text = ANY (ARRAY['pending'::character varying, 'ready'::character varying, 'failed'::character varying]::text[])", name: "image_deliveries_status_check"
   end
 
   create_table "impressions", force: :cascade do |t|
@@ -362,6 +376,7 @@ ActiveRecord::Schema[8.1].define(version: 2026_09_02_133901) do
   add_foreign_key "active_storage_variant_records", "active_storage_blobs", column: "blob_id"
   add_foreign_key "comments", "posts"
   add_foreign_key "comments", "users"
+  add_foreign_key "image_deliveries", "active_storage_blobs"
   add_foreign_key "post_tags", "posts"
   add_foreign_key "post_tags", "tags"
   add_foreign_key "post_translations", "posts"
