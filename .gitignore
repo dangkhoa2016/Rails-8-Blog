@@ -16,8 +16,9 @@ node_modules
 # Local evidence archives
 /evidence/
 
-# Ignore all environment files.
+# Ignore local environment files, but keep the safe documented template.
 /.env*
+!/.env.example
 
 # Ignore all logfiles and tempfiles.
 /log/*
@@ -43,6 +44,10 @@ node_modules
 /config/*.key
 
 *.log
+
+# Reject accidentally captured request/exception logs from the repository root.
+/temp.txt
+/scripts/__pycache__/
 
 spec/examples.txt
 
