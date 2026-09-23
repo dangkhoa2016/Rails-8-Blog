@@ -1,0 +1,120 @@
+<% slides = post.slides.to_a %>
+<% max_size = Setting.get("slideshow_max_size", 5).to_i %>
+<% ordered_ids = slides.map(&:id) %>
+
+<section data-testid="slideshow-admin" class="mt-8 space-y-6 rounded-xl border border-gray-200 bg-white p-6">
+  <div class="flex flex-wrap items-center justify-between gap-3">
+    <div>
+      <h2 class="text-lg font-bold text-gray-900">Slideshow</h2>
+      <p class="mt-1 text-sm text-gray-600">Ordered localized images for this post.</p>
+    </div>
+    <p class="text-sm font-semibold text-gray-700"><%= slides.size %> / <%= max_size %></p>
+  </div>
+
+  <% if slides.size >= max_size %>
+    <div class="rounded-lg bg-amber-50 px-4 py-3 text-sm font-medium text-amber-800">
+      Slideshow limit reached
+    </div>
+  <% else %>
+    <%= form_with url: admin_post_slides_path(post, locale: I18n.locale),
+                  scope: :slide,
+                  method: :post,
+                  local: true,
+                  html: { multipart: true, class: "space-y-4 rounded-lg border border-dashed border-gray-300 p-4" } do |form| %>
+      <div>
+        <%= form.label :image, "Slide image", class: "block text-sm font-semibold text-gray-700" %>
+        <%= form.file_field :image, accept: "image/jpeg,image/png,image/webp,image/gif",
+              class: "mt-1 block w-full text-sm text-gray-700" %>
+      </div>
+
+      <div class="grid gap-4 md:grid-cols-2">
+        <% I18n.available_locales.each do |locale| %>
+          <div class="rounded-lg border border-gray-200 p-3">
+            <p class="mb-2 text-xs font-bold uppercase tracking-wide text-gray-500"><%= locale %></p>
+            <%= label_tag "slide_translations_#{locale}_caption", "Caption", class: "block text-xs font-semibold text-gray-600" %>
+            <%= text_field_tag "slide[translations][#{locale}][caption]", nil,
+                  id: "slide_translations_#{locale}_caption",
+                  class: "mt-1 block w-full rounded-lg border-gray-300 text-sm" %>
+            <%= label_tag "slide_translations_#{locale}_alt_text", "Alt text", class: "mt-3 block text-xs font-semibold text-gray-600" %>
+            <%= text_field_tag "slide[translations][#{locale}][alt_text]", nil,
+                  id: "slide_translations_#{locale}_alt_text",
+                  class: "mt-1 block w-full rounded-lg border-gray-300 text-sm" %>
+          </div>
+        <% end %>
+      </div>
+
+      <%= form.submit "Add slide", class: "rounded-lg bg-indigo-600 px-4 py-2 text-sm font-semibold text-white" %>
+    <% end %>
+  <% end %>
+
+  <div class="space-y-4">
+    <% slides.each_with_index do |slide, index| %>
+      <article class="rounded-xl border border-gray-200 p-4">
+        <div class="flex flex-col gap-4 lg:flex-row">
+          <div class="w-full lg:w-48">
+            <%= image_tag slide.image, alt: slide.alt_text_for(I18n.locale).to_s,
+                  class: "aspect-video w-full rounded-lg object-cover" %>
+            <p class="mt-2 text-xs font-semibold text-gray-500">Position <%= slide.position %></p>
+          </div>
+
+          <div class="flex-1 space-y-4">
+            <%= form_with model: [:admin, post, slide], local: true, class: "space-y-4" do |form| %>
+              <div>
+                <%= form.label :image, "Replace image", class: "block text-sm font-semibold text-gray-700" %>
+                <%= form.file_field :image, accept: "image/jpeg,image/png,image/webp,image/gif",
+                      class: "mt-1 block w-full text-sm text-gray-700" %>
+              </div>
+
+              <div class="grid gap-4 md:grid-cols-2">
+                <% I18n.available_locales.each do |locale| %>
+                  <% caption = Mobility.with_locale(locale) { slide.caption(fallback: false) } %>
+                  <% alt_text = Mobility.with_locale(locale) { slide.alt_text(fallback: false) } %>
+                  <div class="rounded-lg border border-gray-200 p-3">
+                    <p class="mb-2 text-xs font-bold uppercase tracking-wide text-gray-500"><%= locale %></p>
+                    <%= label_tag "slide_#{slide.id}_#{locale}_caption", "Caption", class: "block text-xs font-semibold text-gray-600" %>
+                    <%= text_field_tag "slide[translations][#{locale}][caption]", caption,
+                          id: "slide_#{slide.id}_#{locale}_caption",
+                          class: "mt-1 block w-full rounded-lg border-gray-300 text-sm" %>
+                    <%= label_tag "slide_#{slide.id}_#{locale}_alt_text", "Alt text", class: "mt-3 block text-xs font-semibold text-gray-600" %>
+                    <%= text_field_tag "slide[translations][#{locale}][alt_text]", alt_text,
+                          id: "slide_#{slide.id}_#{locale}_alt_text",
+                          class: "mt-1 block w-full rounded-lg border-gray-300 text-sm" %>
+                  </div>
+                <% end %>
+              </div>
+
+              <%= form.submit "Save slide", class: "rounded-lg bg-indigo-600 px-4 py-2 text-sm font-semibold text-white" %>
+            <% end %>
+
+            <div class="flex flex-wrap gap-2">
+              <% if index.positive? %>
+                <% up_ids = ordered_ids.dup.tap { |ids| ids[index - 1], ids[index] = ids[index], ids[index - 1] } %>
+                <%= form_with url: reorder_admin_post_slides_path(post, locale: I18n.locale), method: :patch, local: true do %>
+                  <% up_ids.each do |slide_id| %>
+                    <%= hidden_field_tag "slide_ids[]", slide_id %>
+                  <% end %>
+                  <%= submit_tag "Move up", class: "rounded-lg border border-gray-300 px-3 py-2 text-sm font-semibold text-gray-700" %>
+                <% end %>
+              <% end %>
+
+              <% if index < slides.length - 1 %>
+                <% down_ids = ordered_ids.dup.tap { |ids| ids[index], ids[index + 1] = ids[index + 1], ids[index] } %>
+                <%= form_with url: reorder_admin_post_slides_path(post, locale: I18n.locale), method: :patch, local: true do %>
+                  <% down_ids.each do |slide_id| %>
+                    <%= hidden_field_tag "slide_ids[]", slide_id %>
+                  <% end %>
+                  <%= submit_tag "Move down", class: "rounded-lg border border-gray-300 px-3 py-2 text-sm font-semibold text-gray-700" %>
+                <% end %>
+              <% end %>
+
+              <%= button_to "Delete slide",
+                    admin_post_slide_path(post, slide, locale: I18n.locale),
+                    method: :delete,
+                    class: "rounded-lg px-3 py-2 text-sm font-semibold text-rose-700" %>
+            </div>
+          </div>
+        </div>
+      </article>
+    <% end %>
+  </div>
+</section>

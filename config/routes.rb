@@ -23,6 +23,11 @@ Rails.application.routes.draw do
           patch :schedule
           patch :restore
         end
+        resources :slides, only: [ :create, :update, :destroy ] do
+          collection do
+            patch :reorder
+          end
+        end
       end
       resources :users
       resources :categories
