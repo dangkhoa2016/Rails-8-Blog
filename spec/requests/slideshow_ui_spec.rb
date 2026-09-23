@@ -62,6 +62,7 @@ RSpec.describe "Slideshow UI", type: :request do
 
   it "shows configured max-size feedback when the slideshow is full" do
     post = build_post
+    allow(Setting).to receive(:get).and_call_original
     allow(Setting).to receive(:get).with("slideshow_max_size", 5).and_return(2)
     add_slide(post, position: 1, caption: "One", alt_text: "One")
     add_slide(post, position: 2, caption: "Two", alt_text: "Two")

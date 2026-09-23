@@ -42,9 +42,9 @@ RSpec.describe Setting, type: :model do
       expect(Setting.find_by(key: "existing_key").value).to eq("new_value")
     end
 
-    it "invalidates cache after setting" do
+    it "invalidates the canonical cache key after setting" do
       expect(Rails.cache).to receive(:delete).with("setting:test_key").at_least(:once)
-      expect(Rails.cache).to receive(:delete).with("test_key").at_least(:once)
+      expect(Rails.cache).not_to receive(:delete).with("test_key")
       Setting.set("test_key", "test_value")
     end
 

@@ -64,6 +64,5 @@ class Setting < ApplicationRecord
 
   def clear_cache
     Rails.cache.delete("setting:#{key}")
-    Rails.cache.delete(key) # For Rack::Attack bare key lookups
   end
 end
