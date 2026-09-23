@@ -3,6 +3,9 @@ en:
     name: "Rails 8 Blog"
     tagline: "Write. Publish. Inspire."
 
+  comments:
+    deleted_placeholder: "This comment has been deleted."
+
   nav:
     home: "Home"
     admin: "Admin"

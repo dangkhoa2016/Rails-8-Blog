@@ -6,6 +6,7 @@ class ApplicationController < ActionController::Base
   stale_when_importmap_changes
 
   before_action :set_locale
+  before_action :set_paper_trail_whodunnit
   before_action :authenticate_user!, unless: :devise_or_static_controller?
 
   rescue_from Pundit::NotAuthorizedError, with: :user_not_authorized
@@ -17,6 +18,17 @@ class ApplicationController < ActionController::Base
   end
 
   private
+
+  def user_for_paper_trail
+    current_user&.id&.to_s
+  end
+
+  def info_for_paper_trail
+    {
+      request_ip: request.remote_ip,
+      request_path: request.path
+    }
+  end
 
   def devise_or_static_controller?
     is_a?(DeviseController) || is_a?(StaticController)
