@@ -87,6 +87,11 @@ Rails.application.configure do
   config.active_record.attributes_for_inspect = [ :id ]
 
   # Enable DNS rebinding protection and other `Host` header attacks.
+  config.hosts << "127.0.0.1"
+
+  space_host = ENV["SPACE_HOST"].to_s
+  config.hosts << space_host if space_host.match?(/\A[a-z0-9][a-z0-9-]*\.hf\.space\z/i)
+
   # config.hosts = [
   #   "example.com",     # Allow requests from example.com
   #   /.*\.example\.com/ # Allow requests from subdomains like `www.example.com`
