@@ -16,7 +16,10 @@ module Api
       end
 
       def show
-        post = Post.publicly_visible.friendly.find(params[:slug])
+        post = Post.publicly_visible
+                   .includes(slides: [ :slide_translations, { image_attachment: :blob } ])
+                   .friendly
+                   .find(params[:slug])
         authorize post
 
         # Track unique views (skip if session not available - e.g., API requests)
