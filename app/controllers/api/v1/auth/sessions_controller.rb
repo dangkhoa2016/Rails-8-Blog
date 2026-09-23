@@ -21,11 +21,11 @@ module Api
           end
         end
 
-        def respond_to_on_destroy(resource = nil)
-          if current_user
-            render json: { message: "Logged out successfully" }, status: :ok
-          else
+        def respond_to_on_destroy(non_navigational_status: :no_content)
+          if non_navigational_status == :unauthorized
             render json: { error: "No active session" }, status: :unauthorized
+          else
+            render json: { message: "Logged out successfully" }, status: :ok
           end
         end
       end
