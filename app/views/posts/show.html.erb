@@ -31,7 +31,7 @@
       <p class="text-slate-600"><%= link_to t("shared.sign_in"), new_user_session_path(locale: I18n.locale), class: "font-semibold text-indigo-600" %> <%= t("engagement.sign_in_prompt") %></p>
     <% end %>
     <div class="space-y-4">
-      <% @comments.each do |comment| %><article class="rounded-xl bg-slate-100 p-4"><p class="font-semibold text-slate-900"><%= comment.user.full_name %></p><p class="mt-1 text-slate-700"><%= comment.body %></p></article><% end %>
+      <% @comments.each do |comment| %><article class="rounded-xl bg-slate-100 p-4"><p class="font-semibold text-slate-900"><%= comment.user.full_name %></p><p class="mt-1 text-slate-700"><%= comment.display_body %></p></article><% end %>
     </div>
   </section>
   <div class="mt-12 border-t border-slate-200 pt-6"><%= link_to t("posts.back"), posts_path(locale: I18n.locale), class: "text-sm font-semibold text-indigo-600 hover:text-indigo-700" %></div>
