@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[8.1].define(version: 2026_09_23_112500) do
+ActiveRecord::Schema[8.1].define(version: 2026_09_23_140500) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "pg_catalog.plpgsql"
 
@@ -198,6 +198,26 @@ ActiveRecord::Schema[8.1].define(version: 2026_09_23_112500) do
     t.string "value_type", default: "string"
     t.index ["category"], name: "index_settings_on_category"
     t.index ["key"], name: "index_settings_on_key", unique: true
+  end
+
+  create_table "slide_translations", force: :cascade do |t|
+    t.string "alt_text"
+    t.text "caption"
+    t.datetime "created_at", null: false
+    t.string "locale", null: false
+    t.bigint "slide_id", null: false
+    t.datetime "updated_at", null: false
+    t.index ["slide_id", "locale"], name: "index_slide_translations_on_slide_id_and_locale", unique: true
+    t.index ["slide_id"], name: "index_slide_translations_on_slide_id"
+  end
+
+  create_table "slides", force: :cascade do |t|
+    t.datetime "created_at", null: false
+    t.integer "position", null: false
+    t.bigint "post_id", null: false
+    t.datetime "updated_at", null: false
+    t.index ["post_id", "position"], name: "index_slides_on_post_id_and_position", unique: true
+    t.index ["post_id"], name: "index_slides_on_post_id"
   end
 
   create_table "solid_queue_blocked_executions", force: :cascade do |t|
@@ -388,6 +408,8 @@ ActiveRecord::Schema[8.1].define(version: 2026_09_23_112500) do
   add_foreign_key "posts", "users"
   add_foreign_key "reactions", "posts"
   add_foreign_key "reactions", "users"
+  add_foreign_key "slide_translations", "slides"
+  add_foreign_key "slides", "posts"
   add_foreign_key "solid_queue_blocked_executions", "solid_queue_jobs", column: "job_id", on_delete: :cascade
   add_foreign_key "solid_queue_claimed_executions", "solid_queue_jobs", column: "job_id", on_delete: :cascade
   add_foreign_key "solid_queue_failed_executions", "solid_queue_jobs", column: "job_id", on_delete: :cascade
