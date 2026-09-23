@@ -1,0 +1,20 @@
+<div class="container mx-auto px-4 py-8">
+  <div class="mb-6">
+    <%= link_to "← #{t('admin.audit_logs.title')}", admin_audit_logs_path, class: "text-sm font-medium text-primary-600 hover:text-primary-800" %>
+    <h1 class="mt-3 text-3xl font-bold text-gray-900"><%= t("admin.audit_logs.show") %></h1>
+  </div>
+
+  <dl class="grid gap-4 rounded-lg bg-white p-6 shadow sm:grid-cols-2">
+    <div><dt class="text-sm text-gray-500"><%= t("admin.audit_logs.item") %></dt><dd class="font-medium"><%= @version.item_type %> #<%= @version.item_id %></dd></div>
+    <div><dt class="text-sm text-gray-500"><%= t("admin.audit_logs.event") %></dt><dd class="font-medium"><%= @version.event %></dd></div>
+    <div><dt class="text-sm text-gray-500"><%= t("admin.audit_logs.user") %></dt><dd class="font-medium"><%= @version.whodunnit.presence || "system" %></dd></div>
+    <div><dt class="text-sm text-gray-500"><%= t("admin.audit_logs.time") %></dt><dd class="font-medium"><%= @version.created_at %></dd></div>
+    <div><dt class="text-sm text-gray-500"><%= t("admin.audit_logs.request_ip") %></dt><dd class="font-medium"><%= @version.request_ip %></dd></div>
+    <div><dt class="text-sm text-gray-500"><%= t("admin.audit_logs.request_path") %></dt><dd class="font-medium"><%= @version.request_path %></dd></div>
+  </dl>
+
+  <div class="mt-6 rounded-lg bg-white p-6 shadow">
+    <h2 class="text-lg font-semibold text-gray-900"><%= t("admin.audit_logs.changes") %></h2>
+    <pre class="mt-3 overflow-x-auto whitespace-pre-wrap text-sm text-gray-700"><%= @version.object_changes.presence || t("admin.audit_logs.no_changes") %></pre>
+  </div>
+</div>

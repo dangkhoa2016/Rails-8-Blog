@@ -11,7 +11,7 @@ class PostsController < ApplicationController
   def show
     @post = policy_scope(Post).publicly_visible.friendly.find(params[:slug])
     authorize @post
-    @comments = @post.comments.kept.includes(:user).order(created_at: :asc)
+    @comments = @post.comments.includes(:user).order(created_at: :asc)
     @current_reaction = @post.reactions.find_by(user: current_user) if user_signed_in?
     impressionist(@post, nil, unique: [ :ip_address ])
   end

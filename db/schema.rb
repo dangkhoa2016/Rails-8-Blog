@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[8.1].define(version: 2026_09_22_010000) do
+ActiveRecord::Schema[8.1].define(version: 2026_09_23_112500) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "pg_catalog.plpgsql"
 
@@ -368,8 +368,12 @@ ActiveRecord::Schema[8.1].define(version: 2026_09_22_010000) do
     t.string "item_type", null: false
     t.text "object"
     t.text "object_changes"
+    t.string "request_ip"
+    t.string "request_path"
     t.string "whodunnit"
+    t.index ["created_at"], name: "index_versions_on_created_at"
     t.index ["item_type", "item_id"], name: "index_versions_on_item_type_and_item_id"
+    t.index ["whodunnit"], name: "index_versions_on_whodunnit"
   end
 
   add_foreign_key "active_storage_attachments", "active_storage_blobs", column: "blob_id"
