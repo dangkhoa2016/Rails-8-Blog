@@ -17,6 +17,10 @@ RSpec.describe "D8 Docker and Hugging Face contract" do
     end
   end
 
+  it "restores executable permissions for boot scripts after copying a Hub upload" do
+    expect(dockerfile).to include("RUN chmod +x bin/rails bin/thrust bin/docker-entrypoint")
+  end
+
   it "exposes the Hugging Face ingress port through Thruster" do
     expect(dockerfile).to include("EXPOSE 7860")
     expect(dockerfile).to include('CMD ["./bin/thrust", "./bin/rails", "server"]')

@@ -47,6 +47,9 @@ RUN bundle install && \
 # Copy application code
 COPY . .
 
+# Hub uploads do not preserve executable bits for these runtime scripts.
+RUN chmod +x bin/rails bin/thrust bin/docker-entrypoint
+
 # Precompile bootsnap code for faster boot times.
 # -j 1 disable parallel compilation to avoid a QEMU bug: https://github.com/rails/bootsnap/issues/495
 RUN bundle exec bootsnap precompile -j 1 app/ lib/
