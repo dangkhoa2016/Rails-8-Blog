@@ -93,6 +93,7 @@ RSpec.describe "D10 slideshow admin mutations", type: :request do
   end
 
   it "rejects uploads once the configured slideshow maximum is reached" do
+    allow(Setting).to receive(:get).and_call_original
     allow(Setting).to receive(:get).with("slideshow_max_size", 5).and_return(2)
     create_slide(position: 1)
     create_slide(position: 2)
