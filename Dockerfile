@@ -47,12 +47,23 @@ RUN bundle install && \
 # Copy application code
 COPY . .
 
+# Container copying may not preserve executable bits for these runtime scripts.
+RUN chmod +x bin/rails bin/thrust bin/docker-entrypoint
+
 # Precompile bootsnap code for faster boot times.
 # -j 1 disable parallel compilation to avoid a QEMU bug: https://github.com/rails/bootsnap/issues/495
 RUN bundle exec bootsnap precompile -j 1 app/ lib/
 
-# Precompiling assets for production without requiring secret RAILS_MASTER_KEY
-RUN SECRET_KEY_BASE_DUMMY=1 DATABASE_URL=postgresql://127.0.0.1:1/rails_8_blog_build ./bin/rails assets:precompile
+# Precompile assets without injecting any runtime credential into the build.
+RUN SECRET_KEY_BASE_DUMMY=1 \
+    DEVISE_JWT_SECRET_KEY="$(ruby -rsecurerandom -e 'print SecureRandom.hex(32)')" \
+    DATABASE_URL=postgresql://127.0.0.1:1/rails_8_blog_build \
+    R2_ENDPOINT=https://example.invalid \
+    R2_ACCESS_KEY_ID=r2-build-access-key \
+    R2_SECRET_ACCESS_KEY=r2-build-secret \
+    R2_BUCKET=r2-build-bucket \
+    R2_REGION=auto \
+    ./bin/rails assets:precompile
 
 
 
