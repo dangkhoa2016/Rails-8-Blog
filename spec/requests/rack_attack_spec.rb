@@ -11,11 +11,16 @@ RSpec.describe "Rack::Attack", type: :request do
     # Clear cache
     Rails.cache.clear
     Rack::Attack.cache.store.clear
-    
+
     # Stub Devise mailers to avoid locale routing issues
     allow_any_instance_of(Devise::Mailer).to receive(:unlock_instructions).and_return(double(deliver_later: true))
     allow_any_instance_of(Devise::Mailer).to receive(:confirmation_instructions).and_return(double(deliver_later: true))
     allow_any_instance_of(Devise::Mailer).to receive(:reset_password_instructions).and_return(double(deliver_later: true))
+  end
+
+  after do
+    Rack::Attack.cache.store.clear
+    Rails.cache.clear
   end
 
   describe "login throttling by IP" do
@@ -47,7 +52,7 @@ RSpec.describe "Rack::Attack", type: :request do
 
   describe "IP blocklist" do
     before do
-      Setting.set("blocked_ips", ["192.168.1.100"])
+      Setting.set("blocked_ips", [ "192.168.1.100" ])
       Rails.cache.delete("blocked_ips")
     end
 
@@ -73,7 +78,7 @@ RSpec.describe "Rack::Attack", type: :request do
 
   describe "IP whitelist" do
     before do
-      Setting.set("whitelist_ips", ["10.0.0.1"])
+      Setting.set("whitelist_ips", [ "10.0.0.1" ])
       Rails.cache.delete("whitelist_ips")
     end
 
@@ -82,7 +87,7 @@ RSpec.describe "Rack::Attack", type: :request do
         post "/auth/sign_in", params: { user: { email: "test@example.com", password: "wrong" } },
              headers: { "REMOTE_ADDR" => "10.0.0.1" }
       end
-      
+
       expect(response.status).not_to eq(429)
     end
   end

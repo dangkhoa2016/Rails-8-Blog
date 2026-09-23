@@ -1,250 +1,168 @@
-# Rails 8 Blog Management (Enterprise & API Ready)
+# Rails 8 Blog Management
 
-A full-stack Rails 8 blog management system with enterprise features including multi-language support, JWT authentication, Cloudinary integration, and comprehensive admin dashboard.
+A multilingual Rails 8.1 blog platform with HTML and JSON API surfaces, Devise/JWT authentication, Pundit authorization, scheduled publishing, audit/soft-delete workflows, localized slideshows, and externally durable production storage.
 
-## Features
+## Architecture v2
 
-### Core Features
-- **Multi-language Support**: 7 languages (English, Vietnamese, Russian, Japanese, Korean, Thai, German)
-- **Authentication**: Devise with all modules + JWT for API
-- **Authorization**: Pundit with 3 roles (admin, author, reader)
-- **Media Management**: Cloudinary direct signed uploads + Media Library SDK
-- **Background Jobs**: Sidekiq with scheduled jobs
-- **API**: RESTful JSON API at `/api/v1/`
+Production is designed around disposable Hugging Face compute:
 
-### Enterprise Features
-- **Security**: Rack::Attack + Rails 8 rate limiting
-- **Settings**: Dynamic configuration without deploy
-- **Audit Log**: PaperTrail for tracking changes
-- **Soft Delete**: Discard gem for Posts and Comments
-- **Slideshow**: Drag-and-drop image management
-- **Caching**: Multi-layer caching with Russian Doll pattern
-
-## Tech Stack
-
-| Category | Technology |
-|----------|------------|
-| Framework | Ruby on Rails 8 |
-| Frontend | Hotwire (Turbo/Stimulus), Import maps |
-| Database | SQLite3 (development/production) |
-| Cache/Queue | Redis + Sidekiq |
-| Authentication | Devise + devise-jwt |
-| Authorization | Pundit |
-| i18n | Mobility + mobility-actiontext |
-| Media | Cloudinary |
-| Pagination | Pagy |
-| Serializers | Blueprinter |
-| Testing | RSpec + FactoryBot |
-
-## Prerequisites
-
-- Ruby 3.2+
-- Redis
-- SQLite3
-- Cloudinary account (for media)
-
-## Setup
-
-### 1. Clone and Install Dependencies
-
-```bash
-git clone <repository-url>
-cd Rails-8-Blog
-bundle install
+```text
+Hugging Face Docker Space
+  Rails 8.1 + Puma + Thruster
+  Solid Queue
+  MemoryStore
+        |
+        +-- PostgreSQL --> Neon
+        |
+        +-- Active Storage originals --> Cloudflare R2
+        |
+        +-- eligible public ActionText raster mirrors --> Cloudinary Free
 ```
 
-### 2. Environment Variables
+Important invariants:
 
-Copy the example environment file:
+- PostgreSQL is the application database architecture; production uses `DATABASE_URL`.
+- Redis and Sidekiq are not production runtime dependencies.
+- Solid Queue is the production Active Job backend.
+- Cloudflare R2 owns authoritative Active Storage originals.
+- Cloudinary is only a bounded derived mirror for eligible public Post ActionText images.
+- Slideshow images remain Active Storage/R2 assets.
+- Hugging Face local disk is disposable and must not be treated as durable application storage.
+
+See [docs/ARCHITECTURE_V2.md](docs/ARCHITECTURE_V2.md).
+
+## Main features
+
+- Seven content locales: English, Vietnamese, Russian, Japanese, Korean, Thai, German.
+- Devise web authentication and devise-jwt API authentication.
+- Pundit roles: admin, author, reader.
+- Mobility-backed localized Post title/slug.
+- Locale-specific ActionText content.
+- Due-aware scheduled publishing.
+- Active Storage on Cloudflare R2 in production.
+- Authenticated Cloudinary derived delivery for eligible public ActionText raster media.
+- PaperTrail audit history.
+- Discard-based Post/Comment soft deletion.
+- Ordered localized Post slideshows.
+- Rack::Attack login throttling with dynamic Setting-backed limits.
+- Bounded security request logging.
+- Solid Queue jobs without Redis/Sidekiq.
+
+## Requirements
+
+For local development:
+
+- Ruby/Bundler compatible with the repository lockfile.
+- PostgreSQL.
+- Node is not required for the importmap-based frontend.
+
+Production additionally requires:
+
+- Neon-compatible PostgreSQL URL.
+- Cloudflare R2 S3-compatible bucket/credentials.
+- Cloudinary credentials when D7 derived media delivery is enabled.
+- Hugging Face Space or an equivalent Docker runtime.
+
+## Environment
+
+Copy the safe template:
 
 ```bash
 cp .env.example .env
 ```
 
-Edit `.env` and update the following variables:
+Never commit `.env`, provider tokens, Rails master keys, database dumps, or credentials.
 
-```env
-# Database (SQLite3 - no changes needed for local dev)
-DATABASE_URL=sqlite3:storage/rails_8_blog_development.sqlite3
+Required production storage/database variables are documented by name in `.env.example` and `docs/RELEASE_READINESS_V2.md`.
 
-# Redis
-REDIS_URL=redis://localhost:6379/0
-
-# Cloudinary (get from your Cloudinary dashboard)
-CLOUDINARY_CLOUD_NAME=your_cloud_name
-CLOUDINARY_API_KEY=your_api_key
-CLOUDINARY_API_SECRET=your_api_secret
-
-# Devise JWT (generate with: rails secret)
-DEVISE_JWT_SECRET_KEY=your_generated_secret
-
-# Mailer
-MAILER_SENDER=noreply@example.com
-```
-
-### 3. Database Setup
+## Setup
 
 ```bash
-# Create database
-rails db:create
-
-# Run migrations
-rails db:migrate
+bundle install
+bin/rails db:prepare
+bin/rails server
 ```
 
-### 4. Start Services
+Development uses PostgreSQL configured by `config/database.yml`.
 
-Start Redis (if not running):
+## Tests and quality gates
 
 ```bash
-redis-server --daemonize yes
+bundle exec rspec
+bundle exec rubocop
+bundle exec brakeman --no-pager
+bundle exec bundler-audit check --update
+bin/importmap audit
 ```
 
-### 5. Run the Application
+Locked minimum coverage after the deployment-v2 migration:
 
-```bash
-# Development server
-rails server
+- line: 41.83%
+- branch: 50.22%
 
-# Sidekiq worker (in another terminal)
-bundle exec sidekiq
+## Public/API behavior
+
+Public Posts are selected through the due-aware public visibility contract:
+
+- published Posts whose publication time has arrived;
+- scheduled Posts whose scheduled time has arrived;
+- draft/future/non-public/discarded Posts remain hidden.
+
+API namespace:
+
+```text
+/api/v1/
 ```
 
-The application will be available at `http://localhost:3000`
+Representative endpoints include:
 
-## Available Scripts
+- `POST /api/v1/auth/sign_in`
+- `DELETE /api/v1/auth/sign_out`
+- `GET /api/v1/posts`
+- `GET /api/v1/posts/:slug`
+- `GET /api/v1/categories`
+- `GET /api/v1/tags`
+- `GET /api/v1/health`
 
-| Command | Description |
-|---------|-------------|
-| `rails server` | Start development server |
-| `bundle exec sidekiq` | Start Sidekiq worker |
-| `rails console` | Start Rails console |
-| `rails db:migrate` | Run database migrations |
-| `rails db:seed` | Seed database with initial data |
-| `rubocop` | Run code linting |
-| `rspec` | Run test suite |
+Post detail API includes ordered localized `slideshow_assets`.
 
-## Project Structure
+## Media ownership
 
-```
-Rails-8-Blog/
-├── app/
-│   ├── controllers/
-│   │   ├── admin/          # Admin namespace
-│   │   ├── api/v1/         # API namespace
-│   │   └── uploads/        # Cloudinary uploads
-│   ├── jobs/               # Sidekiq jobs
-│   ├── models/             # ActiveRecord models
-│   ├── policies/           # Pundit policies
-│   ├── blueprints/         # Blueprinter serializers
-│   └── javascript/
-│       └── controllers/    # Stimulus controllers
-├── config/
-│   ├── initializers/       # Gem configurations
-│   ├── locales/            # Translation files
-│   └── routes.rb           # Application routes
-├── db/
-│   ├── migrate/            # Database migrations
-│   └── seeds.rb            # Seed data
-└── spec/                   # Test files
-```
+### Active Storage / R2
 
-## API Endpoints
+R2 is authoritative for production originals.
 
-### Authentication
-- `POST /api/v1/auth/sign_in` - Login with JWT
-- `DELETE /api/v1/auth/sign_out` - Logout (revoke JWT)
+### Cloudinary
 
-### Public Endpoints
-- `GET /api/v1/posts` - List published posts
-- `GET /api/v1/posts/:slug` - Get post detail
-- `GET /api/v1/categories` - List categories
-- `GET /api/v1/tags` - List tags
-- `GET /api/v1/health` - Health check
+Cloudinary D7 delivery applies only to eligible raster attachments embedded in publicly-visible Post ActionText. It must never become authoritative for R2 originals.
 
-### Protected Endpoints
-- `POST /api/v1/posts` - Create post (author/admin)
-- `PATCH /api/v1/posts/:id` - Update post
-- `DELETE /api/v1/posts/:id` - Delete post
-- `POST /api/v1/posts/:id/comments` - Create comment
-- `POST /api/v1/posts/:id/reactions` - Add reaction
+### Slideshow
 
-## User Roles
+Slides are attached through Active Storage and are explicitly outside the D7 Cloudinary mirror path.
 
-| Role | Permissions |
-|------|-------------|
-| admin | Full access to all features, settings, and users |
-| author | Create and manage own posts |
-| reader | Read posts, comment, add reactions |
+## Jobs and scheduling
 
-## Localization
+Production uses Solid Queue. No separate Sidekiq/Redis worker is required by architecture v2.
 
-### Backend Languages
-- English (en)
-- Vietnamese (vi)
+Scheduled publishing remains resilient even when disposable compute sleeps because public visibility evaluates whether a scheduled record is already due.
 
-### Frontend/Content Languages
-- English (en)
-- Vietnamese (vi)
-- Russian (ru)
-- Japanese (ja)
-- Korean (ko)
-- Thai (th)
-- German (de)
+## Deployment and release
 
-## Post Workflow
+Current production target: Hugging Face Docker Space.
 
-```
-draft → pending → scheduled → published
-```
+Release qualification, backup/restore procedures, environment inventory, rollback anchors, and human-controlled release commands are documented in:
 
-- **draft**: Author is editing
-- **pending**: Submitted for admin approval
-- **scheduled**: Approved, waiting for publish time
-- **published**: Live and visible to readers
+- [docs/RELEASE_READINESS_V2.md](docs/RELEASE_READINESS_V2.md)
+- [docs/BACKUP_RESTORE_V2.md](docs/BACKUP_RESTORE_V2.md)
 
-## Deployment
+A successful local qualification does not authorize a push, tag, release, production DB mutation, or destructive provider cleanup.
 
-### Using Kamal (Docker)
+## Historical documentation
 
-```bash
-# Build and deploy
-kamal deploy
-```
+Older project documents may describe SQLite, Redis, Sidekiq, or Cloudinary-authoritative media. Those are historical architecture references only.
 
-### Manual Production Setup
+The former agent guide is preserved verbatim at:
 
-1. Set `RAILS_ENV=production`
-2. Precompile assets: `rails assets:precompile`
-3. Start server: `rails server -e production`
+- [docs/AGENTS_LEGACY_V1.md](docs/AGENTS_LEGACY_V1.md)
 
-## Testing
-
-```bash
-# Run all tests
-rspec
-
-# Run with coverage
-COVERAGE=true rspec
-
-# Run specific spec
-rspec spec/models/user_spec.rb
-```
-
-## Security Features
-
-- **Rack::Attack**: IP-based throttling and blocking
-- **Rails Rate Limiting**: Per-user action limits
-- **JWT Denylist**: Token revocation on logout
-- **Devise Lockable**: Account lockout after failed attempts
-- **Maintenance Mode**: Service availability control
-
-## License
-
-Copyright (c) 2026 Đăng Khoa <i.am@dangkhoa.dev>
-
-See [LICENSE](LICENSE) for more information.
-
-## Support
-
-For issues and feature requests, please create an issue in the repository.
+Current coding authority is [AGENTS.md](AGENTS.md).

@@ -1,6 +1,11 @@
 <figure class="attachment attachment--<%= blob.representable? ? "preview" : "file" %> attachment--<%= blob.filename.extension %>">
   <% if blob.representable? %>
-    <%= image_tag blob.representation(resize_to_limit: local_assigns[:in_gallery] ? [ 800, 600 ] : [ 1024, 768 ]) %>
+    <% d7_attributes = d7_image_attributes(blob, post: local_assigns[:post] || @post) %>
+    <% if d7_attributes %>
+      <%= image_tag d7_attributes.fetch(:src), srcset: d7_attributes.fetch(:srcset), sizes: d7_attributes.fetch(:sizes) %>
+    <% else %>
+      <%= image_tag blob.representation(resize_to_limit: local_assigns[:in_gallery] ? [ 800, 600 ] : [ 1024, 768 ]) %>
+    <% end %>
   <% end %>
 
   <figcaption class="attachment__caption">

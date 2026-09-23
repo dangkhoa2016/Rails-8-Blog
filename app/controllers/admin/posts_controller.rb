@@ -1,9 +1,13 @@
 module Admin
   class PostsController < AdminController
-    before_action :set_post, only: [ :show, :edit, :update, :destroy, :publish, :schedule ]
+    before_action :set_post, only: [ :show, :edit, :update, :destroy, :publish, :schedule, :restore ]
 
     def index
-      @pagy, @posts = pagy(policy_scope(Post).includes(:user, :category, :post_translations))
+      @pagy, @posts = pagy(policy_scope(Post).kept.includes(:user, :category, :post_translations))
+    end
+
+    def trash
+      @pagy, @posts = pagy(policy_scope(Post).discarded.includes(:user, :category, :post_translations))
     end
 
     def show
@@ -49,8 +53,14 @@ module Admin
 
     def destroy
       authorize @post
-      @post.discard
+      @post.discard!
       redirect_to admin_posts_path, notice: t("admin.posts.destroyed")
+    end
+
+    def restore
+      authorize @post, :update?
+      @post.undiscard!
+      redirect_to admin_posts_path, notice: t("admin.posts.restored", default: "Post restored successfully")
     end
 
     def publish
@@ -68,7 +78,7 @@ module Admin
     private
 
     def set_post
-      @post = Post.find(params[:id])
+      @post = Post.friendly.find(params[:id])
     end
 
     def post_params

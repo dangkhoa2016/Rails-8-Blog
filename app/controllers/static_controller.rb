@@ -2,6 +2,9 @@ class StaticController < ApplicationController
   skip_before_action :authenticate_user!, only: [ :home ]
 
   def home
-    render html: "<h1>#{t('static.welcome_title')}</h1><p>#{t('static.under_development')}</p>".html_safe, layout: "application"
+    @recent_posts = policy_scope(Post).publicly_visible
+                                      .includes(:category, :tags, :user, :post_translations)
+                                      .order(published_at: :desc)
+                                      .limit(6)
   end
 end

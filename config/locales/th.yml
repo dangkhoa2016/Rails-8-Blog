@@ -17,11 +17,37 @@ th:
     admin_dashboard: "แดชบอร์ดผู้ดูแล"
     under_development: "ระบบอยู่ระหว่างการพัฒนา."
 
+  home:
+    title: "Rails 8 Blog"
+    hero_title: "เรื่องราวที่ควรแบ่งปัน"
+    hero_body: "อ่านงานเขียนที่เปี่ยมความคิดจากชุมชนของเราในหัวข้อที่สำคัญสำหรับคุณ"
+    explore_posts: "สำรวจบทความ"
+    browse_topics: "ดูหัวข้อ"
+    recent_eyebrow: "จากบล็อก"
+    recent_posts: "เรื่องราวล่าสุด"
+    view_all: "ดูบทความทั้งหมด"
+    empty_title: "ยังไม่มีบทความที่เผยแพร่"
+    empty_body: "งานเขียนใหม่จะปรากฏที่นี่เมื่อเผยแพร่แล้ว"
+    byline: "โดย %{author}"
+
   errors:
     not_authorized: "คุณไม่ได้รับอนุญาตให้ดำเนินการนี้"
     access_denied: "ปฏิเสธการเข้าถึง"
     not_found: "ไม่พบหน้า"
     server_error: "เกิดข้อผิดพลาด"
+
+  engagement:
+    title: "ร่วมสนทนา"
+    reactions:
+      like: "ถูกใจ"
+      love: "รักเลย"
+    comment_label: "ความคิดเห็น"
+    post_comment: "ส่งความคิดเห็น"
+    comment_invalid: "กรุณากรอกความคิดเห็น"
+    sign_in_prompt: "เพื่อแสดงความคิดเห็นหรือแสดงความรู้สึก"
+    current_reaction: "ความรู้สึกของคุณ: %{kind}"
+    no_reaction: "ยังไม่มีความรู้สึก"
+    remove_reaction: "ลบความรู้สึก"
 
   common:
     save: "บันทึก"
@@ -161,5 +187,8 @@ th:
     by: "โดย"
     published_at: "เผยแพร่เมื่อ"
     back: "กลับไปที่บทความ"
+    empty_title: "ยังไม่มีบทความที่เผยแพร่"
+    empty_body: "โปรดกลับมาตรวจสอบงานเขียนใหม่เร็ว ๆ นี้"
+    pagination: "การแบ่งหน้า"
     read_more: "อ่านเพิ่มเติม"
     no_posts: "ไม่มีบทความ"

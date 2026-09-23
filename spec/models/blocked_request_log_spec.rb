@@ -13,7 +13,7 @@ RSpec.describe BlockedRequestLog, type: :model do
 
     describe ".recent" do
       it "returns logs in descending order by created_at" do
-        expect(BlockedRequestLog.recent).to eq([log3, log2, log1])
+        expect(BlockedRequestLog.recent).to eq([ log3, log2, log1 ])
       end
     end
 

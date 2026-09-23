@@ -2,10 +2,12 @@ source "https://rubygems.org"
 
 # Bundle edge Rails instead: gem "rails", github: "rails/rails", branch: "main"
 gem "rails", "~> 8.1.3"
+# Pin the patched DNS resolver shipped separately from the Ruby runtime.
+gem "resolv", ">= 0.7.2"
 # The modern asset pipeline for Rails [https://github.com/rails/propshaft]
 gem "propshaft"
-# Use sqlite3 as the database for Active Record
-gem "sqlite3", ">= 2.1"
+# Use PostgreSQL as the relational database for Active Record.
+gem "pg"
 # Use the Puma web server [https://github.com/puma/puma]
 gem "puma", ">= 5.0"
 # Use JavaScript with ESM import maps [https://github.com/rails/importmap-rails]
@@ -50,26 +52,26 @@ gem "pundit"
 
 # === I18N / MULTILINGUAL DATA ===
 gem "mobility"
-gem "mobility-actiontext"
+gem "mobility-actiontext", require: false
 
 # === MEDIA ===
 gem "cloudinary"
-gem "activestorage"
+gem "activestorage", require: false
+gem "aws-sdk-s3", require: false
 
 # === RICH TEXT ===
 # ActionText is built into Rails 8
 
 # === BACKGROUND JOBS ===
-gem "sidekiq"
-gem "sidekiq-scheduler"
+# Active Job runtime target is Solid Queue (declared above with the
+# database-backed adapters).
 
 # === CACHING / RATE LIMIT ===
-gem "redis"
 gem "rack-attack"
 
 # === SLUG ===
 gem "friendly_id"
-gem "friendly_id-mobility", git: "https://github.com/dangkhoa2016/friendly_id-mobility.git", branch: "master-upgrade-to-latest-friendly_id"
+gem "friendly_id-mobility", git: "https://github.com/dangkhoa2016/friendly_id-mobility.git", ref: "e45aae8163c5872d0436c62254e468a59376ffda"
 
 # === SOFT DELETE ===
 gem "discard"
@@ -109,6 +111,8 @@ group :development, :test do
   gem "webmock"
   gem "simplecov"
   gem "shoulda-matchers"
+  gem "capybara"
+  gem "selenium-webdriver"
 end
 
 group :development do

@@ -3,6 +3,14 @@ require "active_support/core_ext/integer/time"
 Rails.application.configure do
   # Settings specified here will take precedence over those in config/application.rb.
 
+  %w[
+    R2_ENDPOINT
+    R2_ACCESS_KEY_ID
+    R2_SECRET_ACCESS_KEY
+    R2_BUCKET
+    R2_REGION
+  ].each { |name| ENV.fetch(name) }
+
   # Code is not reloaded between requests.
   config.enable_reloading = false
 
@@ -21,8 +29,8 @@ Rails.application.configure do
   # Enable serving of images, stylesheets, and JavaScripts from an asset server.
   # config.asset_host = "http://assets.example.com"
 
-  # Store uploaded files on the local file system (see config/storage.yml for options).
-  config.active_storage.service = :local
+  # Store durable original media in Cloudflare R2 (see config/storage.yml for options).
+  config.active_storage.service = :cloudflare_r2
 
   # Assume all access to the app is happening through a SSL-terminating reverse proxy.
   # config.assume_ssl = true
@@ -46,12 +54,11 @@ Rails.application.configure do
   # Don't log any deprecations.
   config.active_support.report_deprecations = false
 
-  # Replace the default in-process memory cache store with a durable alternative.
-  config.cache_store = :solid_cache_store
+  # Keep non-canonical cache data in the application process initially.
+  config.cache_store = :memory_store
 
   # Replace the default in-process and non-durable queuing backend for Active Job.
   config.active_job.queue_adapter = :solid_queue
-  config.solid_queue.connects_to = { database: { writing: :queue } }
 
   # Ignore bad email addresses and do not raise email delivery errors.
   # Set this to true and configure the email server for immediate delivery to raise delivery errors.
@@ -80,6 +87,11 @@ Rails.application.configure do
   config.active_record.attributes_for_inspect = [ :id ]
 
   # Enable DNS rebinding protection and other `Host` header attacks.
+  config.hosts << "127.0.0.1"
+
+  space_host = ENV["SPACE_HOST"].to_s
+  config.hosts << space_host if space_host.match?(/\A[a-z0-9][a-z0-9-]*\.hf\.space\z/i)
+
   # config.hosts = [
   #   "example.com",     # Allow requests from example.com
   #   /.*\.example\.com/ # Allow requests from subdomains like `www.example.com`

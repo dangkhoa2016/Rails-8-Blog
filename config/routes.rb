@@ -15,9 +15,18 @@ Rails.application.routes.draw do
     namespace :admin do
       get "/", to: "dashboard#index", as: :root
       resources :posts do
+        collection do
+          get :trash
+        end
         member do
           patch :publish
           patch :schedule
+          patch :restore
+        end
+        resources :slides, only: [ :create, :update, :destroy ] do
+          collection do
+            patch :reorder
+          end
         end
       end
       resources :users

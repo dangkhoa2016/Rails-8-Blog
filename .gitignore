@@ -9,8 +9,16 @@
 
 node_modules
 
-# Ignore all environment files.
+# Runtime databases / caches
+/dump.rdb
+*.rdb
+
+# Local evidence archives
+/evidence/
+
+# Ignore local environment files, but keep the safe documented template.
 /.env*
+!/.env.example
 
 # Ignore all logfiles and tempfiles.
 /log/*
@@ -41,3 +49,6 @@ spec/examples.txt
 
 /app/assets/builds/*
 !/app/assets/builds/.keep
+
+# SimpleCov output directory (Task 2.3)
+/coverage/

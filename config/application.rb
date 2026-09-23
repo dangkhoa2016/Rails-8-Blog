@@ -34,7 +34,7 @@ module Rails8Blog
     # not contain `.rb` files, or that should not be reloaded or eager loaded.
     # Common ones are `templates`, `generators`, or `middleware`, for example.
     config.autoload_lib(ignore: %w[assets tasks])
-    
+
     # Autoload middleware
     config.autoload_paths << Rails.root.join("app/middleware")
 
@@ -55,17 +55,14 @@ module Rails8Blog
     config.i18n.fallbacks = true
 
     # Active Job Configuration
-    config.active_job.queue_adapter = :sidekiq
+    config.active_job.queue_adapter = :solid_queue
 
     # Cache Store Configuration
-    config.cache_store = :redis_cache_store, {
-      url: ENV.fetch("REDIS_URL", "redis://localhost:6379/1"),
-      namespace: "blog_cache"
-    }
+    config.cache_store = :memory_store
 
     # Rack::Attack middleware
     config.middleware.use Rack::Attack
-    
+
     # Maintenance Mode middleware (before ActionDispatch::Static)
     config.middleware.insert_before ActionDispatch::Static, MaintenanceMode
   end

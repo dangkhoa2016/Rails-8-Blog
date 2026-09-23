@@ -1,0 +1,12 @@
+<section data-testid="tags-index" class="w-full pb-16">
+  <h1 class="text-4xl font-bold tracking-tight text-slate-900"><%= t("nav.tags") %></h1>
+  <% if @tags.any? %>
+    <div class="mt-8 flex flex-wrap gap-3">
+      <% @tags.each do |tag| %>
+        <%= link_to tag.name, tag_path(tag, locale: I18n.locale), class: "rounded-full border border-slate-200 bg-white px-4 py-2 text-sm font-semibold text-slate-700 shadow-sm hover:border-indigo-300 hover:text-indigo-600" %>
+      <% end %>
+    </div>
+  <% else %>
+    <p class="mt-6 text-slate-600"><%= t("home.empty_body") %></p>
+  <% end %>
+</section>

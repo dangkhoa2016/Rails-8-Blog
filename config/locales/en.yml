@@ -3,6 +3,9 @@ en:
     name: "Rails 8 Blog"
     tagline: "Write. Publish. Inspire."
 
+  comments:
+    deleted_placeholder: "This comment has been deleted."
+
   nav:
     home: "Home"
     admin: "Admin"
@@ -18,6 +21,8 @@ en:
       updated: "Settings updated successfully"
 
   admin:
+    navigation:
+      open: "Open admin navigation"
     back: "Back to list"
     edit: "Edit"
     confirm_delete: "Are you sure?"
@@ -119,12 +124,38 @@ en:
     admin_dashboard: "Admin Dashboard"
     under_development: "System is under development."
 
+  home:
+    title: "Rails 8 Blog"
+    hero_title: "Stories worth sharing"
+    hero_body: "Read thoughtful writing from our community, across the topics that matter to you."
+    explore_posts: "Explore posts"
+    browse_topics: "Browse topics"
+    recent_eyebrow: "From the blog"
+    recent_posts: "Recent stories"
+    view_all: "View all posts"
+    empty_title: "No published stories yet"
+    empty_body: "New writing will appear here as soon as it is published."
+    byline: "By %{author}"
+
   errors:
     not_authorized: "You are not authorized to perform this action."
     access_denied: "Access denied"
     not_found: "Page not found"
     server_error: "Something went wrong"
     rate_limited: "Too many requests. Please slow down and try again later."
+
+  engagement:
+    title: "Join the conversation"
+    reactions:
+      like: "Like"
+      love: "Love"
+    comment_label: "Comment"
+    post_comment: "Post comment"
+    comment_invalid: "Please enter a comment"
+    sign_in_prompt: "to comment or react."
+    current_reaction: "Your reaction: %{kind}"
+    no_reaction: "No reaction yet"
+    remove_reaction: "Remove reaction"
 
   maintenance:
     message: "System is under maintenance. Please try again later."
@@ -267,5 +298,8 @@ en:
     by: "By"
     published_at: "Published at"
     back: "Back to posts"
+    empty_title: "No published posts yet"
+    empty_body: "Check back soon for new writing."
+    pagination: "Pagination"
     read_more: "Read more"
     no_posts: "No posts available"

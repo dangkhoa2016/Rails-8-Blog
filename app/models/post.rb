@@ -3,6 +3,7 @@ class Post < ApplicationRecord
   belongs_to :category
   has_many :post_tags, dependent: :destroy
   has_many :tags, through: :post_tags
+  has_many :slides, -> { order(:position, :id) }, dependent: :destroy
   has_many :comments, dependent: :destroy
   has_many :reactions, dependent: :destroy
   has_many :post_translations, class_name: "PostTranslation", dependent: :destroy
@@ -19,19 +20,28 @@ class Post < ApplicationRecord
   translates :title, :slug, backend: :table
 
   extend FriendlyId
-  friendly_id :title, use: [ :mobility ]
+  friendly_id :title, use: [ :history, :mobility ]
 
   is_impressionable counter_cache: true, column_name: :impressions_count,
                     unique: :ip_address
 
   include Discard::Model
+  include Auditable
 
   STATUSES = %w[draft pending scheduled published].freeze
 
   validates :status, inclusion: { in: STATUSES }, presence: true
   validate  :scheduled_at_must_be_future, if: :scheduled?
 
-  scope :published, -> { where(status: "published").where("published_at <= ?", Time.current) }
+  scope :published, -> { kept.where(status: "published").where("published_at <= ?", Time.current) }
+  scope :publicly_visible, -> {
+    now = Time.current
+    visible = kept
+    published_posts = visible.where(status: "published").where("published_at <= ?", now)
+    due_scheduled_posts = visible.where(status: "scheduled").where("scheduled_at <= ?", now)
+
+    published_posts.or(due_scheduled_posts)
+  }
   scope :scheduled, -> { where(status: "scheduled").where("scheduled_at > ?", Time.current) }
   scope :by_locale, ->(locale) { joins(:post_translations).where(post_translations: { locale: locale }) }
 

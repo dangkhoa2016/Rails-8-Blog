@@ -1,3 +1,4 @@
+unless Rails.env.test?
 # This file should ensure the existence of records required to run the application in every environment (production,
 # development, test). The code here should be idempotent so that it can be executed at any point in every environment.
 # The data can then be loaded with the bin/rails db:seed command (or created alongside the database with db:setup).
@@ -39,13 +40,13 @@ security_settings = [
   { key: "blocked_ips", value: "[]", value_type: "array", category: "security", description: "List of blocked IP addresses" },
   { key: "whitelist_ips", value: "[]", value_type: "array", category: "security", description: "List of whitelisted IP addresses" },
   { key: "maintenance_mode", value: "false", value_type: "boolean", category: "general", description: "Enable maintenance mode" },
-  
+
   # Media settings
   { key: "thumbnail_width", value: "800", value_type: "integer", category: "media", description: "Post thumbnail width (px)" },
   { key: "thumbnail_height", value: "450", value_type: "integer", category: "media", description: "Post thumbnail height (px)" },
   { key: "slideshow_max_size", value: "5", value_type: "integer", category: "media", description: "Max images in slideshow" },
   { key: "max_upload_size_mb", value: "10", value_type: "integer", category: "media", description: "Max upload size in MB" },
-  
+
   # Email settings
   { key: "smtp_providers", value: '[{"name":"Postmark","host":"smtp.postmarkapp.com","port":587,"username":"","password":"","active":true}]', value_type: "array", category: "email", description: "SMTP provider list" },
   { key: "smtp_strategy", value: "round_robin", value_type: "string", category: "email", description: "SMTP selection strategy (round_robin, random)" },
@@ -62,3 +63,4 @@ security_settings.each do |setting_attrs|
 end
 
 puts "\nCreated default settings (security, media, email)"
+end

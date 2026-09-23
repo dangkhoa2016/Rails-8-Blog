@@ -35,8 +35,15 @@ class PostBlueprint < Blueprinter::Base
     end
 
     field :slideshow_assets do |post|
-      # Placeholder - will be implemented with Cloudinary
-      []
+      post.slides.map do |slide|
+        {
+          id: slide.id,
+          position: slide.position,
+          image_url: Rails.application.routes.url_helpers.rails_blob_path(slide.image, only_path: true),
+          caption: slide.caption_for(I18n.locale),
+          alt_text: slide.alt_text_for(I18n.locale)
+        }
+      end
     end
   end
 end

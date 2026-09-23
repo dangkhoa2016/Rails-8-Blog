@@ -1,7 +1,7 @@
 class CommentsController < ApplicationController
-  before_action :authenticate_user!, only: [:create, :destroy]
-  before_action :set_post, only: [:create]
-  before_action :set_comment, only: [:destroy]
+  before_action :authenticate_user!, only: [ :create, :destroy ]
+  before_action :set_post, only: [ :create ]
+  before_action :set_comment, only: [ :destroy ]
 
   rate_limit to: 10, within: 1.minute,
              by: -> { current_user&.id || request.ip },
@@ -19,7 +19,7 @@ class CommentsController < ApplicationController
     if @comment.save
       redirect_to @post, notice: "Comment created successfully."
     else
-      redirect_to @post, alert: "Failed to create comment."
+      redirect_to @post, alert: t("engagement.comment_invalid")
     end
   end
 
@@ -32,7 +32,7 @@ class CommentsController < ApplicationController
   private
 
   def set_post
-    @post = Post.find(params[:post_id])
+    @post = Post.friendly.find(params[:post_slug])
   end
 
   def set_comment
@@ -40,6 +40,6 @@ class CommentsController < ApplicationController
   end
 
   def comment_params
-    params.require(:comment).permit(:content)
+    params.require(:comment).permit(:body)
   end
 end
