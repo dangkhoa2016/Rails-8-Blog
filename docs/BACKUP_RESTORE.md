@@ -1,171 +1,83 @@
-# Backup and Restore Runbook v2
+# Backup and Restore
 
-## Scope
+> 🌐 Language / Ngôn ngữ: **English** | [Tiếng Việt](BACKUP_RESTORE.vi.md)
 
-This runbook covers the durable production authorities in current architecture:
+This guide covers the two persistent data stores used by Rails 8 Blog: **PostgreSQL** for application records and job state, and **Cloudflare R2** for original media. MemoryStore and container-local files are not durable backups. A Cloudinary derivative is not a replacement for the original object.
 
-- Neon/PostgreSQL relational data;
-- Cloudflare R2 original media;
-- repository/evidence artifacts.
+## Safety and prerequisites
 
-container host local disk and MemoryStore are disposable and are not backup authorities.
+Use verified PostgreSQL client tools and S3-compatible tooling with permission to access the intended environment. Keep credentials in a secret manager or an isolated process environment, not in the repository or shell history. Confirm the source database and destination before any operation.
 
-This document does **not** claim that a live production backup was executed during release qualification.
+**Never run a destructive restore against a production database as a test.** Verify restore procedures using an isolated destination first.
 
-## Safety rules
+## PostgreSQL backup
 
-- Never run destructive restore/drop commands against the production Neon URL during qualification.
-- Before destructive schema/data work, create and verify a backup.
-- Restore into an isolated database first.
-- Never delete an R2 original merely because a copied/mirrored object exists elsewhere.
-- Never write provider secrets into backup logs/evidence.
-- Treat credentials and database URLs as secret material.
-
-## PostgreSQL logical backup
-
-Use a trusted machine with PostgreSQL client tools.
-
-Set the source URL only in the process environment:
-
-```bash
-export DATABASE_URL='postgresql://...'
-```
-
-Create a custom-format logical dump:
+Export the intended database URL through your secret-management workflow. When the deployment uses a separate unpooled connection for migration and backup, confirm that it points to the correct source database.
 
 ```bash
 mkdir -p backups
-pg_dump   --format=custom   --no-owner   --no-acl   --file="backups/rails8-blog-$(date -u +%Y%m%dT%H%M%SZ).dump"   "$DATABASE_URL"
+pg_dump --format=custom --no-owner --no-acl \
+  --file="backups/rails8-blog-$(date -u +%Y%m%dT%H%M%SZ).dump" \
+  "$DATABASE_URL_UNPOOLED"
 ```
 
-Create a checksum:
+`DATABASE_URL_UNPOOLED` is the configured backup/migration source in the documented environment; other deployments must choose their verified source explicitly. Do not copy placeholder credentials into a terminal or script.
+
+Checksum each archive individually:
 
 ```bash
 sha256sum backups/rails8-blog-*.dump > backups/postgres.sha256
 sha256sum -c backups/postgres.sha256
 ```
 
-Record separately, without secrets:
+Record the backup time, intended environment, archive size, PostgreSQL client version and checksum without exposing connection strings.
 
-- UTC timestamp;
-- source environment name;
-- dump byte size;
-- SHA-256;
-- PostgreSQL client version.
+## Verify PostgreSQL restore
 
-## PostgreSQL restore verification
-
-Do not restore over production for verification.
-
-Create/use an isolated target database and set:
+Use an isolated database configured in `RESTORE_DATABASE_URL`:
 
 ```bash
-export RESTORE_DATABASE_URL='postgresql://...isolated-target...'
+pg_restore --clean --if-exists --no-owner --no-acl \
+  --dbname="$RESTORE_DATABASE_URL" \
+  backups/rails8-blog-YYYYMMDDTHHMMSSZ.dump
 ```
 
-Restore:
+Replace the example archive name with the file you created. Validate schema, representative record counts, authentication behavior and application health against the restored database. Do not point tests at production.
+
+## Cloudflare R2 backup
+
+An object inventory is useful for auditing but **does not back up the object bytes**. To create a media backup, copy originals to separately controlled storage with independent access and deletion policies.
+
+A non-destructive inventory can be generated with:
 
 ```bash
-pg_restore   --clean   --if-exists   --no-owner   --no-acl   --dbname="$RESTORE_DATABASE_URL"   backups/rails8-blog-YYYYMMDDTHHMMSSZ.dump
-```
-
-Verify through Rails using the isolated URL:
-
-```bash
-DATABASE_URL="$RESTORE_DATABASE_URL" RAILS_ENV=production   bin/rails runner '
-    puts "users=#{User.count}"
-    puts "posts=#{Post.count}"
-    puts "active_storage_blobs=#{ActiveStorage::Blob.count}"
-    puts "solid_queue_jobs=#{SolidQueue::Job.count}"
-  '
-```
-
-For a formal restore drill, record representative row counts and application smoke results before considering the backup verified.
-
-## Cloudflare R2 inventory
-
-R2 is the authoritative original-media byte store.
-
-Use S3-compatible tooling configured outside the repository.
-
-A non-destructive inventory example:
-
-```bash
-aws s3api list-objects-v2   --endpoint-url "$R2_ENDPOINT"   --bucket "$R2_BUCKET"   --output json > backups/r2-inventory.json
-```
-
-Checksum the inventory:
-
-```bash
+mkdir -p backups
+aws s3api list-objects-v2 \
+  --endpoint-url "$R2_ENDPOINT" \
+  --bucket "$R2_BUCKET" \
+  --output json > backups/r2-inventory.json
 sha256sum backups/r2-inventory.json > backups/r2-inventory.sha256
-sha256sum -c backups/r2-inventory.sha256
 ```
 
-For stronger media backup, copy objects into a separately controlled backup bucket/account/prefix. Do not use a mirror destination that shares the same deletion lifecycle as the source.
+After copying media, compare object counts and byte totals, verify metadata, and download and hash representative objects. Do not equate multipart ETags with content hashes unless their semantics are established.
 
-## R2 copy verification
-
-After copying:
-
-- compare object count;
-- compare total byte count where tooling permits;
-- verify representative object HEAD metadata;
-- verify checksums/ETags only when their semantics are known for the exact upload mode;
-- download and hash a representative sample when byte-level assurance is required.
-
-Do not infer byte identity from multipart ETag semantics unless the upload mode guarantees it.
-
-## Cloudinary
-
-Cloudinary objects are derived mirrors, not canonical originals.
-
-They may be reconstructed from authorized R2 originals plus database metadata/application logic.
-
-A Cloudinary export is therefore not a replacement for PostgreSQL + R2 backups.
-
-Legacy Cloudinary hero/avatar IDs should still be included in relational DB backup because references live in the database.
-
-## Repository and evidence backup
-
-Create a secret-free source archive from tracked content:
+## Source archive
 
 ```bash
-git archive --format=tar.gz   --output=rails8-blog-source.tar.gz   HEAD
+git archive --format=tar.gz --output=rails8-blog-source.tar.gz HEAD
 sha256sum rails8-blog-source.tar.gz > rails8-blog-source.tar.gz.sha256
-sha256sum -c rails8-blog-source.tar.gz.sha256
 ```
 
-Preserve historical qualification evidence archives and their sidecars separately from the disposable runtime.
+Source archives contain only tracked files. Keep database dumps, secret values and private uploaded objects outside the repository.
 
-## Recovery order
+## Recovery sequence
 
-Recommended disaster-recovery sequence:
+1. Provision an isolated PostgreSQL destination and restore the verified dump.
+2. Restore R2 originals from independently stored copies if needed.
+3. Configure the application and service credentials using a secret manager.
+4. Deploy the intended source revision and apply only necessary migrations.
+5. Verify health, authentication, authorization, data integrity and Solid Queue processing.
+6. Verify original media access and eligible derived media delivery.
+7. Direct production traffic to the recovered environment only after checks pass.
 
-1. create replacement PostgreSQL target;
-2. restore and verify the DB;
-3. restore/verify R2 originals if required;
-4. configure runtime environment variables by name;
-5. deploy the exact qualified source commit;
-6. run migrations only if the source requires unapplied migrations;
-7. boot the application;
-8. verify health/database/storage;
-9. verify representative public/API/admin journeys;
-10. verify Solid Queue operation;
-11. verify derived media delivery derived delivery can reconstruct/use authorized media;
-12. only after successful verification, direct production traffic to the restored runtime.
-
-## Minimum backup acceptance record
-
-A real production backup acceptance should contain:
-
-```text
-POSTGRES_BACKUP_CREATED=true
-POSTGRES_BACKUP_SHA256=<digest>
-POSTGRES_RESTORE_DRILL=PASS
-R2_INVENTORY_CREATED=true
-R2_COPY_OR_DURABILITY_VERIFICATION=PASS
-SOURCE_ARCHIVE_SHA256=<digest>
-EVIDENCE_ARCHIVES_VERIFIED=PASS
-```
-
-release qualification documentation qualification only proves this procedure exists and is internally consistent; it does not set the live-backup fields above to PASS unless those operations were actually run.
+For application scenarios, see [Human Testing](HUMAN_TESTING.md); for storage boundaries, see [Architecture](ARCHITECTURE.md).
