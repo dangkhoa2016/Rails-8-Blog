@@ -1,8 +1,10 @@
-# Production current architecture
+# System Architecture
+
+> 🌐 Language / Ngôn ngữ: **English** | [Tiếng Việt](ARCHITECTURE.vi.md)
 
 ## Purpose
 
-This document is the release-facing architecture authority for the current deployment branch.
+This document describes the application components, persistence boundaries, authentication and media delivery.
 
 ## Topology
 
@@ -17,7 +19,7 @@ Generic container host
   Solid Queue
   MemoryStore
   |
-  +---- PostgreSQL --------------------> Neon
+  +---- PostgreSQL --------------------> managed PostgreSQL
   |       application data
   |       Active Storage metadata
   |       ActionText metadata
@@ -27,7 +29,7 @@ Generic container host
   +---- S3 API ------------------------> Cloudflare R2
   |       authoritative Active Storage original bytes
   |
-  +---- controlled public mirror -----> Cloudinary Free
+  +---- controlled public mirror -----> Cloudinary
           eligible public Post ActionText raster derivatives only
 ```
 
@@ -39,8 +41,9 @@ All Rails environments use PostgreSQL architecture.
 
 Production:
 
-- resolves through `DATABASE_URL`;
-- targets Neon;
+- Rails runtime resolves through `DATABASE_URL`;
+- a separate unpooled database connection can be used for migrations and backup; verify the target database/schema before running either operation;
+- can use a compatible managed PostgreSQL provider;
 - must not use SQLite;
 - includes application, ActionText, Active Storage, Solid Queue, audit, soft-delete, slideshow, and security-log schema.
 
@@ -52,7 +55,7 @@ Production Active Job adapter: Solid Queue.
 
 The queue shares the primary PostgreSQL topology.
 
-current architecture does not require Redis or Sidekiq.
+The production job processor does not require Redis or Sidekiq.
 
 Puma may run Solid Queue through the existing `SOLID_QUEUE_IN_PUMA` runtime toggle/configuration.
 
@@ -92,11 +95,11 @@ Required variables:
 
 R2 owns authoritative original media bytes.
 
-Rails/Neon owns Active Storage metadata and references.
+Rails/PostgreSQL owns Active Storage metadata and references.
 
 ## Cloudinary ActionText delivery
 
-Cloudinary Free is a derived delivery layer, not original storage authority.
+Cloudinary is a derived delivery layer, not original storage authority.
 
 Only eligible JPEG/PNG/WebP/GIF attachments belonging to a currently publicly-visible Post ActionText field may be mirrored.
 
@@ -168,11 +171,10 @@ The target Docker runtime must:
 
 1. no SQLite production adapter;
 2. no Redis/Sidekiq production dependency;
-3. Neon/PostgreSQL owns relational durability;
+3. PostgreSQL owns relational durability;
 4. R2 owns original media durability;
 5. Cloudinary is derived public ActionText delivery only;
 6. slideshow stays on Active Storage/R2;
 7. container hosting disk is disposable;
 8. non-public content/media does not leak through public API/rendering;
-9. accepted coverage floors do not regress;
-10. push/tag/release actions remain human-authorized.
+9. access and media visibility rules remain protected by tests.
