@@ -89,8 +89,8 @@ Rails.application.configure do
   # Enable DNS rebinding protection and other `Host` header attacks.
   config.hosts << "127.0.0.1"
 
-  app_host = ENV["APP_HOST"].to_s
-  config.hosts << app_host if app_host.match?(/\A[a-z0-9](?:[a-z0-9-]*[a-z0-9])?(?:\.[a-z0-9](?:[a-z0-9-]*[a-z0-9])?)+\z/i)
+  space_host = ENV["SPACE_HOST"].to_s
+  config.hosts << space_host if space_host.match?(/\A[a-z0-9][a-z0-9-]*\.hf\.space\z/i)
 
   # config.hosts = [
   #   "example.com",     # Allow requests from example.com

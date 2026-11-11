@@ -3,7 +3,7 @@
 require "open3"
 require "pathname"
 
-RSpec.describe "Production application host authorization" do
+RSpec.describe "Staging Hugging Face host authorization" do
   let(:project_root) { Pathname(__dir__).join("../..").expand_path }
 
   def health_status_for(host)
@@ -11,7 +11,7 @@ RSpec.describe "Production application host authorization" do
       require "rack/mock"
       require "./config/environment"
 
-      response = Rack::MockRequest.new(Rails.application).get("/up", "HTTP_HOST" => ENV.fetch("APP_PROBE_HOST"))
+      response = Rack::MockRequest.new(Rails.application).get("/up", "HTTP_HOST" => ENV.fetch("STAGING_PROBE_HOST"))
       puts response.status
     RUBY
 
@@ -26,8 +26,8 @@ RSpec.describe "Production application host authorization" do
         "R2_SECRET_ACCESS_KEY" => "staging-host-probe-secret",
         "R2_BUCKET" => "staging-host-probe-bucket",
         "R2_REGION" => "auto",
-        "APP_HOST" => "blog.example.com",
-        "APP_PROBE_HOST" => host
+        "SPACE_HOST" => "staging-qualification.hf.space",
+        "STAGING_PROBE_HOST" => host
       },
       RbConfig.ruby,
       "-e",
@@ -39,9 +39,9 @@ RSpec.describe "Production application host authorization" do
     output.lines.last.to_i
   end
 
-  it "accepts the local and configured application health hosts but rejects an untrusted host" do
+  it "accepts the local and Hugging Face health hosts but rejects an untrusted host" do
     expect(health_status_for("127.0.0.1")).to eq(200)
-    expect(health_status_for("blog.example.com")).to eq(200)
+    expect(health_status_for("staging-qualification.hf.space")).to eq(200)
     expect(health_status_for("untrusted.example")).to eq(403)
   end
 end

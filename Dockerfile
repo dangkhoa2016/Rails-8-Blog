@@ -47,7 +47,7 @@ RUN bundle install && \
 # Copy application code
 COPY . .
 
-# Container copying may not preserve executable bits for these runtime scripts.
+# Hub uploads do not preserve executable bits for these runtime scripts.
 RUN chmod +x bin/rails bin/thrust bin/docker-entrypoint
 
 # Precompile bootsnap code for faster boot times.
@@ -84,5 +84,5 @@ COPY --chown=rails:rails --from=build /rails /rails
 ENTRYPOINT ["/rails/bin/docker-entrypoint"]
 
 # Start server via Thruster by default, this can be overwritten at runtime
-EXPOSE 80
+EXPOSE 7860
 CMD ["./bin/thrust", "./bin/rails", "server"]

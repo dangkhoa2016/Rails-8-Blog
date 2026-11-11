@@ -3,7 +3,7 @@
 require "pathname"
 require "yaml"
 
-RSpec.describe "Generic Docker runtime contract" do
+RSpec.describe "Staging Docker and Hugging Face contract" do
   let(:project_root) { Pathname(__dir__).join("../..").expand_path }
   let(:dockerfile) { project_root.join("Dockerfile").read }
 
@@ -17,18 +17,21 @@ RSpec.describe "Generic Docker runtime contract" do
     end
   end
 
-  it "restores executable permissions for boot scripts after copying source" do
+  it "restores executable permissions for boot scripts after copying a Hub upload" do
     expect(dockerfile).to include("RUN chmod +x bin/rails bin/thrust bin/docker-entrypoint")
   end
 
-  it "exposes the generic ingress port through Thruster" do
-    expect(dockerfile).to include("EXPOSE 80")
+  it "exposes the Hugging Face ingress port through Thruster" do
+    expect(dockerfile).to include("EXPOSE 7860")
     expect(dockerfile).to include('CMD ["./bin/thrust", "./bin/rails", "server"]')
   end
 
-  it "does not require hosting-provider metadata on main" do
-    expect(project_root.join("deploy/huggingface/README.md")).not_to exist
-    expect(dockerfile).to include("EXPOSE 80")
+  it "ships a Docker Space metadata template separate from the project README" do
+    template = project_root.join("deploy/huggingface/README.md")
+
+    expect(template).to exist
+    metadata = YAML.safe_load(template.read.split("---", 3)[1])
+    expect(metadata).to include("sdk" => "docker", "app_port" => 7860)
   end
 
   it "excludes secrets and test artifacts from the Docker build context" do
