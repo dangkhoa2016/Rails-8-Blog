@@ -1,0 +1,84 @@
+# Rails 8 Blog — API smoke walkthrough / Hướng dẫn kiểm thử nhanh API
+# English: Open with VS Code REST Client or another compatible HTTP client.
+# Tiếng Việt: Mở bằng VS Code REST Client hoặc HTTP client tương thích.
+# English: Start locally with `bin/rails server`; use a disposable, confirmed test account.
+# Tiếng Việt: Chạy `bin/rails server`; sử dụng tài khoản thử đã xác nhận, có thể xóa.
+# Guides / Tài liệu: docs/API.md (EN), docs/API.vi.md (VI).
+# English: After sign-in, copy ONLY the JWT after "Bearer " from the Authorization response header into @token.
+# Tiếng Việt: Sau đăng nhập, chỉ sao chép JWT sau "Bearer " trong header Authorization vào @token.
+# Do not commit passwords or live tokens. / Không commit mật khẩu hoặc token thật.
+
+@baseUrl = http://localhost:3000
+@email = demo-user@example.invalid
+@password = REPLACE_WITH_LOCAL_TEST_PASSWORD
+@token = REPLACE_WITH_TEMPORARY_TEST_JWT
+
+### Health / Kiểm tra hệ thống — HTTP 200
+# EN: Check API status and database health.
+# VI: Kiểm tra trạng thái API và kết nối cơ sở dữ liệu.
+GET {{baseUrl}}/api/v1/health
+Accept: application/json
+
+### Public posts / Danh sách bài công khai — HTTP 200
+# EN: Request posts with English preferred.
+# VI: Yêu cầu bài viết với ngôn ngữ ưu tiên là tiếng Anh.
+GET {{baseUrl}}/api/v1/posts
+Accept: application/json
+Accept-Language: en
+
+### Vietnamese posts / Bài viết tiếng Việt — HTTP 200
+# EN: Repeat the request with Vietnamese preferred.
+# VI: Thử cùng endpoint với ngôn ngữ ưu tiên là tiếng Việt.
+GET {{baseUrl}}/api/v1/posts
+Accept: application/json
+Accept-Language: vi
+
+### Categories / Danh mục — HTTP 200
+GET {{baseUrl}}/api/v1/categories
+Accept: application/json
+
+### Tags / Nhãn bài viết — HTTP 200
+GET {{baseUrl}}/api/v1/tags
+Accept: application/json
+
+### Sign in / Đăng nhập — HTTP 200 with valid credentials
+# EN: Read the Authorization: Bearer <JWT> response header; update @token manually.
+# VI: Đọc header Authorization: Bearer <JWT> rồi cập nhật @token thủ công.
+POST {{baseUrl}}/api/v1/auth/sign_in
+Content-Type: application/json
+Accept: application/json
+
+{
+  "user": {
+    "email": "{{email}}",
+    "password": "{{password}}"
+  }
+}
+
+### Profile / Thông tin tài khoản — HTTP 200 with active JWT
+# EN: Requires the token obtained from sign-in.
+# VI: Cần token hợp lệ nhận được sau khi đăng nhập.
+GET {{baseUrl}}/api/v1/profile
+Authorization: Bearer {{token}}
+Accept: application/json
+
+### Sign out / Đăng xuất — HTTP 200 on first valid request
+# EN: Revokes the current JWT; do not sign in again before the next two checks.
+# VI: Thu hồi JWT hiện tại; không đăng nhập lại trước hai bước kiểm tra tiếp theo.
+DELETE {{baseUrl}}/api/v1/auth/sign_out
+Authorization: Bearer {{token}}
+Accept: application/json
+
+### Reuse revoked JWT / Dùng lại JWT đã thu hồi — HTTP 401
+# EN: The second sign-out must fail with the same revoked token.
+# VI: Đăng xuất lần hai bằng chính token đã thu hồi phải bị từ chối.
+DELETE {{baseUrl}}/api/v1/auth/sign_out
+Authorization: Bearer {{token}}
+Accept: application/json
+
+### Profile after sign-out / Truy cập profile sau đăng xuất — HTTP 401
+# EN: Access with the same revoked token must be denied.
+# VI: Truy cập bằng chính token đã thu hồi phải bị từ chối.
+GET {{baseUrl}}/api/v1/profile
+Authorization: Bearer {{token}}
+Accept: application/json
